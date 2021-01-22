@@ -39,30 +39,30 @@ class Account
   createAccount(String name, String password)
   changePassword(String password)
 
-class Contact
-  String firstName
-  String lastName
-  int contactId - unique identifier for each contact - this should have only getter
-  getRecords() - list all contacts alphabetically
-  getRecord(int contactId) - list all of the information for a specific contact
-  getRecord(String firstName, String lastName) - overloading - list all of the information for a specific contact
-  addContact(Contact contact) - contactId++ - this should only be incremented
-  removeContact(Contact contact)
-  editContact(Contact contact)
+- class Contact
+  - String firstName
+  - String lastName
+  - int contactId - unique identifier for each contact - this should have only getter
+  - getRecords() - list all contacts alphabetically
+  - getRecord(int contactId) - list all of the information for a specific contact
+  - getRecord(String firstName, String lastName) - overloading - list all of the information for a specific contact
+  - addContact(Contact contact) - contactId++ - this should only be incremented
+  - removeContact(Contact contact)
+  - editContact(Contact contact)
 
-  class Phonebook
-    String personalNumber
-    String workNumber
-    getRecord(String number) - overriding - list all of the information for a specific contact
+  - class Phonebook
+    - String personalNumber
+    - String workNumber
+    - getRecord(String number) - overriding - list all of the information for a specific contact
 
-  class AddressBook
-    String address
-  class Birthday
-    int date
-    int month
-    int year
+  - class AddressBook
+    - String address
+  - class Birthday
+    - int date
+    - int month
+    - int year
 
-class Demo
-  Main
-    logIn()
-    Menu
+- class Demo
+  - Main
+    - logIn()
+    - Menu
