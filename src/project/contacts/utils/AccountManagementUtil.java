@@ -1,8 +1,6 @@
 package project.contacts.utils;
 
 import project.contacts.account.Account;
-
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AccountManagementUtil {
@@ -32,9 +30,8 @@ public class AccountManagementUtil {
                     Logger.printErrorMessage("Unsuccessful login");
                     System.out.println("You have " + attempts + " remaining attempts.");
                 } else {
-                    Logger.printErrorMessage("You have locked your account! " +
+                    Util.stopTheSystem("You have locked your account! " +
                             "Please contact Security Administrator to unlock it!");
-                    System.exit(-1);
                 }
             }
         }
