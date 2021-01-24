@@ -2,7 +2,10 @@ package project.contacts.utils;
 
 import project.contacts.account.Account;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ProgramManagementUtil {
@@ -19,14 +22,19 @@ public class ProgramManagementUtil {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
+                    ContactManagementUtil.addContact(account);
                     break;
                 case 2:
+                    System.out.println("Option not available yet");
                     break;
                 case 3:
+                    System.out.println("Option not available yet");
                     break;
                 case 4:
+                    System.out.println("Option not available yet");
                     break;
                 case 5:
+                    System.out.println("Option not available yet");
                     break;
                 case 6:
                     AccountManagementUtil.createAccount(account);     // do we want the user to log with the new account?
@@ -43,7 +51,7 @@ public class ProgramManagementUtil {
                     ProgramManagementUtil.startProgram(account);
             }
 
-        } catch (InputMismatchException e) {
+        } catch (InputMismatchException | IOException e) {
             Logger.printErrorMessage("You have entered an invalid option! " +
                     "Please choose from the options listed in the menu");
             ProgramManagementUtil.startProgram(account);

@@ -55,7 +55,8 @@ public class AccountManagementUtil {
                     newAccount = new Account(name, password);
                     attempts = MAX_RETRY_ATTEMPTS;
                     System.out.println("Account " + newAccount.getName() + " is added successfully!");
-                    ProgramManagementUtil.startProgram(account);
+//                    ProgramManagementUtil.startProgram(account);        // log in with admin
+                    ProgramManagementUtil.startProgram(newAccount);     // log in with new user
                 } else {
                     System.out.println("That name is already taken. Please choose another one!");
                 }
