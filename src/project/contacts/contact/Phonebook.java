@@ -1,25 +1,21 @@
-package project.contacts.utils;
+package project.contacts.contact;
 
-import project.contacts.account.Account;
-import project.contacts.contact.Contact;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ContactManagementUtil {
-    private static Scanner scanner = new Scanner(System.in);
+public class Phonebook {
+    private static List<Contact> contacts = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static Contact contact;
+    private static Birthday birthday;
+    private static Address address;
 
-    // Disabling the option to create an object from ContactManagementUtil
-    private ContactManagementUtil() {
+    public Phonebook(List<Contact> contacts) {
+        Phonebook.contacts = contacts;
     }
 
-    public static void addContact(Account account) throws IOException {
-        List<Contact> contacts = new ArrayList<>();
-
+    public static void addContact() {
         String firstName;
         String lastName;
 
@@ -73,36 +69,29 @@ public class ContactManagementUtil {
             System.out.println("Enter Contact's Year of Birth: ");
             yearOfBirth = scanner.nextInt();
         }
-        Contact contact = new Contact(firstName, lastName, dayOfBirth,
-        monthOfBirth, yearOfBirth, country, city, streetName,
-                streetNumber, personalNumber, workNumber);
+        birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+        address = new Address(country, city, streetName, streetNumber);
+        contact = new Contact(firstName, lastName,birthday,address,personalNumber,workNumber);
         contacts.add(contact);
-        addContactToContactList(contact);
     }
 
-    public static void addContactToContactList(Contact contact) throws IOException {
-        File contactsDetails = new File("src/resources/project/contacts/contact/ContactsDetails.txt");
-//        FileWriter myWriter = new FileWriter(contactsDetails);
-//        myWriter.write(contact);
+    public void removeContact(Contact contact) {
+        contacts.remove(contact);
     }
 
-//    public static void addContact(List<Contact> contacts, Account account) {
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Enter Contact's first name");
-//        String firstName = scanner.nextLine();
-//        System.out.println("Enter Contact's last name");
-//        String lastName = scanner.nextLine();
-//        Contact contact = new Contact(firstName, lastName);
-//        contacts.add(contact);
-//        System.out.println("Contact added successfully");
-//        ProgramManagementUtil.startProgram(account);
-//    }
-//
-//    public static void getRecords(List<Contact> contacts, Account account) {
-//        for (Contact contact : contacts) {
-//            System.out.println(contact.toString());
-//        }
-//        ProgramManagementUtil.startProgram(account);
-//    }
+    public static void printAllContacts() {
+        System.out.println(contacts);
+    }
 
+    public boolean hasContact(Contact contact) {
+        return contacts.contains(contact);
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        Phonebook.contacts = contacts;
+    }
 }

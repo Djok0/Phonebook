@@ -1,6 +1,7 @@
 package project.contacts.utils;
 
 import project.contacts.account.Account;
+import project.contacts.contact.Phonebook;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -22,19 +23,19 @@ public class ProgramManagementUtil {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    ContactManagementUtil.addContact(account);
+                    Phonebook.addContact();
                     break;
                 case 2:
-                    System.out.println("Option not available yet");
+                    Phonebook.printAllContacts();
                     break;
                 case 3:
-                    System.out.println("Option not available yet");
+                    System.out.println("Option 3 not available yet");
                     break;
                 case 4:
-                    System.out.println("Option not available yet");
+                    System.out.println("Option 4 not available yet");
                     break;
                 case 5:
-                    System.out.println("Option not available yet");
+                    System.out.println("Option 5 not available yet");
                     break;
                 case 6:
                     AccountManagementUtil.createAccount(account);     // do we want the user to log with the new account?
@@ -51,7 +52,7 @@ public class ProgramManagementUtil {
                     ProgramManagementUtil.startProgram(account);
             }
 
-        } catch (InputMismatchException | IOException e) {
+        } catch (InputMismatchException e) {
             Logger.printErrorMessage("You have entered an invalid option! " +
                     "Please choose from the options listed in the menu");
             ProgramManagementUtil.startProgram(account);
@@ -73,5 +74,10 @@ public class ProgramManagementUtil {
         System.out.println("|  7. Change password                           |");
         System.out.println("|  0. Exit                                      |");
         System.out.println("-------------------------------------------------");
+    }
+
+    public static void stopTheSystem(String message){
+        System.err.println(message);
+        System.exit(-1);
     }
 }

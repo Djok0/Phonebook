@@ -30,7 +30,7 @@ public class AccountManagementUtil {
                     Logger.printErrorMessage("Unsuccessful login");
                     System.out.println("You have " + attempts + " remaining attempts.");
                 } else {
-                    Util.stopTheSystem("You have locked your account! " +
+                    ProgramManagementUtil.stopTheSystem("You have locked your account! " +
                             "Please contact Security Administrator to unlock it!");
                 }
             }
