@@ -17,3 +17,16 @@ public class Demo {
         ProgramManagementUtil.startProgram(account);
     }
 }
+
+/*  1. We cannot validate the date in this format - The birthday should be a string and to validate leap year or not etc.
+    private int dayOfBirth;
+    private int monthOfBirth;
+    private int yearOfBirth;
+
+    2. Do we use the setters - maybe is better idea to make validations in setters
+    3. Enter == No in our menu
+    4. Password and account name stored in file
+    5. Maybe we can discuss the changes with Radi tomorrow
+
+*/
+

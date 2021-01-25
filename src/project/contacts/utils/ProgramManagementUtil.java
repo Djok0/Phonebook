@@ -57,22 +57,22 @@ public class ProgramManagementUtil {
     }
 
     public static void printMainMenu(Account account) {
-        System.out.println("-------------------------------------------------");
+        System.out.println(" ----------------------------------------------- ");
         System.out.println("|  Welcome " + account.getName());
-        System.out.println("-------------------------------------------------");
+        System.out.println(" ----------------------------------------------- ");
         System.out.println("|  Menu:                                        |");
-        System.out.println("-------------------------------------------------");
+        System.out.println(" ----------------------------------------------- ");
         System.out.println("|  1. Add a record                              |");
         System.out.println("|  2. Edit a record                             |");
         System.out.println("|  3. View All records                          |");
         System.out.println("|  4. View Specific record (search by name)     |");
         System.out.println("|  5. View Specific record (search by number)   |");
-        System.out.println("-------------------------------------------------");
+        System.out.println(" ----------------------------------------------- ");
         System.out.println("|  6. Create a new account                      |");
         System.out.println("|  7. Change password                           |");
-        System.out.println("-------------------------------------------------");
+        System.out.println(" ----------------------------------------------- ");
         System.out.println("|  0. Exit                                      |");
-        System.out.println("-------------------------------------------------");
+        System.out.println(" ----------------------------------------------- ");
     }
 
     public static void stopTheSystem(String message) {
