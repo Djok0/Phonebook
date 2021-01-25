@@ -23,7 +23,7 @@ public class AccountManagementUtil {
             if (name.equals(account.getName()) && password.equals(account.getPassword())) {
                 Logger.printSuccessMessage("Login successful");
                 attempts = MAX_RETRY_ATTEMPTS;
-                ProgramManagementUtil.startProgram(account);
+                return;
             } else {
                 attempts--;
                 if (attempts != 0) {
@@ -65,7 +65,7 @@ public class AccountManagementUtil {
         return newAccount;
     }
 
-    public static void changePassword(Account account) {
+    public static void changePassword(Account account) {        // contains bugs
         int attempts = MAX_RETRY_ATTEMPTS;
         while (attempts > 0) {
             Scanner scanner = new Scanner(System.in);
@@ -85,10 +85,9 @@ public class AccountManagementUtil {
                     Logger.printErrorMessage("You have entered an incorrect password! Remaining attempts: " + attempts);
                 } else {
                     account.setPassword(repeatNewPassword);
-                    Logger.printSuccessMessage("You have successfully changed your password " +
-                            "and are automatically logged out");
+                    Logger.printSuccessMessage("You have successfully changed your password!");
                     attempts = MAX_RETRY_ATTEMPTS;
-                    AccountManagementUtil.logIn(account);
+                    ProgramManagementUtil.startProgram(account);
                 }
             }
         }

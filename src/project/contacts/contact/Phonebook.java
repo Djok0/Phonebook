@@ -31,7 +31,7 @@ public class Phonebook {
         int monthOfBirth = 0;
         int yearOfBirth = 0;
 
-        System.out.println("Enter Contact's frist name: ");
+        System.out.println("Enter Contact's first name: ");
         firstName = scanner.nextLine();
         System.out.println("Enter Contact's last name: ");
         lastName = scanner.nextLine();
