@@ -11,9 +11,14 @@ public class Contact {
     private String personalNumber;
     private String workNumber;
 
-    public Contact(String firstName, String lastName, Birthday birthday, Address address, String personalNumber, String workNumber) {
+    public Contact(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Contact(String firstName, String lastName, Birthday birthday,
+                   Address address, String personalNumber, String workNumber) {
+        this(firstName, lastName);
         this.birthday = birthday;
         this.address = address;
         this.personalNumber = personalNumber;

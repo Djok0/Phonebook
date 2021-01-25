@@ -16,8 +16,8 @@ public class Phonebook {
     }
 
     public static void addContact() {
-        String firstName;
-        String lastName;
+        String firstName = null;
+        String lastName = null;
 
         String personalNumber = null;
         String workNumber = null;
@@ -31,10 +31,9 @@ public class Phonebook {
         int monthOfBirth = 0;
         int yearOfBirth = 0;
 
-        System.out.println("Enter Contact's first name: ");
-        firstName = scanner.nextLine();
-        System.out.println("Enter Contact's last name: ");
-        lastName = scanner.nextLine();
+        firstName = Phonebook.validateName("Enter Contact's first name: ");
+        lastName = Phonebook.validateName("Enter Contact's last name: ");
+
         System.out.println("Do you want to enter Contact's personal phone number? [Y/N]");
         String personalPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (personalPhoneNumberChoice.equals("Y")) {
@@ -71,7 +70,7 @@ public class Phonebook {
         }
         birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
         address = new Address(country, city, streetName, streetNumber);
-        contact = new Contact(firstName, lastName,birthday,address,personalNumber,workNumber);
+        contact = new Contact(firstName, lastName, birthday, address, personalNumber, workNumber);
         contacts.add(contact);
     }
 
@@ -80,7 +79,9 @@ public class Phonebook {
     }
 
     public static void printAllContacts() {
-        System.out.println(contacts);
+        for (Contact contact : contacts) {
+            System.out.println(contact);
+        }
     }
 
     public boolean hasContact(Contact contact) {
@@ -93,5 +94,15 @@ public class Phonebook {
 
     public void setContacts(List<Contact> contacts) {
         Phonebook.contacts = contacts;
+    }
+
+    public static String validateName(String message){
+        System.out.println(message);
+        while (!scanner.hasNext("[A-Za-z]*")) {
+            System.out.println("You have entered an invalid name");
+            scanner.nextLine();                 // for Int use Integer.parseInt(scanner.nextLine());
+        }
+        String name = scanner.nextLine();       // for Int use Integer.parseInt(scanner.nextLine());
+        return name;
     }
 }

@@ -21,8 +21,6 @@ public class ProgramManagementUtil {
                 ProgramManagementUtil.printMainMenu(account);
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
-                Logger.printErrorMessage("You have entered an invalid option! " +
-                        "Please choose from the options listed in the menu");
                 scanner.next();
                 choice = INVALID_CHOICE;
             }
@@ -69,8 +67,10 @@ public class ProgramManagementUtil {
         System.out.println("|  3. View All records                          |");
         System.out.println("|  4. View Specific record (search by name)     |");
         System.out.println("|  5. View Specific record (search by number)   |");
+        System.out.println("-------------------------------------------------");
         System.out.println("|  6. Create a new account                      |");
         System.out.println("|  7. Change password                           |");
+        System.out.println("-------------------------------------------------");
         System.out.println("|  0. Exit                                      |");
         System.out.println("-------------------------------------------------");
     }
