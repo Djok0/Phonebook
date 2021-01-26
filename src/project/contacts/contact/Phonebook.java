@@ -33,49 +33,41 @@ public class Phonebook {
 
     public static void addContact() {
 
-//        firstName = Phonebook.validateFirstName("Enter Contact's first name: ");
         firstName = Phonebook.validateStringFromUserInput
                 ("First Name", "[A-Z]{1}[a-zA-Z]{1,}");
-//        lastName = Phonebook.validateSecondName("Enter Contact's last name: ");
         lastName = Phonebook.validateStringFromUserInput
                 ("Last Name", "[A-Z]{1}[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*");
 
         System.out.println("Do you want to enter Contact's personal phone number? [Y/N]");
         String personalPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (personalPhoneNumberChoice.equals("Y")) {
-//            personalNumber = Phonebook.validateNumber("Enter Contact's personal number: ");
             personalNumber = Phonebook.validateStringFromUserInput
                     ("Personal Number", "[0][8]{1}[7,8,9]{1}\\d{7}");
         }
         System.out.println("Do you want to enter Contact's work phone number? [Y/N]");
         String workPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (workPhoneNumberChoice.equals("Y")) {
-//            workNumber = Phonebook.validateNumber("Enter Contact's work number: ");
             workNumber = Phonebook.validateStringFromUserInput
                     ("Work Number", "[0][8]{1}[7,8,9]{1}\\d{7}");
         }
         System.out.println("Do you want to enter Contact's address? [Y/N]");
         String addressChoice = scanner.nextLine().toUpperCase();
         if (addressChoice.equals("Y")) {
-//            country = validateCountryName("Enter Contact's county: ");
             country = Phonebook.validateStringFromUserInput
                     ("Country", "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*");
-//            city = validateCityName("Enter Contact's city: ");
             city = Phonebook.validateStringFromUserInput
                     ("City", "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*");
-//            streetName = validateStreetName("Enter Contact's Street Name: ");
             streetName = Phonebook.validateStringFromUserInput("Street Name",
                     "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})");
-//            streetNumber = validateStreetNumber("Enter Contact's Street Number: ");
             streetNumber = Phonebook.validateStringFromUserInput
                     ("Street Number", "[1-9]{1}[0-9]{0,3}[A-Z]{1}");
         }
         System.out.println("Do you want to enter Contact's birthday? [Y/N]");
         String birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
-            dayOfBirth = validateDay("Enter Contact's Day of Birth: ");
-            monthOfBirth = validateMonth("Enter Contact's Month of Birth: ");
-            yearOfBirth = validateYear("Enter Contact's Year of Birth: ");
+            dayOfBirth = validateIntegerFromUserInput("Day of Birth ", "0[1-9]|[12]\\d|3[01]");
+            monthOfBirth = validateIntegerFromUserInput("Month of Birth ", "0[1-9]|1[012]");
+            yearOfBirth = validateIntegerFromUserInput("Year of Birth ","(19|20)\\d{2}$");
         }
         birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
         address = new Address(country, city, streetName, streetNumber);
@@ -105,92 +97,11 @@ public class Phonebook {
     public void setContacts(List<Contact> contacts) {
         Phonebook.contacts = contacts;
     }
-
-//    public static String validateFirstName(String message) {
-//        System.out.println(message);
-//        while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}")) {
-//            System.out.println("You have entered an invalid " + firstName);
-//            scanner.nextLine();
-//        }
-//        return scanner.nextLine();
-//    }
-//
-//    public static String validateSecondName(String message) {
-//        System.out.println(message);
-//        while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*")) {
-//            System.out.println("You have entered an invalid " + lastName);
-//            scanner.nextLine();
-//        }
-//        return scanner.nextLine();
-//    }
-//
-//    public static String validateNumber(String message) {
-//        System.out.println(message);
-//        while (!scanner.hasNext("[0][8]{1}[7,8,9]{1}\\d{7}")) {
-//            System.out.println("You have entered an invalid " + telephonNumber);
-//            scanner.nextLine();
-//        }
-//        return scanner.nextLine();
-//    }
-//
-//    public static String validateCountryName(String message) {
-//        System.out.println(message);
-//        while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*")) {
-//            System.out.println("You have entered an invalid " + country);
-//            scanner.nextLine();
-//        }
-//        return scanner.nextLine();
-//    }
-//
-//    public static String validateCityName(String message) {
-//        System.out.println(message);
-//        while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*")) {
-//            System.out.println("You have entered an invalid " + city);
-//            scanner.nextLine();
-//        }
-//        return scanner.nextLine();
-//    }
-//
-//    public static String validateStreetName(String message) {
-//        System.out.println(message);
-//        while (!scanner.hasNext("([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})")) {
-//            System.out.println("You have entered an invalid " + streetName);
-//            scanner.nextLine();
-//        }
-//        return scanner.nextLine();
-//    }
-//
-//    public static String validateStreetNumber(String message) {
-//        System.out.println(message);
-//        while (!scanner.hasNext("[1-9]{1}[0-9]{0,3}[A-Z]{1}")) {
-//            System.out.println("You have entered an invalid " + streetNumber);
-//            scanner.nextLine();
-//        }
-//        return scanner.nextLine();
-//    }
-
-    public static int validateDay(String message) {
-        System.out.println(message);
-        while (!scanner.hasNext("0[1-9]|[12]\\d|3[01]")){
-            System.out.println("You have entered an invalid " + dayOfBirth);
-            Integer.parseInt(scanner.nextLine());
-        }
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    public static int validateMonth(String message) {
-        System.out.println(message);
-        while (!scanner.hasNext("0[1-9]|1[012]")){
-            System.out.println("You have entered an invalid " + dayOfBirth);
-            Integer.parseInt(scanner.nextLine());
-        }
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    public static int validateYear(String message) {
-        System.out.println(message);
-        while (!scanner.hasNext("^(19|20)\\d{2}$\n")){
-            System.out.println("You have entered an invalid " + dayOfBirth);
+    
+    public static int validateIntegerFromUserInput (String str, String pattern) {
+        System.out.println("Enter Contact's " + str + ":");
+        while (!scanner.hasNext(pattern)) {
+            System.out.println("You have entered an invalid " + str);
             Integer.parseInt(scanner.nextLine());
         }
         return Integer.parseInt(scanner.nextLine());
@@ -206,5 +117,3 @@ public class Phonebook {
     }
 }
 
-// for Int use Integer.parseInt(scanner.nextLine());
-// (0[1-9]|[12]\d|3[01]) - 01-31
