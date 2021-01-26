@@ -11,25 +11,27 @@ public class Phonebook {
     private static Birthday birthday;
     private static Address address;
 
+    private static String firstName = null;
+    private static String lastName = null;
+
+    private static String telephonNumber = null;
+    private static String personalNumber = null;
+    private static String workNumber = null;
+
+    private static String country = null;
+    private static String city = null;
+    private static String streetName = null;
+    private static String streetNumber = null;
+
+    private static int dayOfBirth = 0;
+    private static int monthOfBirth = 0;
+    private static int yearOfBirth = 0;
+
     public Phonebook(List<Contact> contacts) {
         Phonebook.contacts = contacts;
     }
 
     public static void addContact() {
-        String firstName = null;
-        String lastName = null;
-
-        String personalNumber = null;
-        String workNumber = null;
-
-        String country = null;
-        String city = null;
-        String streetName = null;
-        String streetNumber = null;
-
-        int dayOfBirth = 0;
-        int monthOfBirth = 0;
-        int yearOfBirth = 0;
 
         firstName = Phonebook.validateFirstName("Enter Contact's first name: ");
         lastName = Phonebook.validateSecondName("Enter Contact's last name: ");
@@ -48,8 +50,8 @@ public class Phonebook {
         String addressChoice = scanner.nextLine().toUpperCase();
         if (addressChoice.equals("Y")) {
             country = validateCountryName("Enter Contact's county: ");
-            city = validateCityOrStreetName("Enter Contact's city: ");
-            streetName = validateCityOrStreetName("Enter Contact's Street Name: ");
+            city = validateCityName("Enter Contact's city: ");
+            streetName = validateStreetName("Enter Contact's Street Name: ");
             streetNumber = validateStreetNumber("Enter Contact's Street Number: ");
         }
         System.out.println("Do you want to enter Contact's birthday? [Y/N]");
@@ -94,7 +96,7 @@ public class Phonebook {
     public static String validateFirstName(String message) {
         System.out.println(message);
         while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}")) {
-            System.out.println("You have entered an invalid first name");
+            System.out.println("You have entered an invalid " + firstName);
             scanner.nextLine();
         }
         return scanner.nextLine();
@@ -103,7 +105,7 @@ public class Phonebook {
     public static String validateSecondName(String message) {
         System.out.println(message);
         while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*")) {
-            System.out.println("You have entered an invalid second name");
+            System.out.println("You have entered an invalid " + lastName);
             scanner.nextLine();
         }
         return scanner.nextLine();
@@ -112,7 +114,7 @@ public class Phonebook {
     public static String validateNumber(String message) {
         System.out.println(message);
         while (!scanner.hasNext("[0][8]{1}[7,8,9]{1}\\d{7}")) {
-            System.out.println("You have entered an invalid number");
+            System.out.println("You have entered an invalid " + telephonNumber);
             scanner.nextLine();
         }
         return scanner.nextLine();
@@ -121,17 +123,26 @@ public class Phonebook {
     public static String validateCountryName(String message) {
         System.out.println(message);
         while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*")) {
-            System.out.println("You have entered an invalid country name");
+            System.out.println("You have entered an invalid " + country);
+            scanner.nextLine();
+        }
+        return scanner.nextLine();
+    }
+
+    public static String validateCityName(String message) {
+        System.out.println(message);
+        while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*")) {
+            System.out.println("You have entered an invalid " + city);
             scanner.nextLine();                 // for Int use Integer.parseInt(scanner.nextLine());
         }
         return scanner.nextLine();
     }
 
-    public static String validateCityOrStreetName(String message) {
+    public static String validateStreetName(String message) {
         System.out.println(message);
-        while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*")) {
-            System.out.println("You have entered an invalid city or street name");
-            scanner.nextLine();                 // for Int use Integer.parseInt(scanner.nextLine());
+        while (!scanner.hasNext("([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})")) {
+            System.out.println("You have entered an invalid " + streetName);
+            scanner.nextLine();
         }
         return scanner.nextLine();
     }
@@ -139,8 +150,8 @@ public class Phonebook {
     public static String validateStreetNumber(String message) {
         System.out.println(message);
         while (!scanner.hasNext("[1-9]{1}[0-9]{0,3}[A-Z]{1}")) {
-            System.out.println("You have entered an invalid city or street name");
-            scanner.nextLine();                 // for Int use Integer.parseInt(scanner.nextLine());
+            System.out.println("You have entered an invalid " + streetNumber);
+            scanner.nextLine();
         }
         return scanner.nextLine();
     }
