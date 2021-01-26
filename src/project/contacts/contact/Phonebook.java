@@ -57,12 +57,9 @@ public class Phonebook {
         System.out.println("Do you want to enter Contact's birthday? [Y/N]");
         String birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
-            System.out.println("Enter Contact's Day of Birth: ");
-            dayOfBirth = scanner.nextInt();
-            System.out.println("Enter Contact's Month of Birth: ");
-            monthOfBirth = scanner.nextInt();
-            System.out.println("Enter Contact's Year of Birth: ");
-            yearOfBirth = scanner.nextInt();
+            dayOfBirth = validateDay("Enter Contact's Day of Birth: ");
+            monthOfBirth = validateMonth("Enter Contact's Month of Birth: ");
+            yearOfBirth = validateYear("Enter Contact's Year of Birth: ");
         }
         birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
         address = new Address(country, city, streetName, streetNumber);
@@ -133,7 +130,7 @@ public class Phonebook {
         System.out.println(message);
         while (!scanner.hasNext("[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*")) {
             System.out.println("You have entered an invalid " + city);
-            scanner.nextLine();                 // for Int use Integer.parseInt(scanner.nextLine());
+            scanner.nextLine();
         }
         return scanner.nextLine();
     }
@@ -156,4 +153,33 @@ public class Phonebook {
         return scanner.nextLine();
     }
 
+    public static int validateDay(String message) {
+        System.out.println(message);
+        while (!scanner.hasNext("0[1-9]|[12]\\d|3[01]")){
+            System.out.println("You have entered an invalid " + dayOfBirth);
+            Integer.parseInt(scanner.nextLine());
+        }
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public static int validateMonth(String message) {
+        System.out.println(message);
+        while (!scanner.hasNext("0[1-9]|1[012]")){
+            System.out.println("You have entered an invalid " + dayOfBirth);
+            Integer.parseInt(scanner.nextLine());
+        }
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public static int validateYear(String message) {
+        System.out.println(message);
+        while (!scanner.hasNext("^(19|20)\\d{2}$\n")){
+            System.out.println("You have entered an invalid " + dayOfBirth);
+            Integer.parseInt(scanner.nextLine());
+        }
+        return Integer.parseInt(scanner.nextLine());
+    }
 }
+
+// for Int use Integer.parseInt(scanner.nextLine());
+// (0[1-9]|[12]\d|3[01]) - 01-31
