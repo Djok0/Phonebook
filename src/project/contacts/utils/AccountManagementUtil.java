@@ -1,6 +1,10 @@
 package project.contacts.utils;
 
 import project.contacts.account.Account;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class AccountManagementUtil {
@@ -10,15 +14,21 @@ public class AccountManagementUtil {
     }
 
     public static final int MAX_RETRY_ATTEMPTS = 5;
+    public static Scanner scanner = new Scanner(System.in);
 
     public static void logIn(Account account) {
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         int attempts = MAX_RETRY_ATTEMPTS;
         while (attempts > 0) {
             System.out.println("Enter username: ");
             String name = scanner.nextLine();
             System.out.println("Enter password: ");
             String password = scanner.nextLine();
+
+//            String path = "src/project/contacts/credentialsFiles";
+//            String fileName = account.getName() + "_credentials.txt";
+//            String pathFileName = path + "/" + fileName;
+//            verifyLogin(account.getName(), account.getPassword(), pathFileName);
 
             if (name.equals(account.getName()) && password.equals(account.getPassword())) {
                 Logger.printSuccessMessage("Login successful");
@@ -41,7 +51,7 @@ public class AccountManagementUtil {
         int attempts = MAX_RETRY_ATTEMPTS;
         Account newAccount = null;
         while (attempts > 0) {
-            Scanner scanner = new Scanner(System.in);
+            scanner = new Scanner(System.in);
             System.out.println("Enter a name for the new account");
             String name = scanner.nextLine();
             System.out.println("Enter a password for the new account");
@@ -53,6 +63,31 @@ public class AccountManagementUtil {
             } else {
                 if (!account.getName().equals(name)) {
                     newAccount = new Account(name, password);
+                    try {
+                        String path = "src/project/contacts/credentialsFiles";
+                        String fileName = newAccount.getName() + "_credentials.txt";
+                        String pathFileName = path + "/" + fileName;
+                        File accountCredentials = new File(path, fileName);
+                        if (accountCredentials.createNewFile()) {
+                            System.out.println("File created: " + accountCredentials.getName());
+
+                            try {
+                                FileWriter storeCredentials = new FileWriter(pathFileName);
+                                storeCredentials.write(newAccount.getName());
+                                storeCredentials.write(",");
+                                storeCredentials.write(newAccount.getPassword());
+                                storeCredentials.close();
+                            } catch (IOException e) {
+                                System.out.println("An error occurred.");
+                                e.printStackTrace();
+                            }
+                        } else {
+                            System.out.println("File already exists.");
+                        }
+                    } catch (IOException e) {
+                        System.out.println("An error occurred.");
+                        e.printStackTrace();
+                    }
                     attempts = MAX_RETRY_ATTEMPTS;
                     System.out.println("Account " + newAccount.getName() + " is added successfully!");
 //                    ProgramManagementUtil.startProgram(account);        // log in with admin
@@ -64,6 +99,31 @@ public class AccountManagementUtil {
         }
         return newAccount;
     }
+
+//    public static void verifyLogin(String username, String password, String filepath) {
+//
+//        boolean found = false;
+//        String tempUserName = "";
+//        String tempPassword = "";
+//
+//        try {
+//            scanner = new Scanner(new File(filepath));
+//            scanner.useDelimiter("[,\n]");
+//
+//            while (scanner.hasNext() && !found) {
+//                tempUserName = scanner.next();
+//                tempPassword = scanner.next();
+//
+//                if(tempUserName.trim().equals(username.trim()) && tempPassword.trim().equals(password.trim())){
+//                    found = true;
+//                }
+//            }
+//            scanner.close();
+//            System.out.println(found);
+//        } catch (Exception e) {
+//            System.out.println("Error");
+//        }
+//    }
 
     public static void changePassword(Account account) {        // contains bugs
         int attempts = MAX_RETRY_ATTEMPTS;
@@ -93,7 +153,7 @@ public class AccountManagementUtil {
         }
     }
 
-    public static boolean validateString(String string) {
-        return string != null && !string.isEmpty();
+    public static boolean validateString(String someString) {
+        return someString != null && !someString.isEmpty();
     }
 }

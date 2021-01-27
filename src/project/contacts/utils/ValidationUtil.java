@@ -12,15 +12,6 @@ public class ValidationUtil {
     private static final int maxYear = 4000;
     static int day, month, year;
 
-//    public static int validateIntegerFromUserInput(String str, String pattern) {
-//        System.out.println("Enter Contact's " + str + ":");
-//        while (!scanner.hasNext(pattern)) {
-//            System.out.println("You have entered an invalid " + str);
-//            scanner.nextLine();
-//        }
-//        return Integer.parseInt(scanner.nextLine());
-//    }
-
     public static Birthday validateBirthdayFromUserInput() {
         boolean validDate = false;
         boolean leapYear = false;
