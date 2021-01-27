@@ -66,14 +66,16 @@ public class Phonebook {
         System.out.println("Do you want to enter Contact's birthday? [Y/N]");
         String birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
-            dayOfBirth = ValidationUtil.validateIntegerFromUserInput("Day of Birth ", "0[1-9]|[12]\\d|3[01]");
-            monthOfBirth = ValidationUtil.validateIntegerFromUserInput("Month of Birth ", "0[1-9]|1[012]");
-            yearOfBirth = ValidationUtil.validateIntegerFromUserInput("Year of Birth ", "(19|20)\\d{2}$");
+            birthday = ValidationUtil.validateBirthdayFromUserInput();
+//            dayOfBirth = ValidationUtil.validateIntegerFromUserInput("Day of Birth ", "0[1-9]|[12]\\d|3[01]");
+//            monthOfBirth = ValidationUtil.validateIntegerFromUserInput("Month of Birth ", "0[1-9]|1[012]");
+//            yearOfBirth = ValidationUtil.validateIntegerFromUserInput("Year of Birth ", "(19|20)\\d{2}$");
         }
-        birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+//        birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
         address = new Address(country, city, streetName, streetNumber);
         contact = new Contact(firstName, lastName, birthday, address, personalNumber, workNumber);
         contacts.add(contact);
+        System.out.println("Contact added successfully!");
     }
 
     public void removeContact(Contact contact) {
