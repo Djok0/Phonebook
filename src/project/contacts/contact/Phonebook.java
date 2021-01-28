@@ -7,6 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Phonebook {
+
+    public static final String FIRST_NAME_VALIDATION = "[A-Z]{1}[a-zA-Z]{1,}";
+    public static final String LAST_NAME_VALIDATION = "[A-Z]{1}[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*";
+    public static final String TELEPHONE_NUMBER_VALIDATION = "[0][8]{1}[7,8,9]{1}\\d{7}";
+    public static final String COUNTRY_NAME_VALIDATION = "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*";
+    public static final String CITY_NAME_VALIDATION = "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*";
+    public static final String STREET_NAME_VALIDATION = "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
+    public static final String STREET_NUMBER_VALIDATION = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
+
     private static List<Contact> contacts = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
     private static Contact contact;
@@ -35,48 +44,45 @@ public class Phonebook {
         String streetNumber = null;
 
         firstName = ValidationUtil.validateStringFromUserInput
-                ("First Name", "[A-Z]{1}[a-zA-Z]{1,}");
+                ("First Name", FIRST_NAME_VALIDATION);
         lastName = ValidationUtil.validateStringFromUserInput
-                ("Last Name", "[A-Z]{1}[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*");
+                ("Last Name", LAST_NAME_VALIDATION);
 
         System.out.println("Do you want to enter Contact's personal phone number? [Y/N]");
         String personalPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (personalPhoneNumberChoice.equals("Y")) {
             personalNumber = ValidationUtil.validateStringFromUserInput
-                    ("Personal Number", "[0][8]{1}[7,8,9]{1}\\d{7}");
+                    ("Personal Number", TELEPHONE_NUMBER_VALIDATION);
         }
         System.out.println("Do you want to enter Contact's work phone number? [Y/N]");
         String workPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (workPhoneNumberChoice.equals("Y")) {
             workNumber = ValidationUtil.validateStringFromUserInput
-                    ("Work Number", "[0][8]{1}[7,8,9]{1}\\d{7}");
+                    ("Work Number", TELEPHONE_NUMBER_VALIDATION);
         }
         System.out.println("Do you want to enter Contact's address? [Y/N]");
         String addressChoice = scanner.nextLine().toUpperCase();
         if (addressChoice.equals("Y")) {
             country = ValidationUtil.validateStringFromUserInput
-                    ("Country", "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*");
+                    ("Country", COUNTRY_NAME_VALIDATION);
             city = ValidationUtil.validateStringFromUserInput
-                    ("City", "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*");
+                    ("City", CITY_NAME_VALIDATION);
             streetName = ValidationUtil.validateStringFromUserInput("Street Name",
-                    "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})");
+                    STREET_NAME_VALIDATION);
             streetNumber = ValidationUtil.validateStringFromUserInput
-                    ("Street Number", "[1-9]{1}[0-9]{0,3}[A-Z]{1}");
+                    ("Street Number", STREET_NUMBER_VALIDATION);
         }
         System.out.println("Do you want to enter Contact's birthday? [Y/N]");
         String birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
             birthday = ValidationUtil.validateBirthdayFromUserInput();
-//            dayOfBirth = ValidationUtil.validateIntegerFromUserInput("Day of Birth ", "0[1-9]|[12]\\d|3[01]");
-//            monthOfBirth = ValidationUtil.validateIntegerFromUserInput("Month of Birth ", "0[1-9]|1[012]");
-//            yearOfBirth = ValidationUtil.validateIntegerFromUserInput("Year of Birth ", "(19|20)\\d{2}$");
         }
-//        birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
         address = new Address(country, city, streetName, streetNumber);
         contact = new Contact(firstName, lastName, birthday, address, personalNumber, workNumber);
         contacts.add(contact);
         System.out.println("Contact added successfully!");
     }
+    
 
     public void removeContact(Contact contact) {
         contacts.remove(contact);

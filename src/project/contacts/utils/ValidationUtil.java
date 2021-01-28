@@ -10,6 +10,8 @@ public class ValidationUtil {
     private static final int maxYear = 4000;
     static int day, month, year;
 
+    public static final String PASSWORD_VALIDATION = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}$";
+
     public static Birthday validateBirthdayFromUserInput() {
         boolean validDate = false;
         boolean leapYear = false;
@@ -80,7 +82,7 @@ public class ValidationUtil {
     }
 
     public static boolean validatePassword(String password) {
-        Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}$");
+        Pattern passwordPattern = Pattern.compile(PASSWORD_VALIDATION);
         if (!password.matches(String.valueOf(passwordPattern))) {
             System.out.println("Your password's strength doesn't meet the requirements.");
             System.out.println("Your password must be at least 8 symbols and must contains");
