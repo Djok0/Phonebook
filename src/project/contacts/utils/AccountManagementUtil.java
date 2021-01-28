@@ -37,10 +37,10 @@ public class AccountManagementUtil {
             if (!userExists) {
                 attempts--;
                 if (attempts == 0) {
-                    ProgramManagementUtil.stopTheSystem("You have locked your account. " +
-                            "Please contact Security Administrator.");
+                    ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
                 }
-                System.out.println("You have entered an invalid username or password! Remaining attempts: " + attempts);
+                System.out.println("You have entered an invalid username or password! " +
+                        "Remaining attempts: " + attempts);
             } else {
                 boolean checkCredentials = verifyLoginCredentials(name, password, pathFileName);
                 if (checkCredentials) {
@@ -51,10 +51,10 @@ public class AccountManagementUtil {
                 } else {
                     attempts--;
                     if (attempts == 0) {
-                        ProgramManagementUtil.stopTheSystem("You have locked your account. " +
-                                "Please contact Security Administrator.");
+                        ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
                     }
-                    System.out.println("You have entered an invalid username or password! Remaining attempts: " + attempts);
+                    System.out.println("You have entered an invalid username or password! " +
+                            "Remaining attempts: " + attempts);
                 }
             }
         }
@@ -63,8 +63,8 @@ public class AccountManagementUtil {
     private static boolean verifyLoginCredentials(String username, String password, String filepath) {
         boolean credentials = false;
         String str;
-        String tempUserName = null;
-        String tempPassword = null;
+        String tempUserName = "";
+        String tempPassword = "";
 
         try {
             FileInputStream fstream = new FileInputStream(filepath);
@@ -101,38 +101,41 @@ public class AccountManagementUtil {
             String pathFileName = path + "/" + fileName;
             boolean userExists = userExists(pathFileName);
 
-            if (userExists) {
-                System.out.println("That username is already taken. Please choose another one!");
+            if (userExists || name.contains(",")) {
+                System.out.println("That username is already taken or invalid. Please choose another one!");
             } else {
                 if (!ValidationUtil.validatePassword(password)) {
                     attempts--;
                 } else {
                     Account newAccount = new Account(name, password);
-                    try {
-                        File accountCredentials = new File(path, fileName);
-                        if (accountCredentials.createNewFile()) {
-                            try {
-                                FileWriter storeCredentials = new FileWriter(pathFileName);
-                                storeCredentials.write(newAccount.getName());
-                                storeCredentials.write(",");
-                                storeCredentials.write(newAccount.getPassword());
-                                storeCredentials.close();
-                            } catch (IOException e) {
-                                System.out.println("An error occurred.");
-                                e.printStackTrace();
-                            }
-                        } else {
-                            System.out.println("File already exists.");
-                        }
-                    } catch (IOException e) {
-                        System.out.println("An error occurred.");
-                        e.printStackTrace();
-                    }
-                    attempts = MAX_RETRY_ATTEMPTS;
+                    addAccountToFile(path, fileName, pathFileName, newAccount);
                     System.out.println("Account " + newAccount.getName() + " is added successfully!");
                     break;
                 }
             }
+        }
+    }
+
+    public static void addAccountToFile(String path, String fileName, String pathFileName, Account newAccount) {
+        try {
+            File accountCredentials = new File(path, fileName);
+            if (accountCredentials.createNewFile()) {
+                try {
+                    FileWriter storeCredentials = new FileWriter(pathFileName);
+                    storeCredentials.write(newAccount.getName());
+                    storeCredentials.write(",");
+                    storeCredentials.write(newAccount.getPassword());
+                    storeCredentials.close();
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 
@@ -175,7 +178,6 @@ public class AccountManagementUtil {
                             System.out.println("An error occurred.");
                             e.printStackTrace();
                         }
-                        attempts = MAX_RETRY_ATTEMPTS;
                         System.out.println("Password is changed successfully!");
                         break;
                     }
@@ -187,7 +189,7 @@ public class AccountManagementUtil {
     private static boolean validateOldPassword(String oldPassword, String filePath) {
         boolean oldPasswordMatches = false;
         String str;
-        String tempPassword = null;
+        String tempPassword = "";
 
         try {
             FileInputStream fstream = new FileInputStream(filePath);

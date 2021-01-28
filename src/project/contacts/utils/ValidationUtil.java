@@ -73,7 +73,7 @@ public class ValidationUtil {
     }
 
     public static String validateStringFromUserInput(String str, String pattern) {
-        System.out.println("Enter Contact's " + str + ":");
+        System.out.println("Enter valid " + str + ":");
         while (!scanner.hasNext(pattern)) {
             System.out.println("You have entered an invalid " + str);
             scanner.nextLine();
