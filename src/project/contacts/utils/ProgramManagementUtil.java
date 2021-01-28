@@ -2,7 +2,6 @@ package project.contacts.utils;
 
 import project.contacts.account.Account;
 import project.contacts.contact.Phonebook;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -41,9 +40,14 @@ public class ProgramManagementUtil {
                     System.out.println("Option 5 not available yet");
                     break;
                 case 6:
-                    AccountManagementUtil.createAccount(account);     // do we want the user to log with the new account?
+                    AccountManagementUtil.createAccount();
+                    break;
                 case 7:
                     AccountManagementUtil.changePassword(account);
+                    break;
+                case 8:
+                    AccountManagementUtil.logOut();
+                    break;
                 case 0:
                     Logger.printInfoMessage("See you soon!");
                     Logger.printInfoMessage("App made by Radi and Georgi");
@@ -70,6 +74,7 @@ public class ProgramManagementUtil {
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  6. Create a new account                      |");
         System.out.println("|  7. Change password                           |");
+        System.out.println("|  8. Log out                                   |");
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  0. Exit                                      |");
         System.out.println(" ----------------------------------------------- ");

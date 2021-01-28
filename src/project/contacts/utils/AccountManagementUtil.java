@@ -2,9 +2,12 @@ package project.contacts.utils;
 
 import project.contacts.account.Account;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class AccountManagementUtil {
@@ -16,61 +19,98 @@ public class AccountManagementUtil {
     public static final int MAX_RETRY_ATTEMPTS = 5;
     public static Scanner scanner = new Scanner(System.in);
 
-    public static void logIn(Account account) {
+    public static void logIn() {
         scanner = new Scanner(System.in);
         int attempts = MAX_RETRY_ATTEMPTS;
-        while (attempts > 0) {
+
+        while (attempts != 0) {
             System.out.println("Enter username: ");
             String name = scanner.nextLine();
             System.out.println("Enter password: ");
             String password = scanner.nextLine();
 
-//            String path = "src/project/contacts/credentialsFiles";
-//            String fileName = account.getName() + "_credentials.txt";
-//            String pathFileName = path + "/" + fileName;
-//            verifyLogin(account.getName(), account.getPassword(), pathFileName);
+            String path = "src/resources/project/contacts/account/credentials";
+            String fileName = name + "_credentials.txt";
+            String pathFileName = path + "/" + fileName;
+            boolean userExists = userExists(pathFileName);
 
-            if (name.equals(account.getName()) && password.equals(account.getPassword())) {
-                Logger.printSuccessMessage("Login successful");
-                attempts = MAX_RETRY_ATTEMPTS;
-                return;
-            } else {
+            if (!userExists) {
                 attempts--;
-                if (attempts != 0) {
-                    Logger.printErrorMessage("Unsuccessful login");
-                    System.out.println("You have " + attempts + " remaining attempts.");
+                if (attempts == 0) {
+                    ProgramManagementUtil.stopTheSystem("You have locked your account. " +
+                            "Please contact Security Administrator.");
+                }
+                System.out.println("You have entered an invalid username or password! Remaining attempts: " + attempts);
+            } else {
+                boolean checkCredentials = verifyLoginCredentials(name, password, pathFileName);
+                if (checkCredentials) {
+                    attempts = MAX_RETRY_ATTEMPTS;
+                    System.out.println("You have successfully logged in with user " + name);
+                    Account account = new Account(name, password);
+                    ProgramManagementUtil.startProgram(account);
                 } else {
-                    ProgramManagementUtil.stopTheSystem("You have locked your account! " +
-                            "Please contact Security Administrator to unlock it!");
+                    attempts--;
+                    if (attempts == 0) {
+                        ProgramManagementUtil.stopTheSystem("You have locked your account. " +
+                                "Please contact Security Administrator.");
+                    }
+                    System.out.println("You have entered an invalid username or password! Remaining attempts: " + attempts);
                 }
             }
         }
     }
 
-    public static Account createAccount(Account account) { // bug: validation for already existing account doesn't work
+    private static boolean verifyLoginCredentials(String username, String password, String filepath) {
+        boolean credentials = false;
+        String str;
+        String tempUserName = null;
+        String tempPassword = null;
+
+        try {
+            FileInputStream fstream = new FileInputStream(filepath);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            while ((str = br.readLine()) != null) {
+                String[] values = str.split(",");
+                tempUserName = values[0];
+                tempPassword = values[1];
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (tempUserName.trim().equals(username.trim()) && tempPassword.trim().equals(password.trim())) {
+            credentials = true;
+        }
+        return credentials;
+    }
+
+    private static boolean userExists(String pathFileName) {
+        File user = new File(pathFileName);
+        return user.exists() && !user.isDirectory();
+    }
+
+    public static void createAccount() {
         int attempts = MAX_RETRY_ATTEMPTS;
-        Account newAccount = null;
-        while (attempts > 0) {
-            scanner = new Scanner(System.in);
-            System.out.println("Enter a name for the new account");
+        while (attempts != 0) {
+            System.out.println("Enter username: ");
             String name = scanner.nextLine();
-            System.out.println("Enter a password for the new account");
+            System.out.println("Enter password: ");
             String password = scanner.nextLine();
 
-            if (!validateString(name) && !validateString(password)) {
-                attempts--;
-                Logger.printErrorMessage("You need to enter valid data! Remaining attempts: " + attempts);
+            String path = "src/resources/project/contacts/account/credentials";
+            String fileName = name + "_credentials.txt";
+            String pathFileName = path + "/" + fileName;
+            boolean userExists = userExists(pathFileName);
+
+            if (userExists) {
+                System.out.println("That username is already taken. Please choose another one!");
             } else {
-                if (!account.getName().equals(name)) {
-                    newAccount = new Account(name, password);
+                if (!ValidationUtil.validatePassword(password)) {
+                    attempts--;
+                } else {
+                    Account newAccount = new Account(name, password);
                     try {
-                        String path = "src/project/contacts/credentialsFiles";
-                        String fileName = newAccount.getName() + "_credentials.txt";
-                        String pathFileName = path + "/" + fileName;
                         File accountCredentials = new File(path, fileName);
                         if (accountCredentials.createNewFile()) {
-                            System.out.println("File created: " + accountCredentials.getName());
-
                             try {
                                 FileWriter storeCredentials = new FileWriter(pathFileName);
                                 storeCredentials.write(newAccount.getName());
@@ -90,70 +130,83 @@ public class AccountManagementUtil {
                     }
                     attempts = MAX_RETRY_ATTEMPTS;
                     System.out.println("Account " + newAccount.getName() + " is added successfully!");
-//                    ProgramManagementUtil.startProgram(account);        // log in with admin
-                    ProgramManagementUtil.startProgram(newAccount);     // log in with new user
-                } else {
-                    System.out.println("That name is already taken. Please choose another one!");
+                    break;
                 }
             }
         }
-        return newAccount;
     }
 
-//    public static void verifyLogin(String username, String password, String filepath) {
-//
-//        boolean found = false;
-//        String tempUserName = "";
-//        String tempPassword = "";
-//
-//        try {
-//            scanner = new Scanner(new File(filepath));
-//            scanner.useDelimiter("[,\n]");
-//
-//            while (scanner.hasNext() && !found) {
-//                tempUserName = scanner.next();
-//                tempPassword = scanner.next();
-//
-//                if(tempUserName.trim().equals(username.trim()) && tempPassword.trim().equals(password.trim())){
-//                    found = true;
-//                }
-//            }
-//            scanner.close();
-//            System.out.println(found);
-//        } catch (Exception e) {
-//            System.out.println("Error");
-//        }
-//    }
-
-    public static void changePassword(Account account) {        // contains bugs
+    public static void changePassword(Account account) {
         int attempts = MAX_RETRY_ATTEMPTS;
-        while (attempts > 0) {
-            Scanner scanner = new Scanner(System.in);
-            Logger.printInfoMessage("Enter your old password");
+        while (attempts != 0) {
+            System.out.println("Enter your old password: ");
             String oldPassword = scanner.nextLine();
+            Logger.printInfoMessage("Enter your new password");
+            String newPassword = scanner.nextLine();
+            Logger.printInfoMessage("Repeat your new password");
+            String repeatNewPassword = scanner.nextLine();
 
-            if (!oldPassword.equals(account.getPassword())) {
+            String path = "src/resources/project/contacts/account/credentials";
+            String fileName = account.getName() + "_credentials.txt";
+            String pathFileName = path + "/" + fileName;
+            boolean oldPasswordMatches = validateOldPassword(oldPassword, pathFileName);
+
+            if (!oldPasswordMatches) {
                 attempts--;
                 System.out.println("You have entered incorrect password. Remaining attempts: " + attempts);
             } else {
-                Logger.printInfoMessage("Enter your new password");
-                String newPassword = scanner.nextLine();
-                Logger.printInfoMessage("Repeat your new password");
-                String repeatNewPassword = scanner.nextLine();
-                if (!validateString(newPassword) || !newPassword.equals(repeatNewPassword)) {
+                if (!ValidationUtil.validatePassword(newPassword)) {
                     attempts--;
-                    Logger.printErrorMessage("You have entered an incorrect password! Remaining attempts: " + attempts);
+                    System.out.println("Remaining attempts: " + attempts);
                 } else {
-                    account.setPassword(repeatNewPassword);
-                    Logger.printSuccessMessage("You have successfully changed your password!");
-                    attempts = MAX_RETRY_ATTEMPTS;
-                    ProgramManagementUtil.startProgram(account);
+                    if (!newPassword.equals(repeatNewPassword)) {
+                        attempts--;
+                        System.out.println("The new passwords you have entered do not match");
+                        System.out.println("Remaining attempts: " + attempts);
+                    } else {
+                        File accountCredentials = new File(path, fileName);
+                        try {
+                            FileWriter storeCredentials = new FileWriter(accountCredentials);
+                            storeCredentials.write(account.getName());
+                            storeCredentials.write(",");
+                            storeCredentials.write(newPassword);
+                            storeCredentials.close();
+                        } catch (IOException e) {
+                            System.out.println("An error occurred.");
+                            e.printStackTrace();
+                        }
+                        attempts = MAX_RETRY_ATTEMPTS;
+                        System.out.println("Password is changed successfully!");
+                        break;
+                    }
                 }
             }
         }
     }
 
-    public static boolean validateString(String someString) {
-        return someString != null && !someString.isEmpty();
+    private static boolean validateOldPassword(String oldPassword, String filePath) {
+        boolean oldPasswordMatches = false;
+        String str;
+        String tempPassword = null;
+
+        try {
+            FileInputStream fstream = new FileInputStream(filePath);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            while ((str = br.readLine()) != null) {
+                String[] values = str.split(",");
+                tempPassword = values[1];
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (tempPassword.trim().equals(oldPassword.trim())) {
+            oldPasswordMatches = true;
+        }
+        return oldPasswordMatches;
+    }
+
+    public static void logOut() {
+        System.out.println("You have successfully logged out!");
+        AccountManagementUtil.logIn();
     }
 }
