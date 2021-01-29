@@ -1,13 +1,13 @@
 package project.contacts.contact;
 
 public class Address {
-    private String county;
+    private String country;
     private String city;
     private String streetName;
     private String streetNumber;
 
-    public Address(String county, String city, String streetName, String streetNumber) {
-        this.county = county;
+    public Address(String country, String city, String streetName, String streetNumber) {
+        this.country = country;
         this.city = city;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
@@ -15,20 +15,18 @@ public class Address {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "county='" + county + '\'' +
+        return  ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", streetName='" + streetName + '\'' +
-                ", streetNumber='" + streetNumber + '\'' +
-                '}';
+                ", streetNumber='" + streetNumber + '\'';
     }
 
-    public String getCounty() {
-        return county;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCounty(String county) {
-        this.county = county;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getCity() {

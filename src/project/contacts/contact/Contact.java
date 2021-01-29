@@ -27,14 +27,14 @@ public class Contact {
 
     @Override
     public String toString() {
-        return "Contact{" +
+        return "[Contact{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", birthday=" + birthday +
-                ", address=" + address +
                 ", personalNumber='" + personalNumber + '\'' +
                 ", workNumber='" + workNumber + '\'' +
-                '}';
+                address +
+                birthday +
+                "}]";
     }
 
     public String getFirstName() {

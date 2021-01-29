@@ -31,13 +31,13 @@ public class ProgramManagementUtil {
                     System.out.println("Option 2 not available yet");
                     break;
                 case 3:
-                    Phonebook.printAllContacts();
+                    Phonebook.printAllContactsFromFile();
                     break;
                 case 4:
-                    System.out.println("Option 4 not available yet");
+                    Phonebook.searchRecordByName();
                     break;
                 case 5:
-                    System.out.println("Option 5 not available yet");
+                    Phonebook.searchRecordByPhoneNumber();
                     break;
                 case 6:
                     AccountManagementUtil.createAccount();

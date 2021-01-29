@@ -13,11 +13,9 @@ public class Birthday {
 
     @Override
     public String toString() {
-        return "Birthday{" +
-                "dayOfBirth=" + dayOfBirth +
-                ", monthOfBirth=" + monthOfBirth +
-                ", yearOfBirth=" + yearOfBirth +
-                '}';
+        return  ", dayOfBirth='" + dayOfBirth + '\'' +
+                ", monthOfBirth='" + monthOfBirth + '\'' +
+                ", yearOfBirth='" + yearOfBirth + '\'';
     }
 
     public int getDayOfBirth() {

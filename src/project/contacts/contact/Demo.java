@@ -46,6 +46,21 @@ public class Demo {
 //        }
 
         // Test AccountManagementUtil2.logIn
-        AccountManagementUtil.logIn();
+//        AccountManagementUtil.logIn();
+
+        // Test Phonebook.addContact()
+//        Phonebook.addContact();
+
+        // Test Phonebook.printAllContactsFromFile()
+//        Phonebook.printAllContactsFromFile();
+
+        // Test Phonebook.searchRecordByName()
+//        Phonebook.searchRecordByName();
+
+        // Test Phonebook.searchRecordByPhoneNumber();
+//        Phonebook.searchRecordByPhoneNumber();
+
+        // Test Phonebook.editRecord()
+        Phonebook.editRecord();
     }
 }

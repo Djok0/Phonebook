@@ -3,7 +3,11 @@ package project.contacts.contact;
 import project.contacts.account.Account;
 import project.contacts.utils.ValidationUtil;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +46,8 @@ public class Phonebook {
         int monthOfBirth = 0;
         int yearOfBirth = 0;
 
+        Birthday birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+
         String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
         String lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
 
@@ -67,64 +73,28 @@ public class Phonebook {
         String birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
             birthday = ValidationUtil.validateBirthdayFromUserInput();
-
-            dayOfBirth = birthday.getDayOfBirth();
-            monthOfBirth = birthday.getMonthOfBirth();
-            yearOfBirth = birthday.getYearOfBirth();
         }
         Address address = new Address(country, city, streetName, streetNumber);
         Contact contact = new Contact(firstName, lastName, birthday, address, personalNumber, workNumber);
         contacts.add(contact);
+        addContactToFile(contact);
         System.out.println("Contact added successfully!");
+    }
 
+    public static void addContactToFile(Contact contact) {
         String path = "src/resources/project/contacts/contact";
         String fileName = "phonebook.txt";
         String pathFileName = path + "/" + fileName;
 
         try {
-            File phonebook = new File(path, fileName);
-            if (!phonebook.createNewFile()) {
+            File file = new File(path, fileName);
+            if (!file.createNewFile()) {
                 try {
-                    FileWriter storeCredentials = new FileWriter(pathFileName);
-                    storeCredentials.write(firstName);
-                    storeCredentials.write(",");
-                    storeCredentials.write(lastName);
-                    storeCredentials.write(",");
-                    if (personalNumber != null) {
-                        storeCredentials.write(personalNumber);
-                        storeCredentials.write(",");
-                    }
-                    if (workNumber != null) {
-                        storeCredentials.write(workNumber);
-                        storeCredentials.write(",");
-                    }
-                    if (country != null) {
-                        storeCredentials.write(country);
-                        storeCredentials.write(",");
-                    }
-                    if (city != null) {
-                        storeCredentials.write(city);
-                        storeCredentials.write(",");
-                    }
-                    if (streetName != null) {
-                        storeCredentials.write(streetName);
-                        storeCredentials.write(",");
-                    }
-                    if (streetNumber != null) {
-                        storeCredentials.write(streetNumber);
-                        storeCredentials.write(",");
-                    }
-                    if (streetNumber != null) {
-                        storeCredentials.write(streetNumber);
-                        storeCredentials.write(",");
-                    }
-                    storeCredentials.write(dayOfBirth);         // Null check
-                    storeCredentials.write(",");
-                    storeCredentials.write(monthOfBirth);       // Null check
-                    storeCredentials.write(",");
-                    storeCredentials.write(yearOfBirth);        // Null check
-                    storeCredentials.write("\r\n");
-                    storeCredentials.close();
+                    FileWriter fileWriter = new FileWriter(pathFileName, true);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    bufferedWriter.write(contact.toString());
+                    bufferedWriter.newLine();
+                    bufferedWriter.close();
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
                     e.printStackTrace();
@@ -137,12 +107,184 @@ public class Phonebook {
             e.printStackTrace();
         }
     }
-    
 
     public void removeContact(Contact contact) {
         contacts.remove(contact);
     }
 
+    public static void printAllContactsFromFile() {
+        String path = "src/resources/project/contacts/contact";
+        String fileName = "phonebook.txt";
+        String pathFileName = path + "/" + fileName;
+        int counter = 0;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(pathFileName));
+            ArrayList<String> contacts = new ArrayList<>();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                contacts.add(line);
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+
+            for (String contact : contacts) {
+                counter++;
+                System.out.println(counter + ". " + contact);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int countRowsFromFile(String file) {
+        int counter = 0;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            ArrayList<String> contacts = new ArrayList<>();
+            String line = bufferedReader.readLine();
+
+            while (line != null) {
+                contacts.add(line);
+                line = bufferedReader.readLine();
+                counter++;
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return counter;
+    }
+
+    public static void searchRecordByName() {
+        String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
+        String path = "src/resources/project/contacts/contact";
+        String fileName = "phonebook.txt";
+        String pathFileName = path + "/" + fileName;
+        boolean found = false;
+        try {
+            Scanner scanner = new Scanner(new File(pathFileName));
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.contains(firstName)) {
+                    found = true;
+                    System.out.println("A contact with name " + firstName + " exists. Here are the details:");
+                    System.out.println(line);
+                }
+            }
+            if (!found) {
+                System.out.println("There is no record with name " + firstName + " in the phonebook!");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void searchRecordByPhoneNumber() {
+        String phoneNumber = ValidationUtil.validateStringFromUserInput("Phone Number", PHONE_NUMBER_PATTERN);
+        String path = "src/resources/project/contacts/contact";
+        String fileName = "phonebook.txt";
+        String pathFileName = path + "/" + fileName;
+        boolean found = false;
+        try {
+            Scanner scanner = new Scanner(new File(pathFileName));
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.contains(phoneNumber)) {
+                    found = true;
+                    System.out.println(line);
+                }
+            }
+            if (!found) {
+                System.out.println("There is no record with number " + phoneNumber + " in the phonebook!");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void editRecord() {
+        String path = "src/resources/project/contacts/contact";
+        String fileName = "phonebook.txt";
+        String pathFileName = path + "/" + fileName;
+        int rowsFromFile = countRowsFromFile(pathFileName);
+        printAllContactsFromFile();
+        System.out.println("Please select which row you want to edit: ");
+        while (!scanner.hasNext("[0-9]*")) {
+            System.out.println("You have entered an invalid row. ");
+            scanner.nextLine();
+        }
+        int row = Integer.parseInt(scanner.nextLine());
+        String record = row + ".";
+        if (rowsFromFile < row) {
+            System.out.println("You have selected a non existing record");
+        } else {
+            try {
+                Scanner scanner = new Scanner(new File(pathFileName));
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (line.contains(record)) {
+                        System.out.println("Do you want to edit Contact's First Name? [Y/N]");
+                        String choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Last Name? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Personal Number? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Work Name? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Country? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's City? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Street Name? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Street Number? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Day Of Birth? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Month Of Birth? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                        System.out.println("Do you want to edit Contact's Year Of Birth? [Y/N]");
+                        choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("Y")) {
+
+                        }
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public static void printAllContacts() {
         for (Contact contact : contacts) {
