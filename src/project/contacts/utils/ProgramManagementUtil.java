@@ -28,7 +28,7 @@ public class ProgramManagementUtil {
                     Phonebook.addContact();
                     break;
                 case 2:
-                    System.out.println("Option 2 not available yet");
+                    Phonebook.editRecord();
                     break;
                 case 3:
                     Phonebook.printAllContactsFromFile();

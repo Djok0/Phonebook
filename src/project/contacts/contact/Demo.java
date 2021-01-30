@@ -61,6 +61,8 @@ public class Demo {
 //        Phonebook.searchRecordByPhoneNumber();
 
         // Test Phonebook.editRecord()
-        Phonebook.editRecord();
+//        Phonebook.addContact();
+//        Phonebook.printAllContactsFromFile();
+//        Phonebook.editRecord();
     }
 }

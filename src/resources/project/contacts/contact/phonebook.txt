@@ -1,3 +1,3 @@
-[Contact{firstName='Georgi', lastName='Minkov', personalNumber='0887121314', workNumber='0883343536', country='BG', city='PZ', streetName='VL', streetNumber='28', dayOfBirth='25', monthOfBirth='12', yearOfBirth='1996'}]
-[Contact{firstName='Radina', lastName='Kaytazova', personalNumber='null', workNumber='null', country='null', city='null', streetName='null', streetNumber='null', dayOfBirth='0', monthOfBirth='0', yearOfBirth='0'}]
-[Contact{firstName='Radina', lastName='Testova', personalNumber='null', workNumber='0887121314', country='null', city='null', streetName='null', streetNumber='null', dayOfBirth='0', monthOfBirth='0', yearOfBirth='0'}]
+1. [Contact{firstName='Georgi', lastName='Minkov', personalNumber='0888112233', workNumber='0887121314', country='Bulgaria', city='Pazardjik', streetName='Vasil Levski', streetNumber='28', dayOfBirth='25', monthOfBirth='12', yearOfBirth='1996'}]
+2. [Contact{firstName='Radina', lastName='Kaytazova', personalNumber='null', workNumber='null', country='null', city='null', streetName='null', streetNumber='null', dayOfBirth='0', monthOfBirth='0', yearOfBirth='0'}]
+3. [Contact{firstName='Tarzan', lastName='Tarzanov', personalNumber='0887112233', workNumber='0886112233', country='Bulgaria', city='Sofia', streetName='340', streetNumber='33', dayOfBirth='22', monthOfBirth='11', yearOfBirth='2001'}]
