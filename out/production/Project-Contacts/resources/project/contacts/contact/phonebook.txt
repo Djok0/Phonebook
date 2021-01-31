@@ -1,2 +1,5 @@
-1. [Contact{firstName='Georgi', lastName='Minkov', personalNumber='0888112233', workNumber='0887121314', country='Bulgaria', city='Pazardjik', streetName='Vasil Levski', streetNumber='28', dayOfBirth='25', monthOfBirth='12', yearOfBirth='1996'}]
+1. [Contact{firstName='Georgi', lastName='Minkov', personalNumber='0888112233', workNumber='0887121314', country='Bulgaria', city='Pazardjik', streetName='Vasil Levski', streetNumber='28', dayOfBirth='2', monthOfBirth='3', yearOfBirth='1993'}]
 2. [Contact{firstName='Radina', lastName='Kaytazova', personalNumber='null', workNumber='null', country='null', city='null', streetName='null', streetNumber='null', dayOfBirth='0', monthOfBirth='0', yearOfBirth='0'}]
+3. [Contact{firstName='Tarzan', lastName='Tarzanov', personalNumber='0887112233', workNumber='0886112233', country='Bulgaria', city='Sofia', streetName='340', streetNumber='33', dayOfBirth='22', monthOfBirth='11', yearOfBirth='2001'}]
+4. [Contact{firstName='Admin', lastName='Admin', personalNumber='null', workNumber='null', country='null', city='null', streetName='null', streetNumber='null', dayOfBirth='0', monthOfBirth='0', yearOfBirth='0'}]
+5. [Contact{firstName='Radi', lastName='Kytazova', personalNumber='null', workNumber='null', country='Bg', city='Sofia', streetName='Iskar', streetNumber='35', dayOfBirth='0', monthOfBirth='0', yearOfBirth='0'}]

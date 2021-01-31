@@ -80,6 +80,19 @@ public class ProgramManagementUtil {
         System.out.println(" ----------------------------------------------- ");
     }
 
+//    public static void printEditMenu() {
+//        System.out.println(" ----------------------------------------------- ");
+//        System.out.println("|  Welcome to the edit menu!                    |");
+//        System.out.println(" ----------------------------------------------- ");
+//        System.out.println("|  Menu:                                        |");
+//        System.out.println(" ----------------------------------------------- ");
+//        System.out.println("|  1. Edit first name                           |");
+//        System.out.println("|  2. Edit last name                            |");
+//        System.out.println(" ----------------------------------------------- ");
+//        System.out.println("|  0. Exit                                      |");
+//        System.out.println(" ----------------------------------------------- ");
+//    }
+
     public static void stopTheSystem(String message) {
         System.err.println(message);
         System.exit(-1);

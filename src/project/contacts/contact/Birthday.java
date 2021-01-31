@@ -5,6 +5,9 @@ public class Birthday {
     private int monthOfBirth;
     private int yearOfBirth;
 
+    public Birthday() {
+    }
+
     public Birthday(int dayOfBirth, int monthOfBirth, int yearOfBirth) {
         this.dayOfBirth = dayOfBirth;
         this.monthOfBirth = monthOfBirth;
@@ -13,7 +16,7 @@ public class Birthday {
 
     @Override
     public String toString() {
-        return  ", dayOfBirth='" + dayOfBirth + '\'' +
+        return ", dayOfBirth='" + dayOfBirth + '\'' +
                 ", monthOfBirth='" + monthOfBirth + '\'' +
                 ", yearOfBirth='" + yearOfBirth + '\'';
     }

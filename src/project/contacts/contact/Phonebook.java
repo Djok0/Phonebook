@@ -1,28 +1,17 @@
 package project.contacts.contact;
 
-import project.contacts.account.Account;
+import project.contacts.utils.Logger;
 import project.contacts.utils.ValidationUtil;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Phonebook {
 
@@ -33,10 +22,11 @@ public class Phonebook {
     public static final String CITY_NAME_PATTERN = "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*";
     public static final String STREET_NAME_PATTERN = "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
     public static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
+    public static final String PATH_TO_THE_FILE_WITH_ALL_CONTACTS = "src/resources/project/contacts/contact";
 
     private static List<Contact> contacts = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
-    private static Birthday birthday;
+    // private static Birthday birthday;
 
     public Phonebook(List<Contact> contacts) {
         Phonebook.contacts = contacts;
@@ -61,17 +51,17 @@ public class Phonebook {
         String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
         String lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
 
-        System.out.println("Do you want to enter Contact's personal phone number? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's personal phone number? [Y/N]");
         String personalPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (personalPhoneNumberChoice.equals("Y")) {
             personalNumber = ValidationUtil.validateStringFromUserInput("Personal Number", PHONE_NUMBER_PATTERN);
         }
-        System.out.println("Do you want to enter Contact's work phone number? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's work phone number? [Y/N]");
         String workPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (workPhoneNumberChoice.equals("Y")) {
             workNumber = ValidationUtil.validateStringFromUserInput("Work Number", PHONE_NUMBER_PATTERN);
         }
-        System.out.println("Do you want to enter Contact's address? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's address? [Y/N]");
         String addressChoice = scanner.nextLine().toUpperCase();
         if (addressChoice.equals("Y")) {
             country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);
@@ -79,7 +69,7 @@ public class Phonebook {
             streetName = ValidationUtil.validateStringFromUserInput("Street Name", STREET_NAME_PATTERN);
             streetNumber = ValidationUtil.validateStringFromUserInput("Street Number", STREET_NUMBER_PATTERN);
         }
-        System.out.println("Do you want to enter Contact's birthday? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's birthday? [Y/N]");
         String birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
             birthday = ValidationUtil.validateBirthdayFromUserInput();
@@ -92,7 +82,7 @@ public class Phonebook {
     }
 
     public static void addContactToFile(Contact contact) {
-        String path = "src/resources/project/contacts/contact";
+        String path = PATH_TO_THE_FILE_WITH_ALL_CONTACTS;
         String fileName = "phonebook.txt";
         String pathFileName = path + "/" + fileName;
 
@@ -120,15 +110,14 @@ public class Phonebook {
         }
     }
 
-    public void removeContact(Contact contact) {
-        contacts.remove(contact);
-    }
+//    public void removeContact(Contact contact) {
+//        contacts.remove(contact);
+//    }
 
     public static void printAllContactsFromFile() {
-        String path = "src/resources/project/contacts/contact";
         String fileName = "phonebook.txt";
-        String pathFileName = path + "/" + fileName;
-        int counter = 0;
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
+        // int counter = 0;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(pathFileName));
             ArrayList<String> contacts = new ArrayList<>();
@@ -138,12 +127,13 @@ public class Phonebook {
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
-
+//          printAllContacts();
             for (String contact : contacts) {
 //                counter++;
 //                System.out.println(counter + ". " + contact);
                 System.out.println(contact);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -170,9 +160,8 @@ public class Phonebook {
 
     public static void searchRecordByName() {
         String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
-        String path = "src/resources/project/contacts/contact";
         String fileName = "phonebook.txt";
-        String pathFileName = path + "/" + fileName;
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         boolean found = false;
         try {
             Scanner scanner = new Scanner(new File(pathFileName));
@@ -180,7 +169,7 @@ public class Phonebook {
                 String line = scanner.nextLine();
                 if (line.contains(firstName)) {
                     found = true;
-                    System.out.println("A contact with name " + firstName + " exists. Here are the details:");
+                    Logger.printInfoMessage("A contact with name " + firstName + " exists. Here are the details:");
                     System.out.println(line);
                 }
             }
@@ -194,9 +183,8 @@ public class Phonebook {
 
     public static void searchRecordByPhoneNumber() {
         String phoneNumber = ValidationUtil.validateStringFromUserInput("Phone Number", PHONE_NUMBER_PATTERN);
-        String path = "src/resources/project/contacts/contact";
         String fileName = "phonebook.txt";
-        String pathFileName = path + "/" + fileName;
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         boolean found = false;
         try {
             Scanner scanner = new Scanner(new File(pathFileName));
@@ -215,6 +203,7 @@ public class Phonebook {
         }
     }
 
+
     public static void editRecord() {
 
         String firstName = null;
@@ -232,9 +221,8 @@ public class Phonebook {
         int monthOfBirth = 0;
         int yearOfBirth = 0;
 
-        String path = "src/resources/project/contacts/contact";
         String fileName = "phonebook.txt";
-        String pathFileName = path + "/" + fileName;
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         int rowsFromFile = countRowsFromFile(pathFileName);
         printAllContactsFromFile();
         System.out.println("Please select which row you want to edit: ");
@@ -252,21 +240,21 @@ public class Phonebook {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     if (line.contains(record)) {
-                        firstName = extractPropertyFromFile(line, "firstName='.*?'", 11);
-                        lastName = extractPropertyFromFile(line, "lastName='.*?'", 10);
-                        personalNumber = extractPropertyFromFile(line, "personalNumber='.*?'", 16);
-                        workNumber = extractPropertyFromFile(line, "workNumber='.*?'", 12);
-                        country = extractPropertyFromFile(line, "country='.*?'", 9);
-                        city = extractPropertyFromFile(line, "city='.*?'", 6);
-                        streetName = extractPropertyFromFile(line, "streetName='.*?'", 12);
-                        streetNumber = extractPropertyFromFile(line, "streetNumber='.*?'", 14);
-                        dayOfBirth = Integer.parseInt(extractPropertyFromFile(line, "dayOfBirth='.*?'", 12));
-                        monthOfBirth = Integer.parseInt(extractPropertyFromFile(line, "monthOfBirth='.*?'", 14));
-                        yearOfBirth = Integer.parseInt(extractPropertyFromFile(line, "yearOfBirth='.*?'", 13));
+                        firstName = extractPropertyFromFile(line, "firstName='.*?'");
+                        lastName = extractPropertyFromFile(line, "lastName='.*?'");
+                        personalNumber = extractPropertyFromFile(line, "personalNumber='.*?'");
+                        workNumber = extractPropertyFromFile(line, "workNumber='.*?'");
+                        country = extractPropertyFromFile(line, "country='.*?'");
+                        city = extractPropertyFromFile(line, "city='.*?'");
+                        streetName = extractPropertyFromFile(line, "streetName='.*?'");
+                        streetNumber = extractPropertyFromFile(line, "streetNumber='.*?'");
+                        dayOfBirth = Integer.parseInt(extractPropertyFromFile(line, "dayOfBirth='.*?'"));
+                        monthOfBirth = Integer.parseInt(extractPropertyFromFile(line, "monthOfBirth='.*?'"));
+                        yearOfBirth = Integer.parseInt(extractPropertyFromFile(line, "yearOfBirth='.*?'"));
 
                         Address oldAddress = new Address(country, city, streetName, streetNumber);
                         Birthday oldBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
-                        Birthday newBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+                        Birthday newBirthday = new Birthday();
                         Contact oldContact = new Contact(firstName, lastName, oldBirthday, oldAddress, personalNumber, workNumber);
                         String oldString = record + " " + oldContact.toString();
 
@@ -329,8 +317,7 @@ public class Phonebook {
         }
     }
 
-    static void modifyContactInFile(String filePath, String oldString, String newString)
-    {
+    static void modifyContactInFile(String filePath, String oldString, String newString) {
         Path path = Paths.get(filePath);
         Charset charset = StandardCharsets.UTF_8;
 
@@ -352,13 +339,12 @@ public class Phonebook {
         }
     }
 
-    private static String extractPropertyFromFile(String line, String pattern, int subString) {
+    private static String extractPropertyFromFile(String line, String pattern) {
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(line);
         String value = "";
-
-        while ( m.find() ) {
-//            System.out.println(line);
+        int subString = pattern.length() - 4;   // firstName='.*?' - 4 = firstName='
+        while (m.find()) {
             value = (line.substring(m.start() + subString, m.end() - 1));
         }
         return value;

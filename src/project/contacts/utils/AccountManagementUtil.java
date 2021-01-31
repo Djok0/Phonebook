@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class AccountManagementUtil {
 
+    public static final String PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS = "src/resources/project/contacts/account/credentials";
+
     // Disabling the option to create an object from AccountManagementUtil
     private AccountManagementUtil() {
     }
@@ -20,7 +22,7 @@ public class AccountManagementUtil {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void logIn() {
-        scanner = new Scanner(System.in);
+        // scanner = new Scanner(System.in);
         int attempts = MAX_RETRY_ATTEMPTS;
 
         while (attempts != 0) {
@@ -29,9 +31,8 @@ public class AccountManagementUtil {
             System.out.println("Enter password: ");
             String password = scanner.nextLine();
 
-            String path = "src/resources/project/contacts/account/credentials";
             String fileName = name + "_credentials.txt";
-            String pathFileName = path + "/" + fileName;
+            String pathFileName = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS + "/" + fileName;
             boolean userExists = userExists(pathFileName);
 
             if (!userExists) {
@@ -39,13 +40,16 @@ public class AccountManagementUtil {
                 if (attempts == 0) {
                     ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
                 }
-                System.out.println("You have entered an invalid username or password! " +
+                Logger.printErrorMessage("You have entered an invalid username or password! " +
                         "Remaining attempts: " + attempts);
+//                System.out.println("You have entered an invalid username or password! " +
+//                        "Remaining attempts: " + attempts);
             } else {
                 boolean checkCredentials = verifyLoginCredentials(name, password, pathFileName);
                 if (checkCredentials) {
                     attempts = MAX_RETRY_ATTEMPTS;
-                    System.out.println("You have successfully logged in with user " + name);
+                    //System.out.println("You have successfully logged in with user " + name);
+                    Logger.printSuccessMessage("You have successfully logged in with user " + name);
                     Account account = new Account(name, password);
                     ProgramManagementUtil.startProgram(account);
                 } else {
@@ -53,8 +57,10 @@ public class AccountManagementUtil {
                     if (attempts == 0) {
                         ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
                     }
-                    System.out.println("You have entered an invalid username or password! " +
+                    Logger.printErrorMessage("You have entered an invalid username or password! " +
                             "Remaining attempts: " + attempts);
+//                    System.out.println("You have entered an invalid username or password! " +
+//                            "Remaining attempts: " + attempts);
                 }
             }
         }
@@ -96,20 +102,22 @@ public class AccountManagementUtil {
             System.out.println("Enter password: ");
             String password = scanner.nextLine();
 
-            String path = "src/resources/project/contacts/account/credentials";
+            String path = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS;
             String fileName = name + "_credentials.txt";
             String pathFileName = path + "/" + fileName;
             boolean userExists = userExists(pathFileName);
 
             if (userExists || name.contains(",")) {
-                System.out.println("That username is already taken or invalid. Please choose another one!");
+                Logger.printErrorMessage("That username is already taken or invalid. Please choose another one!");
+                //System.out.println("That username is already taken or invalid. Please choose another one!");
             } else {
                 if (!ValidationUtil.validatePassword(password)) {
                     attempts--;
                 } else {
                     Account newAccount = new Account(name, password);
                     addAccountToFile(path, fileName, pathFileName, newAccount);
-                    System.out.println("Account " + newAccount.getName() + " is added successfully!");
+                    Logger.printSuccessMessage("Account " + newAccount.getName() + " is added successfully!");
+                    // System.out.println("Account " + newAccount.getName() + " is added successfully!");
                     break;
                 }
             }
@@ -149,7 +157,7 @@ public class AccountManagementUtil {
             Logger.printInfoMessage("Repeat your new password");
             String repeatNewPassword = scanner.nextLine();
 
-            String path = "src/resources/project/contacts/account/credentials";
+            String path = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS;
             String fileName = account.getName() + "_credentials.txt";
             String pathFileName = path + "/" + fileName;
             boolean oldPasswordMatches = validateOldPassword(oldPassword, pathFileName);
