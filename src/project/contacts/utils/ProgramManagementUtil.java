@@ -50,7 +50,7 @@ public class ProgramManagementUtil {
                     break;
                 case 0:
                     Logger.printInfoMessage("See you soon!");
-                    Logger.printInfoMessage("App made by Radi and Georgi");
+                    Logger.printInfoMessage("Phonebook application is created by Radi and Georgi");
                     System.exit(0);
                     break;
                 default:
