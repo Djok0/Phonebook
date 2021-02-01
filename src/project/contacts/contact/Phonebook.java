@@ -254,7 +254,7 @@ public class Phonebook {
 
                         Address oldAddress = new Address(country, city, streetName, streetNumber);
                         Birthday oldBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
-                        Birthday newBirthday = new Birthday();
+                        Birthday newBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
                         Contact oldContact = new Contact(firstName, lastName, oldBirthday, oldAddress, personalNumber, workNumber);
                         String oldString = record + " " + oldContact.toString();
 

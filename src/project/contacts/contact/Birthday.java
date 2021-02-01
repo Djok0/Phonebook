@@ -5,9 +5,6 @@ public class Birthday {
     private int monthOfBirth;
     private int yearOfBirth;
 
-    public Birthday() {
-    }
-
     public Birthday(int dayOfBirth, int monthOfBirth, int yearOfBirth) {
         this.dayOfBirth = dayOfBirth;
         this.monthOfBirth = monthOfBirth;
