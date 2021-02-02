@@ -24,14 +24,14 @@ public class ValidationUtil {
                 System.out.println("Enter Contact's Year of Birth:");
                 year = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("You have entered an invalid birthday");
+                System.out.println("You have entered an invalid birthday! Please try again: ");
                 ValidationUtil.validateBirthdayFromUserInput();
             }
 
             leapYear = isLeapYear(year);
             validDate = isValidDate(month, day, year);
             if (!leapYear && !validDate) {
-                System.out.println("You have entered an invalid birthday");
+                System.out.println("You have entered an invalid birthday! Please try again: ");
             }
         }
         return new Birthday(day, month, year);
@@ -75,7 +75,7 @@ public class ValidationUtil {
     public static String validateStringFromUserInput(String str, String pattern) {
         System.out.println("Enter valid " + str + ":");
         while (!scanner.hasNext(pattern)) {
-            System.out.println("You have entered an invalid " + str);
+            System.out.println("You have entered an invalid " + str + "! Please try again: ");
             scanner.nextLine();
         }
         return scanner.nextLine();
