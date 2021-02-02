@@ -13,7 +13,7 @@ public class Demo {
 // 2. no nulls to show to the end user
 // 2. Print to be more beautifully
 // 3. Add message: Please try again: - DONE
-// 4. use trim() when trying to enter space + input (example space + phone number)
+// 4. use trim() when trying to enter space + input (example space + phone number) - DONE
 // 5. use toUpper to first letters of firstName and lastName
 // 6. where there are errors, use print err - DONE
 // 7. Personal Number -> Personal Phone Number - DONE

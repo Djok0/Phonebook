@@ -78,7 +78,7 @@ public class ValidationUtil {
             System.out.println("You have entered an invalid " + str + "! Please try again: ");
             scanner.nextLine();
         }
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public static boolean validatePassword(String password) {
