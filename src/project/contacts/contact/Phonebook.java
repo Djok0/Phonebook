@@ -55,17 +55,17 @@ public class Phonebook {
         String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
         String lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
 
-        Logger.printInfoMessage("Do you want to enter Contact's personal phone number? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's Personal Phone Number? [Y/N]");
         personalPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (personalPhoneNumberChoice.equals("Y")) {
-            personalNumber = ValidationUtil.validateStringFromUserInput("Personal Number", PHONE_NUMBER_PATTERN);
+            personalNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
         }
-        Logger.printInfoMessage("Do you want to enter Contact's work phone number? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's Work Phone Number? [Y/N]");
         workPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (workPhoneNumberChoice.equals("Y")) {
-            workNumber = ValidationUtil.validateStringFromUserInput("Work Number", PHONE_NUMBER_PATTERN);
+            workNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
         }
-        Logger.printInfoMessage("Do you want to enter Contact's address? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's Address? [Y/N]");
         addressChoice = scanner.nextLine().toUpperCase();
         if (addressChoice.equals("Y")) {
             country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);
@@ -73,7 +73,7 @@ public class Phonebook {
             streetName = ValidationUtil.validateStringFromUserInput("Street Name", STREET_NAME_PATTERN);
             streetNumber = ValidationUtil.validateStringFromUserInput("Street Number", STREET_NUMBER_PATTERN);
         }
-        Logger.printInfoMessage("Do you want to enter Contact's birthday? [Y/N]");
+        Logger.printInfoMessage("Do you want to enter Contact's Birthday? [Y/N]");
         birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
             birthday = ValidationUtil.validateBirthdayFromUserInput();
@@ -300,15 +300,15 @@ public class Phonebook {
                         if (choice.equals("Y")) {
                             lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
                         }
-                        Logger.printInfoMessage("Do you want to edit Contact's Personal Number? [Y/N]");
+                        Logger.printInfoMessage("Do you want to edit Contact's Personal Phone Number? [Y/N]");
                         choice = sc.nextLine().toUpperCase();
                         if (choice.equals("Y")) {
-                            personalNumber = ValidationUtil.validateStringFromUserInput("Personal Number", PHONE_NUMBER_PATTERN);
+                            personalNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
                         }
-                        Logger.printInfoMessage("Do you want to edit Contact's Work Number? [Y/N]");
+                        Logger.printInfoMessage("Do you want to edit Contact's Work Phone Number? [Y/N]");
                         choice = sc.nextLine().toUpperCase();
                         if (choice.equals("Y")) {
-                            workNumber = ValidationUtil.validateStringFromUserInput("Work Number", PHONE_NUMBER_PATTERN);
+                            workNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
                         }
                         Logger.printInfoMessage("Do you want to edit Contact's Country? [Y/N]");
                         choice = sc.nextLine().toUpperCase();

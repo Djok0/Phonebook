@@ -62,7 +62,7 @@ public class ProgramManagementUtil {
 
     public static void printMainMenu(Account account) {
         System.out.println(" ----------------------------------------------- ");
-        System.out.println("|  Welcome " + account.getName());
+        System.out.println("   Welcome, " + account.getName());
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  Menu:                                        |");
         System.out.println(" ----------------------------------------------- ");
