@@ -33,8 +33,7 @@ public class Phonebook {
 
     public static void addContact() {
 
-        String personalNumber = null;
-        String workNumber = null;
+        String workPhoneNumber = null;
 
         String country = null;
         String city = null;
@@ -47,23 +46,18 @@ public class Phonebook {
 
         Birthday birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
 
-        String personalPhoneNumberChoice;
         String workPhoneNumberChoice;
         String addressChoice;
         String birthdayChoice;
 
         String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
         String lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
+        String personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
 
-        Logger.printInfoMessage("Do you want to enter Contact's Personal Phone Number? [Y/N]");
-        personalPhoneNumberChoice = scanner.nextLine().toUpperCase();
-        if (personalPhoneNumberChoice.equals("Y")) {
-            personalNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
-        }
         Logger.printInfoMessage("Do you want to enter Contact's Work Phone Number? [Y/N]");
         workPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (workPhoneNumberChoice.equals("Y")) {
-            workNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
+            workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
         }
         Logger.printInfoMessage("Do you want to enter Contact's Address? [Y/N]");
         addressChoice = scanner.nextLine().toUpperCase();
@@ -80,7 +74,7 @@ public class Phonebook {
         }
 
         Address address = new Address(country, city, streetName, streetNumber);
-        Contact contact = new Contact(firstName, lastName, birthday, address, personalNumber, workNumber);
+        Contact contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
         contacts.add(contact);
 
         addContactToFile(contact);
@@ -223,8 +217,8 @@ public class Phonebook {
         String firstName;
         String lastName;
 
-        String personalNumber;
-        String workNumber;
+        String personalPhoneNumber;
+        String workPhoneNumber;
 
         String country;
         String city;
@@ -273,8 +267,8 @@ public class Phonebook {
                     if (line.contains(record)) {
                         firstName = extractPropertyValueFromFile(line, "firstName");
                         lastName = extractPropertyValueFromFile(line, "lastName");
-                        personalNumber = extractPropertyValueFromFile(line, "personalNumber");
-                        workNumber = extractPropertyValueFromFile(line, "workNumber");
+                        personalPhoneNumber = extractPropertyValueFromFile(line, "personalPhoneNumber");
+                        workPhoneNumber = extractPropertyValueFromFile(line, "workPhoneNumber");
                         country = extractPropertyValueFromFile(line, "country");
                         city = extractPropertyValueFromFile(line, "city");
                         streetName = extractPropertyValueFromFile(line, "streetName");
@@ -286,7 +280,7 @@ public class Phonebook {
                         oldAddress = new Address(country, city, streetName, streetNumber);
                         oldBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
                         newBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
-                        oldContact = new Contact(firstName, lastName, oldBirthday, oldAddress, personalNumber, workNumber);
+                        oldContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, oldAddress, oldBirthday);
                         oldString = record + " " + oldContact.toString();
 
                         sc = new Scanner(System.in);
@@ -303,12 +297,12 @@ public class Phonebook {
                         Logger.printInfoMessage("Do you want to edit Contact's Personal Phone Number? [Y/N]");
                         choice = sc.nextLine().toUpperCase();
                         if (choice.equals("Y")) {
-                            personalNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
+                            personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
                         }
                         Logger.printInfoMessage("Do you want to edit Contact's Work Phone Number? [Y/N]");
                         choice = sc.nextLine().toUpperCase();
                         if (choice.equals("Y")) {
-                            workNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
+                            workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
                         }
                         Logger.printInfoMessage("Do you want to edit Contact's Country? [Y/N]");
                         choice = sc.nextLine().toUpperCase();
@@ -337,7 +331,7 @@ public class Phonebook {
                         }
 
                         newAddress = new Address(country, city, streetName, streetNumber);
-                        newContact = new Contact(firstName, lastName, newBirthday, newAddress, personalNumber, workNumber);
+                        newContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, newAddress, newBirthday);
                         newString = record + " " + newContact.toString();
 
                         modifyContactInFile(pathFileName, oldString, newString);

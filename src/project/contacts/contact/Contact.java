@@ -8,21 +8,21 @@ public class Contact {
     private Birthday birthday;
     private Address address;
 
-    private String personalNumber;
-    private String workNumber;
+    private String personalPhoneNumber;
+    private String workPhoneNumber;
 
-    public Contact(String firstName, String lastName) {
+    public Contact(String firstName, String lastName, String personalPhoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.personalPhoneNumber = personalPhoneNumber;
     }
 
-    public Contact(String firstName, String lastName, Birthday birthday,
-                   Address address, String personalNumber, String workNumber) {
-        this(firstName, lastName);
-        this.birthday = birthday;
+    public Contact(String firstName, String lastName, String personalPhoneNumber,
+                   String workPhoneNumber, Address address, Birthday birthday) {
+        this(firstName, lastName, personalPhoneNumber);
+        this.workPhoneNumber = workPhoneNumber;
         this.address = address;
-        this.personalNumber = personalNumber;
-        this.workNumber = workNumber;
+        this.birthday = birthday;
     }
 
     @Override
@@ -30,8 +30,8 @@ public class Contact {
         return "[Contact{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", personalNumber='" + personalNumber + '\'' +
-                ", workNumber='" + workNumber + '\'' +
+                ", personalPhoneNumber='" + personalPhoneNumber + '\'' +
+                ", workPhoneNumber='" + workPhoneNumber + '\'' +
                 address +
                 birthday +
                 "}]";
@@ -69,20 +69,20 @@ public class Contact {
         this.address = address;
     }
 
-    public String getPersonalNumber() {
-        return personalNumber;
+    public String getPersonalPhoneNumber() {
+        return personalPhoneNumber;
     }
 
-    public void setPersonalNumber(String personalNumber) {
-        this.personalNumber = personalNumber;
+    public void setPersonalPhoneNumber(String personalPhoneNumber) {
+        this.personalPhoneNumber = personalPhoneNumber;
     }
 
-    public String getWorkNumber() {
-        return workNumber;
+    public String getWorkPhoneNumber() {
+        return workPhoneNumber;
     }
 
-    public void setWorkNumber(String workNumber) {
-        this.workNumber = workNumber;
+    public void setWorkPhoneNumber(String workPhoneNumber) {
+        this.workPhoneNumber = workPhoneNumber;
     }
 
 

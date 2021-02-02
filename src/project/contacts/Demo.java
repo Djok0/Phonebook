@@ -9,7 +9,7 @@ public class Demo {
 }
 
 // To Do list: After the first consultation with Radi and Kalata
-// 1. personal number = mandatory field
+// 1. personal number = mandatory field - DONE
 // 2. no nulls to show to the end user
 // 2. Print to be more beautifully
 // 3. Add message: Please try again: - DONE

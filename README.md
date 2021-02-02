@@ -51,8 +51,8 @@ class Account
   - editContact(Contact contact)
 
   - class Phonebook
-    - String personalNumber
-    - String workNumber
+    - String personalPhoneNumber
+    - String workPhoneNumber
     - getRecord(String number) - overriding - list all of the information for a specific contact
 
   - class AddressBook
