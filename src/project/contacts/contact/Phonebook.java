@@ -112,6 +112,78 @@ public class Phonebook {
         }
     }
 
+    public static void printAllContactsFromFileWithoutShowingNulls() {
+        String firstName;
+        String lastName;
+
+        String personalPhoneNumber;
+        String workPhoneNumber;
+
+        String country;
+        String city;
+        String streetName;
+        String streetNumber;
+
+        int dayOfBirth;
+        int monthOfBirth;
+        int yearOfBirth;
+
+        Address address;
+        Birthday birthday;
+        Contact contact;
+
+        String fileName = "phonebook.txt";
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(pathFileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                firstName = extractPropertyValueFromFile(line, "firstName");
+                lastName = extractPropertyValueFromFile(line, "lastName");
+                personalPhoneNumber = extractPropertyValueFromFile(line, "personalPhoneNumber");
+                workPhoneNumber = extractPropertyValueFromFile(line, "workPhoneNumber");
+                country = extractPropertyValueFromFile(line, "country");
+                city = extractPropertyValueFromFile(line, "city");
+                streetName = extractPropertyValueFromFile(line, "streetName");
+                streetNumber = extractPropertyValueFromFile(line, "streetNumber");
+                dayOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "dayOfBirth"));
+                monthOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "monthOfBirth"));
+                yearOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "yearOfBirth"));
+
+                birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+                address = new Address(country, city, streetName, streetNumber);
+                contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
+                contacts.add(contact);
+            }
+            printContactsBeautifully();
+        } catch (IOException e) {
+            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+        }
+
+    }
+
+    private static void printContactsBeautifully() {
+        for (Contact c : contacts) {
+            System.out.println(1 + contacts.indexOf(c) + "." +
+                    " Name: " + c.getFirstName() + " " + c.getLastName() +
+                    ", Personal Phone: " + c.getPersonalPhoneNumber() +
+                    ", Work Phone: " + ((!c.getWorkPhoneNumber().equals("null"))
+                    ? c.getWorkPhoneNumber() : "No Data") +
+                    ", Country: " + ((!c.getAddress().getCountry().equals("null"))
+                    ? c.getAddress().getCountry() : "No Data") +
+                    ", City: " + ((!c.getAddress().getCountry().equals("null"))
+                    ? c.getAddress().getCity() : "No Data") +
+                    ", Street Name: " + ((!c.getAddress().getCountry().equals("null"))
+                    ? c.getAddress().getStreetName() : "No Data") +
+                    ", Street Number: " + ((!c.getAddress().getCountry().equals("null"))
+                    ? c.getAddress().getStreetNumber() : "No Data") +
+                    ", Birthday: " + ((c.getBirthday().getDayOfBirth() != 0)
+                    ? c.getBirthday().getDayOfBirth() + "." +
+                    c.getBirthday().getMonthOfBirth() + "." +
+                    c.getBirthday().getYearOfBirth() : "No Data"));
+        }
+    }
+
     public static void printAllContactsFromFile() {
         String fileName = "phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
