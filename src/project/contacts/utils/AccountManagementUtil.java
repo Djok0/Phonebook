@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Base64;
 import java.util.Scanner;
 
 public class AccountManagementUtil {
@@ -26,6 +27,7 @@ public class AccountManagementUtil {
         int attempts = MAX_RETRY_ATTEMPTS;
         String name;
         String password;
+        String encodedPassword;
         Account account;
 
         String fileName;
@@ -52,7 +54,8 @@ public class AccountManagementUtil {
                 Logger.printErrorMessage("You have entered an invalid username or password! " +
                         "Remaining attempts: " + attempts);
             } else {
-                checkCredentials = verifyLoginCredentials(name, password, pathFileName);
+                encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
+                checkCredentials = verifyLoginCredentials(name, encodedPassword, pathFileName);
                 if (checkCredentials) {
                     attempts = MAX_RETRY_ATTEMPTS;
                     Logger.printSuccessMessage("You have successfully logged in with user " + name);
@@ -105,6 +108,7 @@ public class AccountManagementUtil {
         int attempts = MAX_RETRY_ATTEMPTS;
         String name;
         String password;
+        String encodedPassword;
         String path;
         String fileName;
         String pathFileName;
@@ -128,7 +132,8 @@ public class AccountManagementUtil {
                 if (!ValidationUtil.validatePassword(password)) {
                     attempts--;
                 } else {
-                    newAccount = new Account(name, password);
+                    encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
+                    newAccount = new Account(name, encodedPassword);
                     addAccountToFile(path, fileName, pathFileName, newAccount);
                     Logger.printSuccessMessage("Account " + newAccount.getName() + " is added successfully!");
                     // System.out.println("Account " + newAccount.getName() + " is added successfully!");
@@ -161,8 +166,10 @@ public class AccountManagementUtil {
     public static void changePassword(Account account) {
         int attempts = MAX_RETRY_ATTEMPTS;
         String oldPassword;
+        String encodedOldPassword;
         String newPassword;
         String repeatNewPassword;
+        String encodedNewPassword;
 
         String path;
         String fileName;
@@ -180,7 +187,8 @@ public class AccountManagementUtil {
             path = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS;
             fileName = account.getName() + "_credentials.txt";
             pathFileName = path + "/" + fileName;
-            oldPasswordMatches = validateOldPassword(oldPassword, pathFileName);
+            encodedOldPassword = Base64.getEncoder().encodeToString(oldPassword.getBytes());
+            oldPasswordMatches = validateOldPassword(encodedOldPassword, pathFileName);
             File accountCredentials;
             FileWriter storeCredentials;
 
@@ -197,12 +205,13 @@ public class AccountManagementUtil {
                         Logger.printErrorMessage("The new passwords you have entered do not match");
                         Logger.printInfoMessage("Remaining attempts: " + attempts);
                     } else {
+                        encodedNewPassword = Base64.getEncoder().encodeToString(newPassword.getBytes());
                         accountCredentials = new File(path, fileName);
                         try {
                             storeCredentials = new FileWriter(accountCredentials);
                             storeCredentials.write(account.getName());
                             storeCredentials.write(",");
-                            storeCredentials.write(newPassword);
+                            storeCredentials.write(encodedNewPassword);
                             storeCredentials.close();
                         } catch (IOException e) {
                             Logger.printErrorMessage("Error reading from / writing to file has occurred");
