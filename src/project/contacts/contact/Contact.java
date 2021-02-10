@@ -37,6 +37,7 @@ public class Contact implements Comparable {
                 "}]";
     }
 
+    @Override
     public int compareTo(Object o) {
         int compare = this.getFirstName().compareToIgnoreCase(((Contact) o).getFirstName());
         return compare == 0 ? getLastName().compareToIgnoreCase(((Contact) o).getLastName()) : compare;
