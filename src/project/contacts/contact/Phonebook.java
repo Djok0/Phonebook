@@ -24,12 +24,12 @@ public class Phonebook {
     public static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
     public static final String PATH_TO_THE_FILE_WITH_ALL_CONTACTS = "src/resources/project/contacts/contact";
 
-    private static List<Contact> contacts = new ArrayList<>();
+    //    private static List<Contact> contacts = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
 
-    public Phonebook(List<Contact> contacts) {
-        Phonebook.contacts = contacts;
-    }
+//    public Phonebook(List<Contact> contacts) {
+//        Phonebook.contacts = contacts;
+//    }
 
     public static void addContact() {
 
@@ -75,7 +75,7 @@ public class Phonebook {
 
         Address address = new Address(country, city, streetName, streetNumber);
         Contact contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
-        contacts.add(contact);
+//        contacts.add(contact);
 
         addContactToFile(contact);
         Logger.printSuccessMessage("Contact added successfully!");
@@ -112,7 +112,7 @@ public class Phonebook {
         }
     }
 
-    public static void printAllContactsFromFileWithoutShowingNulls() {
+    public static void printAllContactsFromFile() {
         String firstName;
         String lastName;
 
@@ -131,6 +131,8 @@ public class Phonebook {
         Address address;
         Birthday birthday;
         Contact contact;
+
+        List<Contact> contacts = new ArrayList<>();
 
         String fileName = "phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
@@ -155,57 +157,29 @@ public class Phonebook {
                 contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
                 contacts.add(contact);
             }
-            printContactsBeautifully();
+            printContactsWithoutNulls(contacts);
         } catch (IOException e) {
             Logger.printErrorMessage("Error reading from / writing to file has occurred");
         }
 
     }
 
-    private static void printContactsBeautifully() {
+    private static void printContactsWithoutNulls(List<Contact> contacts) {
         for (Contact c : contacts) {
             System.out.println(1 + contacts.indexOf(c) + "." +
                     " Name: " + c.getFirstName() + " " + c.getLastName() +
-                    ", Personal Phone: " + c.getPersonalPhoneNumber() +
-                    ", Work Phone: " + ((!c.getWorkPhoneNumber().equals("null"))
+                    "; Personal Phone: " + c.getPersonalPhoneNumber() +
+                    "; Work Phone: " + ((!c.getWorkPhoneNumber().equals("null"))
                     ? c.getWorkPhoneNumber() : "No Data") +
-                    ", Country: " + ((!c.getAddress().getCountry().equals("null"))
-                    ? c.getAddress().getCountry() : "No Data") +
-                    ", City: " + ((!c.getAddress().getCountry().equals("null"))
-                    ? c.getAddress().getCity() : "No Data") +
-                    ", Street Name: " + ((!c.getAddress().getCountry().equals("null"))
-                    ? c.getAddress().getStreetName() : "No Data") +
-                    ", Street Number: " + ((!c.getAddress().getCountry().equals("null"))
-                    ? c.getAddress().getStreetNumber() : "No Data") +
-                    ", Birthday: " + ((c.getBirthday().getDayOfBirth() != 0)
+                    "; Address: " + ((!c.getAddress().getCountry().equals("null"))
+                    ? c.getAddress().getStreetNumber() + " " +
+                    c.getAddress().getStreetName() + " Street, " +
+                    c.getAddress().getCity() + ", " +
+                    c.getAddress().getCountry() : "No Data") +
+                    "; Birthday: " + ((c.getBirthday().getDayOfBirth() != 0)
                     ? c.getBirthday().getDayOfBirth() + "." +
                     c.getBirthday().getMonthOfBirth() + "." +
                     c.getBirthday().getYearOfBirth() : "No Data"));
-        }
-    }
-
-    public static void printAllContactsFromFile() {
-        String fileName = "phonebook.txt";
-        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
-        BufferedReader bufferedReader;
-        ArrayList<String> contacts;
-        String line;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader(pathFileName));
-            contacts = new ArrayList<>();
-            line = bufferedReader.readLine();
-            while (line != null) {
-                contacts.add(line);
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-            for (String contact : contacts) {
-                System.out.println(contact);
-            }
-
-        } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
         }
     }
 
@@ -233,25 +207,66 @@ public class Phonebook {
     }
 
     public static void searchRecordByName() {
-        String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
+        String searchFirstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
         String fileName = "phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         boolean found = false;
         Scanner scanner;
         String line;
 
+        String firstName;
+        String lastName;
+
+        String personalPhoneNumber;
+        String workPhoneNumber;
+
+        String country;
+        String city;
+        String streetName;
+        String streetNumber;
+
+        int dayOfBirth;
+        int monthOfBirth;
+        int yearOfBirth;
+
+        Address address;
+        Birthday birthday;
+        Contact contact;
+
+        List<Contact> contacts = new ArrayList<>();
+
         try {
             scanner = new Scanner(new File(pathFileName));
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
-                if (line.contains(firstName)) {
-                    found = true;
-                    Logger.printInfoMessage("A contact with name " + firstName + " exists. Here are the details:");
-                    System.out.println(line);
+                if (line.contains(searchFirstName)) {
+                    firstName = extractPropertyValueFromFile(line, "firstName");
+                    lastName = extractPropertyValueFromFile(line, "lastName");
+                    personalPhoneNumber = extractPropertyValueFromFile(line, "personalPhoneNumber");
+                    workPhoneNumber = extractPropertyValueFromFile(line, "workPhoneNumber");
+                    country = extractPropertyValueFromFile(line, "country");
+                    city = extractPropertyValueFromFile(line, "city");
+                    streetName = extractPropertyValueFromFile(line, "streetName");
+                    streetNumber = extractPropertyValueFromFile(line, "streetNumber");
+                    dayOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "dayOfBirth"));
+                    monthOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "monthOfBirth"));
+                    yearOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "yearOfBirth"));
+
+                    birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+                    address = new Address(country, city, streetName, streetNumber);
+                    contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
+
+                    if (searchFirstName.equals(firstName)) {
+                        found = true;
+                        contacts.add(contact);
+                    }
                 }
             }
             if (!found) {
-                Logger.printInfoMessage("There is no record with name " + firstName + " in the phonebook!");
+                Logger.printErrorMessage("There is no record with name " + searchFirstName + " in the phonebook!");
+            } else {
+                Logger.printSuccessMessage("Contact/s with First Name " + searchFirstName + " exists. Here are the details:");
+                printContactsWithoutNulls(contacts);
             }
         } catch (FileNotFoundException e) {
             Logger.printErrorMessage("File was not found!");
@@ -259,30 +274,71 @@ public class Phonebook {
     }
 
     public static void searchRecordByPhoneNumber() {
-        String phoneNumber = ValidationUtil.validateStringFromUserInput("Phone Number", PHONE_NUMBER_PATTERN);
+        String searchPhoneNumber = ValidationUtil.validateStringFromUserInput("Phone Number", PHONE_NUMBER_PATTERN);
         String fileName = "phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         boolean found = false;
         Scanner scanner;
         String line;
 
+        String firstName;
+        String lastName;
+
+        String personalPhoneNumber;
+        String workPhoneNumber;
+
+        String country;
+        String city;
+        String streetName;
+        String streetNumber;
+
+        int dayOfBirth;
+        int monthOfBirth;
+        int yearOfBirth;
+
+        Address address;
+        Birthday birthday;
+        Contact contact;
+
+        List<Contact> contacts = new ArrayList<>();
+
         try {
             scanner = new Scanner(new File(pathFileName));
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
-                if (line.contains(phoneNumber)) {
-                    found = true;
-                    System.out.println(line);
+                if (line.contains(searchPhoneNumber)) {
+                    firstName = extractPropertyValueFromFile(line, "firstName");
+                    lastName = extractPropertyValueFromFile(line, "lastName");
+                    personalPhoneNumber = extractPropertyValueFromFile(line, "personalPhoneNumber");
+                    workPhoneNumber = extractPropertyValueFromFile(line, "workPhoneNumber");
+                    country = extractPropertyValueFromFile(line, "country");
+                    city = extractPropertyValueFromFile(line, "city");
+                    streetName = extractPropertyValueFromFile(line, "streetName");
+                    streetNumber = extractPropertyValueFromFile(line, "streetNumber");
+                    dayOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "dayOfBirth"));
+                    monthOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "monthOfBirth"));
+                    yearOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "yearOfBirth"));
+
+                    birthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+                    address = new Address(country, city, streetName, streetNumber);
+                    contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
+
+                    if (searchPhoneNumber.equals(personalPhoneNumber) || searchPhoneNumber.equals(workPhoneNumber)) {
+                        found = true;
+                        contacts.add(contact);
+                    }
                 }
             }
             if (!found) {
-                Logger.printInfoMessage("There is no record with number " + phoneNumber + " in the phonebook!");
+                Logger.printErrorMessage("There is no record with number " + searchPhoneNumber + " in the phonebook!");
+            } else {
+                Logger.printSuccessMessage("Contact/s with phone number " + searchPhoneNumber + " exists. Here are the details:");
+                printContactsWithoutNulls(contacts);
             }
         } catch (FileNotFoundException e) {
             Logger.printErrorMessage("File was not found!");
         }
     }
-
 
     public static void editRecord() {
 
@@ -322,7 +378,7 @@ public class Phonebook {
 
         Logger.printInfoMessage("Please select which row you want to edit: ");
         while (!scanner.hasNext("[0-9]*")) {
-            Logger.printErrorMessage("You have entered an invalid row. ");
+            Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
             scanner.nextLine();
         }
 
