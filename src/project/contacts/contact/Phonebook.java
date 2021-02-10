@@ -199,6 +199,9 @@ public class Phonebook {
     private static void printContactsWithoutNulls(List<Contact> contacts) {
 
         Collections.sort(contacts);
+        System.out.println("___________________________________________________" +
+                "______________________________________________________________" +
+                "______________________________________________________________");
         for (Contact c : contacts) {
             System.out.println(1 + contacts.indexOf(c) + "." +
                     " Name: " + c.getFirstName() + " " + c.getLastName() +
@@ -214,6 +217,9 @@ public class Phonebook {
                     ? c.getBirthday().getDayOfBirth() + "." +
                     c.getBirthday().getMonthOfBirth() + "." +
                     c.getBirthday().getYearOfBirth() : "No Data"));
+            System.out.println("___________________________________________________" +
+                    "______________________________________________________________" +
+                    "______________________________________________________________");
         }
     }
 
@@ -519,7 +525,7 @@ public class Phonebook {
 
         printAllContactsFromFile();
 
-        Logger.printInfoMessage("Please select which row you want to edit: ");
+        Logger.printInfoMessage("Please select which row you want to edit or press 0 to return to the Main Menu: ");
         while (!scanner.hasNext("[0-9]*")) {
             Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
             scanner.nextLine();
@@ -528,6 +534,9 @@ public class Phonebook {
         row = Integer.parseInt(scanner.nextLine());
         record = row + ".";
 
+        if (row == 0) {
+            return;
+        }
         if (rowsFromFile < row) {
             Logger.printInfoMessage("You have selected a non existing record");
         } else {
