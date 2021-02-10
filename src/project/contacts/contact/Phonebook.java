@@ -380,137 +380,137 @@ public class Phonebook {
         }
     }
 
-    public static void editRecordOld() {
-
-        String firstName;
-        String lastName;
-
-        String personalPhoneNumber;
-        String workPhoneNumber;
-
-        String country;
-        String city;
-        String streetName;
-        String streetNumber;
-
-        int dayOfBirth;
-        int monthOfBirth;
-        int yearOfBirth;
-
-        Address oldAddress;
-        Address newAddress;
-        Birthday oldBirthday;
-        Birthday newBirthday;
-        Contact oldContact;
-        Contact newContact;
-
-        Scanner sc;
-        String fileName = "phonebook.txt";
-        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
-        int rowsFromFile = countRowsFromFile(pathFileName);
-        int row;
-        String record;
-        String choice;
-        String oldString;
-        String newString;
-
-        printAllContactsFromFile();
-
-        Logger.printInfoMessage("Please select which row you want to edit: ");
-        while (!scanner.hasNext("[0-9]*")) {
-            Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
-            scanner.nextLine();
-        }
-
-        row = Integer.parseInt(scanner.nextLine());
-        record = row + ".";
-
-        if (rowsFromFile < row) {
-            Logger.printInfoMessage("You have selected a non existing record");
-        } else {
-            try {
-                Scanner scanner = new Scanner(new File(pathFileName));
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (line.contains(record)) {
-                        firstName = extractPropertyValueFromFile(line, "firstName");
-                        lastName = extractPropertyValueFromFile(line, "lastName");
-                        personalPhoneNumber = extractPropertyValueFromFile(line, "personalPhoneNumber");
-                        workPhoneNumber = extractPropertyValueFromFile(line, "workPhoneNumber");
-                        country = extractPropertyValueFromFile(line, "country");
-                        city = extractPropertyValueFromFile(line, "city");
-                        streetName = extractPropertyValueFromFile(line, "streetName");
-                        streetNumber = extractPropertyValueFromFile(line, "streetNumber");
-                        dayOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "dayOfBirth"));
-                        monthOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "monthOfBirth"));
-                        yearOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "yearOfBirth"));
-
-                        oldAddress = new Address(country, city, streetName, streetNumber);
-                        oldBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
-                        newBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
-                        oldContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, oldAddress, oldBirthday);
-                        oldString = record + " " + oldContact.toString();
-
-                        sc = new Scanner(System.in);
-                        Logger.printInfoMessage("Do you want to edit Contact's First Name? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's Last Name? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's Personal Phone Number? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's Work Phone Number? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's Country? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's City? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            city = ValidationUtil.validateStringFromUserInput("City", CITY_NAME_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's Street Name? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            streetName = ValidationUtil.validateStringFromUserInput("Street Name", STREET_NAME_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's Street Number? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            streetNumber = ValidationUtil.validateStringFromUserInput("Street Number", STREET_NUMBER_PATTERN);
-                        }
-                        Logger.printInfoMessage("Do you want to edit Contact's Birthday? [Y/N]");
-                        choice = sc.nextLine().toUpperCase();
-                        if (choice.equals("Y")) {
-                            newBirthday = Birthday.createBirthday();
-                        }
-
-                        newAddress = new Address(country, city, streetName, streetNumber);
-                        newContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, newAddress, newBirthday);
-                        newString = record + " " + newContact.toString();
-
-                        modifyContactInFile(pathFileName, oldString, newString);
-                        Logger.printSuccessMessage("Changes are successfully applied!");
-                    }
-                }
-            } catch (IOException e) {
-                Logger.printErrorMessage("Error reading from / writing to file has occurred");
-            }
-        }
-    }
+//    public static void editRecordOld() {
+//
+//        String firstName;
+//        String lastName;
+//
+//        String personalPhoneNumber;
+//        String workPhoneNumber;
+//
+//        String country;
+//        String city;
+//        String streetName;
+//        String streetNumber;
+//
+//        int dayOfBirth;
+//        int monthOfBirth;
+//        int yearOfBirth;
+//
+//        Address oldAddress;
+//        Address newAddress;
+//        Birthday oldBirthday;
+//        Birthday newBirthday;
+//        Contact oldContact;
+//        Contact newContact;
+//
+//        Scanner sc;
+//        String fileName = "phonebook.txt";
+//        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
+//        int rowsFromFile = countRowsFromFile(pathFileName);
+//        int row;
+//        String record;
+//        String choice;
+//        String oldString;
+//        String newString;
+//
+//        printAllContactsFromFile();
+//
+//        Logger.printInfoMessage("Please select which row you want to edit: ");
+//        while (!scanner.hasNext("[0-9]*")) {
+//            Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
+//            scanner.nextLine();
+//        }
+//
+//        row = Integer.parseInt(scanner.nextLine());
+//        record = row + ".";
+//
+//        if (rowsFromFile < row) {
+//            Logger.printInfoMessage("You have selected a non existing record");
+//        } else {
+//            try {
+//                Scanner scanner = new Scanner(new File(pathFileName));
+//                while (scanner.hasNextLine()) {
+//                    String line = scanner.nextLine();
+//                    if (line.contains(record)) {
+//                        firstName = extractPropertyValueFromFile(line, "firstName");
+//                        lastName = extractPropertyValueFromFile(line, "lastName");
+//                        personalPhoneNumber = extractPropertyValueFromFile(line, "personalPhoneNumber");
+//                        workPhoneNumber = extractPropertyValueFromFile(line, "workPhoneNumber");
+//                        country = extractPropertyValueFromFile(line, "country");
+//                        city = extractPropertyValueFromFile(line, "city");
+//                        streetName = extractPropertyValueFromFile(line, "streetName");
+//                        streetNumber = extractPropertyValueFromFile(line, "streetNumber");
+//                        dayOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "dayOfBirth"));
+//                        monthOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "monthOfBirth"));
+//                        yearOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "yearOfBirth"));
+//
+//                        oldAddress = new Address(country, city, streetName, streetNumber);
+//                        oldBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+//                        newBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+//                        oldContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, oldAddress, oldBirthday);
+//                        oldString = record + " " + oldContact.toString();
+//
+//                        sc = new Scanner(System.in);
+//                        Logger.printInfoMessage("Do you want to edit Contact's First Name? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's Last Name? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's Personal Phone Number? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's Work Phone Number? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's Country? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's City? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            city = ValidationUtil.validateStringFromUserInput("City", CITY_NAME_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's Street Name? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            streetName = ValidationUtil.validateStringFromUserInput("Street Name", STREET_NAME_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's Street Number? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            streetNumber = ValidationUtil.validateStringFromUserInput("Street Number", STREET_NUMBER_PATTERN);
+//                        }
+//                        Logger.printInfoMessage("Do you want to edit Contact's Birthday? [Y/N]");
+//                        choice = sc.nextLine().toUpperCase();
+//                        if (choice.equals("Y")) {
+//                            newBirthday = Birthday.createBirthday();
+//                        }
+//
+//                        newAddress = new Address(country, city, streetName, streetNumber);
+//                        newContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, newAddress, newBirthday);
+//                        newString = record + " " + newContact.toString();
+//
+//                        modifyContactInFile(pathFileName, oldString, newString);
+//                        Logger.printSuccessMessage("Changes are successfully applied!");
+//                    }
+//                }
+//            } catch (IOException e) {
+//                Logger.printErrorMessage("Error reading from / writing to file has occurred");
+//            }
+//        }
+//    }
 
     public static void editRecord() {
 
@@ -522,6 +522,7 @@ public class Phonebook {
         int rowsFromFile = countRowsFromFile(pathFileName);
         int row;
         String record;
+        boolean found = false;
 
         printAllContactsFromFile();
 
@@ -542,13 +543,14 @@ public class Phonebook {
         } else {
             try {
                 Scanner scanner = new Scanner(new File(pathFileName));
-                while (scanner.hasNextLine()) {
+                while (!found && scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     if (line.contains(record)) {
                         firstName = extractPropertyValueFromFile(line, "firstName");
                         lastName = extractPropertyValueFromFile(line, "lastName");
 
                         ProgramManagementUtil.openEditMenu(firstName, lastName, row);
+                        found = true;
                     }
                 }
             } catch (IOException e) {
@@ -615,10 +617,11 @@ public class Phonebook {
         String newString;
 
         record = row + ".";
+        boolean found = false;
 
         try {
             Scanner scanner = new Scanner(new File(pathFileName));
-            while (scanner.hasNextLine()) {
+            while (!found && scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if (line.contains(record)) {
                     firstName = extractPropertyValueFromFile(line, "firstName");
@@ -667,6 +670,7 @@ public class Phonebook {
 
                     modifyContactInFile(pathFileName, oldString, newString);
                     Logger.printSuccessMessage("Changes are successfully applied!");
+                    found = true;
                 }
             }
         } catch (IOException e) {
