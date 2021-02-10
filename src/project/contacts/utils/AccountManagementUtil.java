@@ -117,7 +117,7 @@ public class AccountManagementUtil {
 
         while (attempts != 0) {
             System.out.println("Enter username: ");
-            name = scanner.nextLine();
+            name = scanner.nextLine().trim();
             System.out.println("Enter password: ");
             password = scanner.nextLine();
 
@@ -129,7 +129,7 @@ public class AccountManagementUtil {
             if (userExists || name.contains(",")) {
                 Logger.printErrorMessage("That username is already taken or invalid. Please choose another one!");
             } else {
-                if (!ValidationUtil.validatePassword(password)) {
+                if (!ValidationUtil.validateUsername(name) || !ValidationUtil.validatePassword(password)) {
                     attempts--;
                 } else {
                     encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());

@@ -9,6 +9,7 @@ public class ValidationUtil {
     private static final int maxYear = 4000;
 
     public static final String PASSWORD_VALIDATION = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}$";
+    private static final String USERNAME_VALIDATION = "^[a-zA-Z0-9]{3,20}$";
 
     public static boolean isLeapYear(int year) {
         return (((year % 4 == 0) && !(year % 100 == 0)) || (year % 400 == 0));
@@ -60,6 +61,18 @@ public class ValidationUtil {
             Logger.printErrorMessage("Your password's strength doesn't meet the requirements.");
             Logger.printErrorMessage("Your password must be at least 8 symbols and must contains" +
                     "at least one lower case char, one upper case char, one number and one special character!");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean validateUsername(String username) {
+        Pattern userNamePattern = Pattern.compile(USERNAME_VALIDATION);
+        if (!username.matches(String.valueOf(userNamePattern))) {
+            Logger.printErrorMessage("Your username doesn't meet the requirements.");
+            Logger.printErrorMessage("Your username must be between 3 and 20 symbols and can only contain" +
+                    "allowed symbols - lower / upper chars and numbers");
             return false;
         } else {
             return true;
