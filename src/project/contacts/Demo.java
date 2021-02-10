@@ -18,7 +18,7 @@ public class Demo {
 // 6. Personal Number -> Personal Phone Number - DONE
 // 7. keep password not in plain text (use hash for example) - DONE
 // 8. Welcome, (add the comma) - DONE
-// 9. use toUpper to first letters of firstName and lastName
-// 10. validateBirthdayFromUserInput - move to -> createBirthday in Birthday
-// 10. when moving validateBirthdayFromUserInput, check that the validation is working, currently it isn't
+// 9. validateBirthdayFromUserInput - move to -> createBirthday in Birthday - DONE
+// 9. when moving validateBirthdayFromUserInput, check that the validation is working, currently it isn't - DONE
+// 10. use toUpper to first letters of firstName and lastName
 // 11. Create a new menu for Edit option

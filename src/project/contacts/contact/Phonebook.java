@@ -70,7 +70,7 @@ public class Phonebook {
         Logger.printInfoMessage("Do you want to enter Contact's Birthday? [Y/N]");
         birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
-            birthday = ValidationUtil.validateBirthdayFromUserInput();
+            birthday = Birthday.createBirthday();
         }
 
         Address address = new Address(country, city, streetName, streetNumber);
@@ -455,7 +455,7 @@ public class Phonebook {
                         Logger.printInfoMessage("Do you want to edit Contact's Birthday? [Y/N]");
                         choice = sc.nextLine().toUpperCase();
                         if (choice.equals("Y")) {
-                            newBirthday = ValidationUtil.validateBirthdayFromUserInput();
+                            newBirthday = Birthday.createBirthday();
                         }
 
                         newAddress = new Address(country, city, streetName, streetNumber);

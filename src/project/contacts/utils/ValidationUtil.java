@@ -1,6 +1,5 @@
 package project.contacts.utils;
 
-import project.contacts.contact.Birthday;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -8,34 +7,8 @@ public class ValidationUtil {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final int maxYear = 4000;
-    static int day, month, year;
 
     public static final String PASSWORD_VALIDATION = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}$";
-
-    public static Birthday validateBirthdayFromUserInput() {
-        boolean validDate = false;
-        boolean leapYear = false;
-        while (!validDate && !leapYear) {
-            try {
-                System.out.println("Enter Contact's Day of Birth:");
-                day = Integer.parseInt(scanner.nextLine());
-                System.out.println("Enter Contact's Month of Birth:");
-                month = Integer.parseInt(scanner.nextLine());
-                System.out.println("Enter Contact's Year of Birth:");
-                year = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("You have entered an invalid birthday! Please try again: ");
-                ValidationUtil.validateBirthdayFromUserInput();
-            }
-
-            leapYear = isLeapYear(year);
-            validDate = isValidDate(month, day, year);
-            if (!leapYear && !validDate) {
-                System.out.println("You have entered an invalid birthday! Please try again: ");
-            }
-        }
-        return new Birthday(day, month, year);
-    }
 
     public static boolean isLeapYear(int year) {
         return (((year % 4 == 0) && !(year % 100 == 0)) || (year % 400 == 0));
@@ -84,9 +57,9 @@ public class ValidationUtil {
     public static boolean validatePassword(String password) {
         Pattern passwordPattern = Pattern.compile(PASSWORD_VALIDATION);
         if (!password.matches(String.valueOf(passwordPattern))) {
-            System.out.println("Your password's strength doesn't meet the requirements.");
-            System.out.println("Your password must be at least 8 symbols and must contains");
-            System.out.println("at least one lowerCase, one upperCase, one number and one special character!");
+            Logger.printErrorMessage("Your password's strength doesn't meet the requirements.");
+            Logger.printErrorMessage("Your password must be at least 8 symbols and must contains" +
+                    "at least one lower case char, one upper case char, one number and one special character!");
             return false;
         } else {
             return true;

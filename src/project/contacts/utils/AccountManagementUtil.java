@@ -194,7 +194,7 @@ public class AccountManagementUtil {
 
             if (!oldPasswordMatches) {
                 attempts--;
-                Logger.printInfoMessage("You have entered incorrect password. Remaining attempts: " + attempts);
+                Logger.printErrorMessage("You have entered incorrect password. Remaining attempts: " + attempts);
             } else {
                 if (!ValidationUtil.validatePassword(newPassword)) {
                     attempts--;

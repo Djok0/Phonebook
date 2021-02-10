@@ -1,5 +1,12 @@
 package project.contacts.contact;
 
+import project.contacts.utils.Logger;
+
+import java.util.Scanner;
+
+import static project.contacts.utils.ValidationUtil.isLeapYear;
+import static project.contacts.utils.ValidationUtil.isValidDate;
+
 public class Birthday {
     private int dayOfBirth;
     private int monthOfBirth;
@@ -9,6 +16,34 @@ public class Birthday {
         this.dayOfBirth = dayOfBirth;
         this.monthOfBirth = monthOfBirth;
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public static Birthday createBirthday() {
+        Scanner scanner = new Scanner(System.in);
+        boolean validDate = false;
+        boolean leapYear = false;
+        int day = 0, month = 0, year = 0;
+        while (!validDate) {
+            try {
+                Logger.printInfoMessage("Enter Contact's Day of Birth:");
+                day = Integer.parseInt(scanner.nextLine());
+                Logger.printInfoMessage("Enter Contact's Month of Birth:");
+                month = Integer.parseInt(scanner.nextLine());
+                Logger.printInfoMessage("Enter Contact's Year of Birth:");
+                year = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                Logger.printErrorMessage("You have entered an invalid birthday! Please try again: ");
+                continue;
+            }
+
+            leapYear = isLeapYear(year);
+            validDate = isValidDate(month, day, year);
+            if (!validDate || !leapYear) {
+                Logger.printErrorMessage("You have entered an invalid birthday! Please try again: ");
+            }
+        }
+        System.out.println("success");
+        return new Birthday(day, month, year);
     }
 
     @Override
