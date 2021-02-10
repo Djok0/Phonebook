@@ -1,5 +1,6 @@
 package project.contacts.contact;
 
+import com.sun.deploy.net.proxy.WFirefoxProxyConfig;
 import project.contacts.utils.Logger;
 import project.contacts.utils.ProgramManagementUtil;
 import project.contacts.utils.ValidationUtil;
@@ -16,8 +17,8 @@ import java.util.regex.Pattern;
 
 public class Phonebook {
 
-    public static final String FIRST_NAME_PATTERN = "[A-Z]{1}[a-zA-Z]{1,}";
-    public static final String LAST_NAME_PATTERN = "[A-Z]{1}[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*";
+    public static final String FIRST_NAME_PATTERN = "[a-zA-Z]{1,}";
+    public static final String LAST_NAME_PATTERN = "[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*";
     public static final String PHONE_NUMBER_PATTERN = "[0][8]{1}[7,8,9]{1}\\d{7}";
     public static final String COUNTRY_NAME_PATTERN = "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*";
     public static final String CITY_NAME_PATTERN = "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*";
@@ -69,7 +70,7 @@ public class Phonebook {
         }
 
         Address address = new Address(country, city, streetName, streetNumber);
-        Contact contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
+        Contact contact = new Contact(ValidationUtil.capitalize(firstName), ValidationUtil.capitalize(lastName), personalPhoneNumber, workPhoneNumber, address, birthday);
 //        contacts.add(contact);
 
         addContactToFile(contact);
@@ -665,7 +666,7 @@ public class Phonebook {
                     }
 
                     newAddress = new Address(country, city, streetName, streetNumber);
-                    newContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, newAddress, newBirthday);
+                    newContact = new Contact(ValidationUtil.capitalize(firstName), ValidationUtil.capitalize(lastName), personalPhoneNumber, workPhoneNumber, newAddress, newBirthday);
                     newString = record + " " + newContact.toString();
 
                     modifyContactInFile(pathFileName, oldString, newString);

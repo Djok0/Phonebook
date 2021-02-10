@@ -21,4 +21,4 @@ public class Demo {
 // 9. validateBirthdayFromUserInput - move to -> createBirthday in Birthday - DONE
 // 9. when moving validateBirthdayFromUserInput, check that the validation is working, currently it isn't - DONE
 // 10. Create a new menu for Edit option - DONE
-// 11. use toUpper to first letters of firstName and lastName
+// 11. use toUpper to first letters of firstName and lastName - READY
