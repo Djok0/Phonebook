@@ -152,6 +152,7 @@ public class Phonebook {
                 contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
                 contacts.add(contact);
             }
+            sortContactsInFile(contacts);
             printContactsWithoutNulls(contacts);
         } catch (IOException e) {
             Logger.printErrorMessage("Error reading from / writing to file has occurred");
@@ -159,7 +160,45 @@ public class Phonebook {
 
     }
 
+    private static void sortContactsInFile(List<Contact> contacts) {
+        Collections.sort(contacts);
+
+        String path = PATH_TO_THE_FILE_WITH_ALL_CONTACTS;
+        String fileName = "phonebook.txt";
+        String pathFileName = path + "/" + fileName;
+        File file;
+        FileWriter fileWriter;
+        BufferedWriter bufferedWriter;
+        int row = 0;
+
+        try {
+            file = new File(path, fileName);
+            if (!file.createNewFile()) {
+                try {
+                    fileWriter = new FileWriter(pathFileName);      // Clean the file
+                    for (Contact contact : contacts) {
+                        fileWriter = new FileWriter(pathFileName, true);    // Write sorted values
+                        bufferedWriter = new BufferedWriter(fileWriter);
+                        bufferedWriter.write(row + 1 + ". ");
+                        bufferedWriter.write(contact.toString());
+                        bufferedWriter.newLine();
+                        bufferedWriter.close();
+                        row++;
+                    }
+                } catch (IOException e) {
+                    Logger.printErrorMessage("Error reading from / writing to file has occurred");
+                }
+            } else {
+                Logger.printInfoMessage("File already exists.");
+            }
+        } catch (IOException e) {
+            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+        }
+    }
+
     private static void printContactsWithoutNulls(List<Contact> contacts) {
+
+        Collections.sort(contacts);
         for (Contact c : contacts) {
             System.out.println(1 + contacts.indexOf(c) + "." +
                     " Name: " + c.getFirstName() + " " + c.getLastName() +

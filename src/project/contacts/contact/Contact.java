@@ -1,6 +1,6 @@
 package project.contacts.contact;
 
-public class Contact {
+public class Contact implements Comparable {
 
     private String firstName;
     private String lastName;
@@ -35,6 +35,11 @@ public class Contact {
                 address +
                 birthday +
                 "}]";
+    }
+
+    public int compareTo(Object o) {
+        int compare = this.getFirstName().compareToIgnoreCase(((Contact) o).getFirstName());
+        return compare == 0 ? getLastName().compareToIgnoreCase(((Contact) o).getLastName()) : compare;
     }
 
     public String getFirstName() {
@@ -84,6 +89,4 @@ public class Contact {
     public void setWorkPhoneNumber(String workPhoneNumber) {
         this.workPhoneNumber = workPhoneNumber;
     }
-
-
 }
