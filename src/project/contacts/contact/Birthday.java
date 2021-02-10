@@ -4,7 +4,6 @@ import project.contacts.utils.Logger;
 
 import java.util.Scanner;
 
-import static project.contacts.utils.ValidationUtil.isLeapYear;
 import static project.contacts.utils.ValidationUtil.isValidDate;
 
 public class Birthday {
@@ -21,7 +20,6 @@ public class Birthday {
     public static Birthday createBirthday() {
         Scanner scanner = new Scanner(System.in);
         boolean validDate = false;
-        boolean leapYear = false;
         int day = 0, month = 0, year = 0;
         while (!validDate) {
             try {
@@ -35,14 +33,11 @@ public class Birthday {
                 Logger.printErrorMessage("You have entered an invalid birthday! Please try again: ");
                 continue;
             }
-
-            leapYear = isLeapYear(year);
             validDate = isValidDate(month, day, year);
-            if (!validDate || !leapYear) {
+            if (!validDate) {
                 Logger.printErrorMessage("You have entered an invalid birthday! Please try again: ");
             }
         }
-        System.out.println("success");
         return new Birthday(day, month, year);
     }
 

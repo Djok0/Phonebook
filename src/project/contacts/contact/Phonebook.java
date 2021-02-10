@@ -1,6 +1,7 @@
 package project.contacts.contact;
 
 import project.contacts.utils.Logger;
+import project.contacts.utils.ProgramManagementUtil;
 import project.contacts.utils.ValidationUtil;
 
 import java.io.*;
@@ -23,13 +24,7 @@ public class Phonebook {
     public static final String STREET_NAME_PATTERN = "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
     public static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
     public static final String PATH_TO_THE_FILE_WITH_ALL_CONTACTS = "src/resources/project/contacts/contact";
-
-    //    private static List<Contact> contacts = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
-
-//    public Phonebook(List<Contact> contacts) {
-//        Phonebook.contacts = contacts;
-//    }
 
     public static void addContact() {
 
@@ -340,7 +335,7 @@ public class Phonebook {
         }
     }
 
-    public static void editRecord() {
+    public static void editRecordOld() {
 
         String firstName;
         String lastName;
@@ -472,6 +467,48 @@ public class Phonebook {
         }
     }
 
+    public static void editRecord() {
+
+        String firstName;
+        String lastName;
+
+        String fileName = "phonebook.txt";
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
+        int rowsFromFile = countRowsFromFile(pathFileName);
+        int row;
+        String record;
+
+        printAllContactsFromFile();
+
+        Logger.printInfoMessage("Please select which row you want to edit: ");
+        while (!scanner.hasNext("[0-9]*")) {
+            Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
+            scanner.nextLine();
+        }
+
+        row = Integer.parseInt(scanner.nextLine());
+        record = row + ".";
+
+        if (rowsFromFile < row) {
+            Logger.printInfoMessage("You have selected a non existing record");
+        } else {
+            try {
+                Scanner scanner = new Scanner(new File(pathFileName));
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (line.contains(record)) {
+                        firstName = extractPropertyValueFromFile(line, "firstName");
+                        lastName = extractPropertyValueFromFile(line, "lastName");
+
+                        ProgramManagementUtil.openEditMenu(firstName, lastName, row);
+                    }
+                }
+            } catch (IOException e) {
+                Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            }
+        }
+    }
+
     static void modifyContactInFile(String filePath, String oldString, String newString) {
         Path path = Paths.get(filePath);
         Charset charset = StandardCharsets.UTF_8;
@@ -498,6 +535,95 @@ public class Phonebook {
         }
 
         return value;
+    }
+
+    public static void editPropertyInContact(int choice, int row) {
+        String firstName;
+        String lastName;
+
+        String personalPhoneNumber;
+        String workPhoneNumber;
+
+        String country;
+        String city;
+        String streetName;
+        String streetNumber;
+
+        int dayOfBirth;
+        int monthOfBirth;
+        int yearOfBirth;
+
+        Address oldAddress;
+        Address newAddress;
+        Birthday oldBirthday;
+        Birthday newBirthday;
+        Contact oldContact;
+        Contact newContact;
+
+        String fileName = "phonebook.txt";
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
+        String record;
+        String oldString;
+        String newString;
+
+        record = row + ".";
+
+        try {
+            Scanner scanner = new Scanner(new File(pathFileName));
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.contains(record)) {
+                    firstName = extractPropertyValueFromFile(line, "firstName");
+                    lastName = extractPropertyValueFromFile(line, "lastName");
+                    personalPhoneNumber = extractPropertyValueFromFile(line, "personalPhoneNumber");
+                    workPhoneNumber = extractPropertyValueFromFile(line, "workPhoneNumber");
+                    country = extractPropertyValueFromFile(line, "country");
+                    city = extractPropertyValueFromFile(line, "city");
+                    streetName = extractPropertyValueFromFile(line, "streetName");
+                    streetNumber = extractPropertyValueFromFile(line, "streetNumber");
+                    dayOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "dayOfBirth"));
+                    monthOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "monthOfBirth"));
+                    yearOfBirth = Integer.parseInt(extractPropertyValueFromFile(line, "yearOfBirth"));
+
+                    oldAddress = new Address(country, city, streetName, streetNumber);
+                    oldBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+                    newBirthday = new Birthday(dayOfBirth, monthOfBirth, yearOfBirth);
+                    oldContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, oldAddress, oldBirthday);
+                    oldString = record + " " + oldContact.toString();
+
+                    if (choice == 1) {
+                        firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
+                    }
+                    if (choice == 2) {
+                        lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
+                    }
+                    if (choice == 3) {
+                        personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
+                    }
+                    if (choice == 4) {
+                        workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
+                    }
+                    if (choice == 5) {
+                        country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);
+                        city = ValidationUtil.validateStringFromUserInput("City", CITY_NAME_PATTERN);
+                        streetName = ValidationUtil.validateStringFromUserInput("Street Name", STREET_NAME_PATTERN);
+                        streetNumber = ValidationUtil.validateStringFromUserInput("Street Number", STREET_NUMBER_PATTERN);
+                    }
+                    if (choice == 6) {
+                        newBirthday = Birthday.createBirthday();
+                    }
+
+                    newAddress = new Address(country, city, streetName, streetNumber);
+                    newContact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, newAddress, newBirthday);
+                    newString = record + " " + newContact.toString();
+
+                    modifyContactInFile(pathFileName, oldString, newString);
+                    Logger.printSuccessMessage("Changes are successfully applied!");
+                }
+            }
+        } catch (IOException e) {
+            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+        }
     }
 }
 

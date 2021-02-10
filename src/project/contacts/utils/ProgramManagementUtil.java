@@ -51,7 +51,8 @@ public class ProgramManagementUtil {
                     break;
                 case 0:
                     Logger.printInfoMessage("See you soon!");
-                    Logger.printInfoMessage("Phonebook application is created by Radi and Georgi");
+                    Logger.printInfoMessage("Phonebook application by Radi and Georgi");
+                    Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
                     System.exit(0);
                     break;
                 default:
@@ -81,18 +82,56 @@ public class ProgramManagementUtil {
         System.out.println(" ----------------------------------------------- ");
     }
 
-//    public static void printEditMenu() {
-//        System.out.println(" ----------------------------------------------- ");
-//        System.out.println("|  Welcome to the edit menu!                    |");
-//        System.out.println(" ----------------------------------------------- ");
-//        System.out.println("|  Menu:                                        |");
-//        System.out.println(" ----------------------------------------------- ");
-//        System.out.println("|  1. Edit first name                           |");
-//        System.out.println("|  2. Edit last name                            |");
-//        System.out.println(" ----------------------------------------------- ");
-//        System.out.println("|  0. Exit                                      |");
-//        System.out.println(" ----------------------------------------------- ");
-//    }
+    public static void openEditMenu(String firstName, String lastName, int row) {
+        int choice;
+        do {
+            try {
+                ProgramManagementUtil.printEditMenu(firstName, lastName);
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                scanner.next();
+                choice = INVALID_CHOICE;
+            }
+            switch (choice) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    Phonebook.editPropertyInContact(choice, row);
+                    break;
+                case 9:
+                    return;
+//                    ProgramManagementUtil.startProgram();
+                case 0:
+                    Logger.printInfoMessage("See you soon!");
+                    Logger.printInfoMessage("Phonebook application by Radi and Georgi");
+                    Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
+                    System.exit(0);
+                    break;
+                default:
+                    Logger.printErrorMessage("You have entered an invalid option! " +
+                            "Please choose from the options listed in the menu");
+            }
+        } while (choice != 0);
+    }
+
+    public static void printEditMenu(String firstName, String lastName) {
+        System.out.println(" ----------------------------------------------- ");
+        System.out.println("   Edit Menu for contact: " + firstName + " " + lastName);
+        System.out.println(" ----------------------------------------------- ");
+        System.out.println("|  1. Edit Contact's First Name                 |");
+        System.out.println("|  2. Edit Contact's Last Name                  |");
+        System.out.println("|  3. Edit Contact's Personal Phone Number      |");
+        System.out.println("|  4. Edit Contact's Work Phone Number          |");
+        System.out.println("|  5. Edit Contact's Address                    |");
+        System.out.println("|  6. Edit Contact's Birthday                   |");
+        System.out.println(" ----------------------------------------------- ");
+        System.out.println("|  9. Return to Main Menu                       |");
+        System.out.println("|  0. Exit                                      |");
+        System.out.println(" ----------------------------------------------- ");
+    }
 
     public static void stopTheSystem(String message) {
         System.err.println(message);
