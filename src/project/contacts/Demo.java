@@ -14,12 +14,12 @@ public class Demo {
 // - there could be a message which invited you to enter your choice - DONE
 // Add record:
 // - When entering choice or data it goes on the next row - use print instead of println - DONE
-// - PHONE_NUMBER_PATTERN should allow +359 as well
+// - PHONE_NUMBER_PATTERN should allow +359 as well - DONE
 // - no validation of y/N answer
 // Edit record:
 // - doesn`t wait after the wrong number message so i can`t read it
 // - enter row: java.land.NumberFormatException: For input string: "44444444444444444"
-// - work number should be 02460556 - and this is real number but is not accepted
+// - work number should be 02460556 - and this is real number but is not accepted - DONE
 // - You have entered an invalid birthday! Please try again: which is wrong? how to know it?
 // - The edit is not recorded when I go back to the main menu.
 // New account:
