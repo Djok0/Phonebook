@@ -1,5 +1,4 @@
 package project.contacts.utils;
-
 import project.contacts.account.Account;
 
 import java.io.BufferedReader;
@@ -118,9 +117,9 @@ public class AccountManagementUtil {
         Account newAccount;
 
         while (attempts != 0) {
-            System.out.println("Enter username: ");
+            Logger.printInfoMessage("Enter username: ");
             name = scanner.nextLine().trim();
-            System.out.println("Enter password: ");
+            Logger.printInfoMessage("Enter password: ");
             password = scanner.nextLine();
 
             path = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS;
@@ -179,7 +178,7 @@ public class AccountManagementUtil {
         boolean oldPasswordMatches;
 
         while (attempts != 0) {
-            System.out.println("Enter your old password: ");
+            Logger.printInfoMessage("Enter your old password: ");
             oldPassword = scanner.nextLine();
             Logger.printInfoMessage("Enter your new password: ");
             newPassword = scanner.nextLine();
@@ -200,12 +199,12 @@ public class AccountManagementUtil {
             } else {
                 if (!ValidationUtil.validatePassword(newPassword)) {
                     attempts--;
-                    Logger.printInfoMessage("Remaining attempts: " + attempts + "\n");
+                    Logger.printErrorMessage("Remaining attempts: " + attempts + "\n");
                 } else {
                     if (!newPassword.equals(repeatNewPassword)) {
                         attempts--;
                         Logger.printErrorMessage("The new passwords you have entered do not match \n");
-                        Logger.printInfoMessage("Remaining attempts: " + attempts + "\n");
+                        Logger.printErrorMessage("Remaining attempts: " + attempts + "\n");
                     } else {
                         encodedNewPassword = Base64.getEncoder().encodeToString(newPassword.getBytes());
                         accountCredentials = new File(path, fileName);
@@ -218,7 +217,7 @@ public class AccountManagementUtil {
                         } catch (IOException e) {
                             Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
                         }
-                        Logger.printSuccessMessage("Password is changed successfully! \n");
+                        Logger.printSuccessMessage("Password is changed successfully!");
                         break;
                     }
                 }

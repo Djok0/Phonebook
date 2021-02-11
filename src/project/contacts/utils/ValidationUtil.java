@@ -50,7 +50,7 @@ public class ValidationUtil {
     public static String validateStringFromUserInput(String str, String pattern) {
         Logger.printInfoMessage("Enter valid " + str + ": ");
         while (!scanner.hasNext(pattern)) {
-            Logger.printInfoMessage("You have entered an invalid " + str + "! Please try again: ");
+            Logger.printErrorMessage("You have entered an invalid " + str + "! Please try again: ");
             scanner.nextLine();
         }
         return scanner.nextLine().trim();
@@ -71,9 +71,9 @@ public class ValidationUtil {
     public static boolean validateUsername(String username) {
         Pattern userNamePattern = Pattern.compile(USERNAME_VALIDATION);
         if (!username.matches(String.valueOf(userNamePattern))) {
-            Logger.printErrorMessage("Your username doesn't meet the requirements. + \n");
-            Logger.printErrorMessage("Your username must be between 3 and 20 symbols and can only contain" +
-                    "allowed symbols - lower / upper chars and numbers + \n");
+            Logger.printErrorMessage("Your username doesn't meet the requirements. \n");
+            Logger.printErrorMessage("Your username must be between 3 and 20 symbols and can only contain " +
+                    "allowed symbols - lower chars, upper chars and numbers! \n");
             return false;
         } else {
             return true;

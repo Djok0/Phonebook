@@ -1,6 +1,5 @@
 package project.contacts.contact;
 
-import com.sun.deploy.net.proxy.WFirefoxProxyConfig;
 import project.contacts.utils.Logger;
 import project.contacts.utils.ProgramManagementUtil;
 import project.contacts.utils.ValidationUtil;
@@ -51,12 +50,12 @@ public class Phonebook {
         String lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
         String personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PERSONAL_PHONE_NUMBER_PATTERN);
 
-        Logger.printInfoMessage("Do you want to enter Contact's Work Phone Number? [Y/N] ");
+        Logger.printInfoMessage("Do you want to enter Contact's Work Phone Number? [Y/N]: ");
         workPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (workPhoneNumberChoice.equals("Y")) {
             workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", WORK_PHONE_NUMBER_PATTERN);
         }
-        Logger.printInfoMessage("Do you want to enter Contact's Address? [Y/N] ");
+        Logger.printInfoMessage("Do you want to enter Contact's Address? [Y/N]: ");
         addressChoice = scanner.nextLine().toUpperCase();
         if (addressChoice.equals("Y")) {
             country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);
@@ -64,7 +63,7 @@ public class Phonebook {
             streetName = ValidationUtil.validateStringFromUserInput("Street Name", STREET_NAME_PATTERN);
             streetNumber = ValidationUtil.validateStringFromUserInput("Street Number", STREET_NUMBER_PATTERN);
         }
-        Logger.printInfoMessage("Do you want to enter Contact's Birthday? [Y/N] ");
+        Logger.printInfoMessage("Do you want to enter Contact's Birthday? [Y/N]: ");
         birthdayChoice = scanner.nextLine().toUpperCase();
         if (birthdayChoice.equals("Y")) {
             birthday = Birthday.createBirthday();
@@ -99,13 +98,13 @@ public class Phonebook {
                     bufferedWriter.newLine();
                     bufferedWriter.close();
                 } catch (IOException e) {
-                    Logger.printErrorMessage("Error reading from / writing to file has occurred");
+                    Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
                 }
             } else {
-                Logger.printInfoMessage("File already exists.");
+                Logger.printInfoMessage("File already exists. \n");
             }
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
     }
 
@@ -157,7 +156,7 @@ public class Phonebook {
             sortContactsInFile(contacts);
             printContactsWithoutNulls(contacts);
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
 
     }
@@ -188,13 +187,13 @@ public class Phonebook {
                         row++;
                     }
                 } catch (IOException e) {
-                    Logger.printErrorMessage("Error reading from / writing to file has occurred");
+                    Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
                 }
             } else {
-                Logger.printInfoMessage("File already exists.");
+                Logger.printInfoMessage("File already exists. \n");
             }
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
     }
 
@@ -243,7 +242,7 @@ public class Phonebook {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
         return counter;
     }
@@ -305,13 +304,13 @@ public class Phonebook {
                 }
             }
             if (!found) {
-                Logger.printErrorMessage("There is no record with name " + searchFirstName + " in the phonebook!");
+                Logger.printErrorMessage("There is no record with name " + searchFirstName + " in the phonebook! \n");
             } else {
                 Logger.printSuccessMessage("Contact/s with First Name " + searchFirstName + " exists. Here are the details:");
                 printContactsWithoutNulls(contacts);
             }
         } catch (FileNotFoundException e) {
-            Logger.printErrorMessage("File was not found!");
+            Logger.printErrorMessage("File was not found! \n");
         }
     }
 
@@ -372,13 +371,13 @@ public class Phonebook {
                 }
             }
             if (!found) {
-                Logger.printErrorMessage("There is no record with number " + searchPhoneNumber + " in the phonebook!");
+                Logger.printErrorMessage("There is no record with number " + searchPhoneNumber + " in the phonebook! \n");
             } else {
                 Logger.printSuccessMessage("Contact/s with phone number " + searchPhoneNumber + " exists. Here are the details:");
                 printContactsWithoutNulls(contacts);
             }
         } catch (FileNotFoundException e) {
-            Logger.printErrorMessage("File was not found!");
+            Logger.printErrorMessage("File was not found! \n");
         }
     }
 
@@ -397,7 +396,7 @@ public class Phonebook {
         printAllContactsFromFile();
 
         Logger.printInfoMessage("Please select which row you want to edit or press 0 to return to the Main Menu: ");
-        while (!scanner.hasNext("[0]|[1-9]{1}\\d{1,5}")) {
+        while (!scanner.hasNext("[0-9]{1,6}")) {
             Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
             scanner.nextLine();
         }
@@ -409,7 +408,7 @@ public class Phonebook {
             return;
         }
         if (rowsFromFile < row) {
-            Logger.printInfoMessage("You have selected a non existing record!\n");
+            Logger.printErrorMessage("You have selected a non existing record!\n");
         } else {
             try {
                 Scanner scanner = new Scanner(new File(pathFileName));
@@ -425,7 +424,7 @@ public class Phonebook {
                     }
                 }
             } catch (IOException e) {
-                Logger.printErrorMessage("Error reading from / writing to file has occurred");
+                Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
             }
         }
     }
@@ -440,7 +439,7 @@ public class Phonebook {
             content = content.replace(oldString, newString);
             Files.write(path, content.getBytes(charset));
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
     }
 
@@ -545,8 +544,7 @@ public class Phonebook {
                 }
             }
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
     }
 }
-

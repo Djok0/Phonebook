@@ -23,19 +23,19 @@ public class Birthday {
         int day = 0, month = 0, year = 0;
         while (!validDate) {
             try {
-                Logger.printInfoMessage("Enter Contact's Day of Birth:");
+                Logger.printInfoMessage("Enter Contact's Day of Birth: ");
                 day = Integer.parseInt(scanner.nextLine());
-                Logger.printInfoMessage("Enter Contact's Month of Birth:");
+                Logger.printInfoMessage("Enter Contact's Month of Birth: ");
                 month = Integer.parseInt(scanner.nextLine());
-                Logger.printInfoMessage("Enter Contact's Year of Birth:");
+                Logger.printInfoMessage("Enter Contact's Year of Birth: ");
                 year = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                Logger.printErrorMessage("You have entered an invalid birthday! Please try again: ");
+                Logger.printErrorMessage("You have entered an invalid birthday! Please try again: \n");
                 continue;
             }
             validDate = isValidDate(month, day, year);
             if (!validDate) {
-                Logger.printErrorMessage("You have entered an invalid birthday! Please try again: ");
+                Logger.printErrorMessage("You have entered an invalid birthday! Please try again: \n");
             }
         }
         return new Birthday(day, month, year);
