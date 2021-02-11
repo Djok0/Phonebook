@@ -19,7 +19,8 @@ public class Phonebook {
 
     public static final String FIRST_NAME_PATTERN = "[a-zA-Z]{1,}";
     public static final String LAST_NAME_PATTERN = "[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*";
-    public static final String PHONE_NUMBER_PATTERN = "[0][8]{1}[7,8,9]{1}\\d{7}";
+    public static final String PERSONAL_PHONE_NUMBER_PATTERN = "(([+]?359)|0)?[8]{1}[7,8,9]{1}\\d{7}";
+    public static final String WORK_PHONE_NUMBER_PATTERN = "((([+]?359)|0)?[8]{1}[7,8,9]{1}\\d{7}|((([+]?(3592))|(02))?[1-9]{1}\\d{6}))";
     public static final String COUNTRY_NAME_PATTERN = "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*";
     public static final String CITY_NAME_PATTERN = "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*";
     public static final String STREET_NAME_PATTERN = "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
@@ -48,12 +49,12 @@ public class Phonebook {
 
         String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
         String lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
-        String personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
+        String personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PERSONAL_PHONE_NUMBER_PATTERN);
 
         Logger.printInfoMessage("Do you want to enter Contact's Work Phone Number? [Y/N] ");
         workPhoneNumberChoice = scanner.nextLine().toUpperCase();
         if (workPhoneNumberChoice.equals("Y")) {
-            workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
+            workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", WORK_PHONE_NUMBER_PATTERN);
         }
         Logger.printInfoMessage("Do you want to enter Contact's Address? [Y/N] ");
         addressChoice = scanner.nextLine().toUpperCase();
@@ -315,7 +316,7 @@ public class Phonebook {
     }
 
     public static void searchRecordByPhoneNumber() {
-        String searchPhoneNumber = ValidationUtil.validateStringFromUserInput("Phone Number", PHONE_NUMBER_PATTERN);
+        String searchPhoneNumber = ValidationUtil.validateStringFromUserInput("Phone Number", PERSONAL_PHONE_NUMBER_PATTERN);
         String fileName = "phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         boolean found = false;
@@ -518,10 +519,10 @@ public class Phonebook {
                         lastName = ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN);
                     }
                     if (choice == 3) {
-                        personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PHONE_NUMBER_PATTERN);
+                        personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PERSONAL_PHONE_NUMBER_PATTERN);
                     }
                     if (choice == 4) {
-                        workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", PHONE_NUMBER_PATTERN);
+                        workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", WORK_PHONE_NUMBER_PATTERN);
                     }
                     if (choice == 5) {
                         country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);

@@ -3,7 +3,6 @@ package project.contacts.utils;
 import project.contacts.account.Account;
 import project.contacts.contact.Phonebook;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
