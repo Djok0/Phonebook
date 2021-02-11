@@ -35,6 +35,8 @@ public class AccountManagementUtil {
         boolean userExists;
         boolean checkCredentials;
 
+        Logger.printInfoMessage("Phonebook started, please enter credentials to log in! \n");
+
         while (attempts != 0) {
             Logger.printInfoMessage("Enter username: ");
             name = scanner.nextLine();
