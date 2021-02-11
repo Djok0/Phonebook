@@ -25,6 +25,7 @@ public class Phonebook {
     public static final String STREET_NAME_PATTERN = "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
     public static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
     public static final String PATH_TO_THE_FILE_WITH_ALL_CONTACTS = "src/resources/project/contacts/contact";
+    public static final String CHOOSE_RECORD_ROW_NUMBER = "[0]|[1-9]{1}(\\d{1,5})*";
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void addContact() {
@@ -396,7 +397,7 @@ public class Phonebook {
         printAllContactsFromFile();
 
         Logger.printInfoMessage("Please select which row you want to edit or press 0 to return to the Main Menu: ");
-        while (!scanner.hasNext("[0]|[1-9]{1}(\\d{1,5})*")) {
+        while (!scanner.hasNext(CHOOSE_RECORD_ROW_NUMBER)) {
             Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
             scanner.nextLine();
         }
