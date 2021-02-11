@@ -52,7 +52,7 @@ public class AccountManagementUtil {
                     ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
                 }
                 Logger.printErrorMessage("You have entered an invalid username or password! " +
-                        "Remaining attempts: " + attempts);
+                        "Remaining attempts: " + attempts + "\n");
             } else {
                 encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
                 checkCredentials = verifyLoginCredentials(name, encodedPassword, pathFileName);
@@ -60,6 +60,8 @@ public class AccountManagementUtil {
                     attempts = MAX_RETRY_ATTEMPTS;
                     Logger.printSuccessMessage("You have successfully logged in with user " + name);
                     account = new Account(name, password);
+                    System.out.println(" ----------------------------------------------- ");
+                    System.out.println("   Welcome, " + account.getName());
                     ProgramManagementUtil.startProgram(account);
                 } else {
                     attempts--;
@@ -67,7 +69,7 @@ public class AccountManagementUtil {
                         ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
                     }
                     Logger.printErrorMessage("You have entered an invalid username or password! " +
-                            "Remaining attempts: " + attempts);
+                            "Remaining attempts: " + attempts + "\n");
                 }
             }
         }
@@ -91,7 +93,7 @@ public class AccountManagementUtil {
                 tempPassword = values[1];
             }
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
         if (tempUserName.trim().equals(username.trim()) && tempPassword.trim().equals(password.trim())) {
             credentials = true;
@@ -127,7 +129,7 @@ public class AccountManagementUtil {
             userExists = userExists(pathFileName);
 
             if (userExists || name.contains(",")) {
-                Logger.printErrorMessage("That username is already taken or invalid. Please choose another one!");
+                Logger.printErrorMessage("That username is already taken or invalid. Please choose another one! \n");
             } else {
                 if (!ValidationUtil.validateUsername(name) || !ValidationUtil.validatePassword(password)) {
                     attempts--;
@@ -156,10 +158,10 @@ public class AccountManagementUtil {
                 storeCredentials.write(newAccount.getPassword());
                 storeCredentials.close();
             } else {
-                Logger.printInfoMessage("File already exists.");
+                Logger.printInfoMessage("File already exists. \n");
             }
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
     }
 
@@ -194,16 +196,16 @@ public class AccountManagementUtil {
 
             if (!oldPasswordMatches) {
                 attempts--;
-                Logger.printErrorMessage("You have entered incorrect password. Remaining attempts: " + attempts);
+                Logger.printErrorMessage("You have entered incorrect password. Remaining attempts: " + attempts + "\n");
             } else {
                 if (!ValidationUtil.validatePassword(newPassword)) {
                     attempts--;
-                    Logger.printInfoMessage("Remaining attempts: " + attempts);
+                    Logger.printInfoMessage("Remaining attempts: " + attempts + "\n");
                 } else {
                     if (!newPassword.equals(repeatNewPassword)) {
                         attempts--;
-                        Logger.printErrorMessage("The new passwords you have entered do not match");
-                        Logger.printInfoMessage("Remaining attempts: " + attempts);
+                        Logger.printErrorMessage("The new passwords you have entered do not match \n");
+                        Logger.printInfoMessage("Remaining attempts: " + attempts + "\n");
                     } else {
                         encodedNewPassword = Base64.getEncoder().encodeToString(newPassword.getBytes());
                         accountCredentials = new File(path, fileName);
@@ -214,9 +216,9 @@ public class AccountManagementUtil {
                             storeCredentials.write(encodedNewPassword);
                             storeCredentials.close();
                         } catch (IOException e) {
-                            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+                            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
                         }
-                        Logger.printSuccessMessage("Password is changed successfully!");
+                        Logger.printSuccessMessage("Password is changed successfully! \n");
                         break;
                     }
                 }
@@ -240,7 +242,7 @@ public class AccountManagementUtil {
                 tempPassword = values[PASSWORD_PLACE_FROM_FILE];
             }
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred");
+            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
         if (tempPassword.trim().equals(oldPassword.trim())) {
             oldPasswordMatches = true;

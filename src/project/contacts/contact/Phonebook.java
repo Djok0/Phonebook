@@ -409,7 +409,7 @@ public class Phonebook {
             return;
         }
         if (rowsFromFile < row) {
-            Logger.printInfoMessage("You have selected a non existing record");
+            Logger.printInfoMessage("You have selected a non existing record \n");
         } else {
             try {
                 Scanner scanner = new Scanner(new File(pathFileName));
@@ -419,7 +419,8 @@ public class Phonebook {
                         firstName = extractPropertyValueFromFile(line, "firstName");
                         lastName = extractPropertyValueFromFile(line, "lastName");
 
-                        ProgramManagementUtil.openEditMenu(firstName, lastName, row);
+                        Logger.printInfoMessage("You are now editing contact: " + firstName + " " + lastName + "\n");
+                        ProgramManagementUtil.openEditMenu(row);
                         found = true;
                     }
                 }

@@ -48,7 +48,7 @@ public class ValidationUtil {
     }
 
     public static String validateStringFromUserInput(String str, String pattern) {
-        Logger.printInfoMessage("Enter valid " + str + ":");
+        Logger.printInfoMessage("Enter valid " + str + ": ");
         while (!scanner.hasNext(pattern)) {
             Logger.printInfoMessage("You have entered an invalid " + str + "! Please try again: ");
             scanner.nextLine();
@@ -59,9 +59,9 @@ public class ValidationUtil {
     public static boolean validatePassword(String password) {
         Pattern passwordPattern = Pattern.compile(PASSWORD_VALIDATION);
         if (!password.matches(String.valueOf(passwordPattern))) {
-            Logger.printErrorMessage("Your password's strength doesn't meet the requirements.");
-            Logger.printErrorMessage("Your password must be at least 8 symbols and must contains" +
-                    "at least one lower case char, one upper case char, one number and one special character!");
+            Logger.printErrorMessage("Your password's strength doesn't meet the requirements. \n");
+            Logger.printErrorMessage("Your password must be at least 8 symbols and must contains " +
+                    "at least one lower case char, one upper case char, one number and one special character! \n");
             return false;
         } else {
             return true;
@@ -71,9 +71,9 @@ public class ValidationUtil {
     public static boolean validateUsername(String username) {
         Pattern userNamePattern = Pattern.compile(USERNAME_VALIDATION);
         if (!username.matches(String.valueOf(userNamePattern))) {
-            Logger.printErrorMessage("Your username doesn't meet the requirements.");
+            Logger.printErrorMessage("Your username doesn't meet the requirements. + \n");
             Logger.printErrorMessage("Your username must be between 3 and 20 symbols and can only contain" +
-                    "allowed symbols - lower / upper chars and numbers");
+                    "allowed symbols - lower / upper chars and numbers + \n");
             return false;
         } else {
             return true;

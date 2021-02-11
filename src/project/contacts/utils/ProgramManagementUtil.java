@@ -18,8 +18,8 @@ public class ProgramManagementUtil {
         int choice;
         do {
             try {
-                ProgramManagementUtil.printMainMenu(account);
-                Logger.printInfoMessage("Please enter your choice or exit exit with 0: ");
+                ProgramManagementUtil.printMainMenu();
+                Logger.printInfoMessage("Please enter your choice: ");
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
                 scanner.next();
@@ -58,14 +58,12 @@ public class ProgramManagementUtil {
                     break;
                 default:
                     Logger.printErrorMessage("You have entered an invalid option! " +
-                            "Please choose from the options listed in the menu");
+                            "Please choose from the options listed in the menu \n");
             }
         } while (choice != 0);
     }
 
-    public static void printMainMenu(Account account) {
-        System.out.println(" ----------------------------------------------- ");
-        System.out.println("   Welcome, " + account.getName());
+    public static void printMainMenu() {
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  Menu:                                        |");
         System.out.println(" ----------------------------------------------- ");
@@ -83,11 +81,12 @@ public class ProgramManagementUtil {
         System.out.println(" ----------------------------------------------- ");
     }
 
-    public static void openEditMenu(String firstName, String lastName, int row) {
+    public static void openEditMenu(int row) {
         int choice;
         do {
             try {
-                ProgramManagementUtil.printEditMenu(firstName, lastName);
+                ProgramManagementUtil.printEditMenu();
+                Logger.printInfoMessage("Please enter your choice: ");
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
                 scanner.next();
@@ -104,7 +103,6 @@ public class ProgramManagementUtil {
                     break;
                 case 9:
                     return;
-//                    ProgramManagementUtil.startProgram();
                 case 0:
                     Logger.printInfoMessage("See you soon! \n");
                     Logger.printInfoMessage("Phonebook application by Radi and Georgi \n");
@@ -113,14 +111,14 @@ public class ProgramManagementUtil {
                     break;
                 default:
                     Logger.printErrorMessage("You have entered an invalid option! " +
-                            "Please choose from the options listed in the menu");
+                            "Please choose from the options listed in the menu \n");
             }
         } while (choice != 0);
     }
 
-    public static void printEditMenu(String firstName, String lastName) {
+    public static void printEditMenu() {
         System.out.println(" ----------------------------------------------- ");
-        System.out.println("   Edit Menu for contact: " + firstName + " " + lastName);
+        System.out.println("|  Edit Menu:                                   |");
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  1. Edit Contact's First Name                 |");
         System.out.println("|  2. Edit Contact's Last Name                  |");
