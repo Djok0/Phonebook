@@ -8,6 +8,15 @@ public class Demo {
     }
 }
 
+// Tasks to be done after feedback v2:
+// 1. doesn`t wait after the wrong number message so i can`t read it - add \n at the end of the message
+// 1. enter row: java.land.NumberFormatException: For input string: "44444444444444444" - to make it to get only 6 digits
+// 2. The edit is not recorded when I go back to the main menu. - Either to print once the user edited or to update in the menu
+// 3. One Account = One Phonebook
+// 4. Add validation of y/N answer
+// 5. Add option to delete contact - priority low - because out of requirements
+// 6. console to be cleared every time
+
 //Feedback v2:
 // Main menu:
 // - console could be cleared every time
