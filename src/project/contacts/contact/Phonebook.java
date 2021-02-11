@@ -26,7 +26,7 @@ public class Phonebook {
     public static final String STREET_NAME_PATTERN = "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
     public static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
     public static final String PATH_TO_THE_FILE_WITH_ALL_CONTACTS = "src/resources/project/contacts/contact";
-    public static final String CHOOSE_RECORD_ROW_NUMBER = "[0]|[1-9]{1}(\\d{1,5})*";
+    public static final String CHOOSE_RECORD_ROW_NUMBER = "[0-9]{1,6}";
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void addContact(Account account) {
@@ -398,49 +398,52 @@ public class Phonebook {
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
 
         File f = new File(pathFileName);
-        if(!f.exists()) {
+        if (!f.exists()) {
             Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
             return;
         }
 
         int rowsFromFile = countRowsFromFile(account, pathFileName);
-        int row;
+        int row = -1;
         String record;
         boolean found = false;
+        boolean correctInput = false;
 
         printAllContactsFromFile(account);
 
         Logger.printInfoMessage("Please select which row you want to edit or press 0 to return to the Main Menu: ");
-        while (!scanner.hasNext(CHOOSE_RECORD_ROW_NUMBER)) {
-            Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
-            scanner.nextLine();
-        }
-
-        row = Integer.parseInt(scanner.nextLine());
-        record = row + ".";
-
-        if (row == 0) {
-            return;
-        }
-        if (rowsFromFile < row) {
-            Logger.printErrorMessage("You have selected a non existing record!\n");
-        } else {
-            try {
-                Scanner scanner = new Scanner(new File(pathFileName));
-                while (!found && scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (line.contains(record)) {
-                        firstName = extractPropertyValueFromFile(line, "firstName");
-                        lastName = extractPropertyValueFromFile(line, "lastName");
-
-                        Logger.printInfoMessage("You are now editing contact: " + firstName + " " + lastName + "\n");
-                        ProgramManagementUtil.openEditMenu(account, row);
-                        found = true;
-                    }
-                }
-            } catch (IOException e) {
-                Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
+        while (!correctInput) {
+            while (!scanner.hasNext(CHOOSE_RECORD_ROW_NUMBER)) {
+                Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
+                scanner.nextLine();
             }
+            row = Integer.parseInt(scanner.nextLine());
+            if (row == 0) {
+                return;
+            }
+            if (row <= rowsFromFile) {
+                correctInput = true;
+            } else {
+                Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
+            }
+        }
+
+        record = row + ".";
+        try {
+            Scanner scanner = new Scanner(new File(pathFileName));
+            while (!found && scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.contains(record)) {
+                    firstName = extractPropertyValueFromFile(line, "firstName");
+                    lastName = extractPropertyValueFromFile(line, "lastName");
+
+                    Logger.printInfoMessage("You are now editing contact: " + firstName + " " + lastName + "\n");
+                    ProgramManagementUtil.openEditMenu(account, row);
+                    found = true;
+                }
+            }
+        } catch (IOException e) {
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
     }
 
