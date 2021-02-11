@@ -27,19 +27,19 @@ public class ProgramManagementUtil {
             }
             switch (choice) {
                 case 1:
-                    Phonebook.addContact();
+                    Phonebook.addContact(account);
                     break;
                 case 2:
-                    Phonebook.editRecord();
+                    Phonebook.editRecord(account);
                     break;
                 case 3:
-                    Phonebook.printAllContactsFromFile();
+                    Phonebook.printAllContactsFromFile(account);
                     break;
                 case 4:
-                    Phonebook.searchRecordByName();
+                    Phonebook.searchRecordByName(account);
                     break;
                 case 5:
-                    Phonebook.searchRecordByPhoneNumber();
+                    Phonebook.searchRecordByPhoneNumber(account);
                     break;
                 case 6:
                     AccountManagementUtil.createAccount();
@@ -81,7 +81,7 @@ public class ProgramManagementUtil {
         System.out.println(" ----------------------------------------------- ");
     }
 
-    public static void openEditMenu(int row) {
+    public static void openEditMenu(Account account, int row) {
         int choice;
         do {
             try {
@@ -99,7 +99,7 @@ public class ProgramManagementUtil {
                 case 4:
                 case 5:
                 case 6:
-                    Phonebook.editPropertyInContact(choice, row);
+                    Phonebook.editPropertyInContact(account, choice, row);
                     break;
                 case 9:
                     return;

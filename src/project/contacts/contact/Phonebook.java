@@ -1,5 +1,6 @@
 package project.contacts.contact;
 
+import project.contacts.account.Account;
 import project.contacts.utils.Logger;
 import project.contacts.utils.ProgramManagementUtil;
 import project.contacts.utils.ValidationUtil;
@@ -28,7 +29,7 @@ public class Phonebook {
     public static final String CHOOSE_RECORD_ROW_NUMBER = "[0]|[1-9]{1}(\\d{1,5})*";
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void addContact() {
+    public static void addContact(Account account) {
 
         String workPhoneNumber = null;
 
@@ -74,13 +75,13 @@ public class Phonebook {
         Contact contact = new Contact(ValidationUtil.capitalize(firstName), ValidationUtil.capitalize(lastName), personalPhoneNumber, workPhoneNumber, address, birthday);
 //        contacts.add(contact);
 
-        addContactToFile(contact);
+        addContactToFile(account, contact);
         Logger.printSuccessMessage("Contact added successfully!");
     }
 
-    public static void addContactToFile(Contact contact) {
+    public static void addContactToFile(Account account, Contact contact) {
         String path = PATH_TO_THE_FILE_WITH_ALL_CONTACTS;
-        String fileName = "phonebook.txt";
+        String fileName = account.getName() + "_phonebook.txt";
         String pathFileName = path + "/" + fileName;
         File file;
         FileWriter fileWriter;
@@ -91,7 +92,7 @@ public class Phonebook {
             file = new File(path, fileName);
             if (!file.createNewFile()) {
                 try {
-                    rowsFromFile = countRowsFromFile(pathFileName);
+                    rowsFromFile = countRowsFromFile(account, pathFileName);
                     fileWriter = new FileWriter(pathFileName, true);
                     bufferedWriter = new BufferedWriter(fileWriter);
                     bufferedWriter.write(rowsFromFile + 1 + ". ");
@@ -102,14 +103,20 @@ public class Phonebook {
                     Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
                 }
             } else {
-                Logger.printInfoMessage("File already exists. \n");
+                rowsFromFile = countRowsFromFile(account, pathFileName);
+                fileWriter = new FileWriter(pathFileName);
+                bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(rowsFromFile + 1 + ". ");
+                bufferedWriter.write(contact.toString());
+                bufferedWriter.newLine();
+                bufferedWriter.close();
             }
         } catch (IOException e) {
             Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
         }
     }
 
-    public static void printAllContactsFromFile() {
+    public static void printAllContactsFromFile(Account account) {
         String firstName;
         String lastName;
 
@@ -131,7 +138,7 @@ public class Phonebook {
 
         List<Contact> contacts = new ArrayList<>();
 
-        String fileName = "phonebook.txt";
+        String fileName = account.getName() + "_phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
 
         try (BufferedReader br = new BufferedReader(new FileReader(pathFileName))) {
@@ -154,19 +161,19 @@ public class Phonebook {
                 contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
                 contacts.add(contact);
             }
-            sortContactsInFile(contacts);
+            sortContactsInFile(account, contacts);
             printContactsWithoutNulls(contacts);
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
 
     }
 
-    private static void sortContactsInFile(List<Contact> contacts) {
+    private static void sortContactsInFile(Account account, List<Contact> contacts) {
         Collections.sort(contacts);
 
         String path = PATH_TO_THE_FILE_WITH_ALL_CONTACTS;
-        String fileName = "phonebook.txt";
+        String fileName = account.getName() + "_phonebook.txt";
         String pathFileName = path + "/" + fileName;
         File file;
         FileWriter fileWriter;
@@ -225,7 +232,7 @@ public class Phonebook {
         }
     }
 
-    public static int countRowsFromFile(String file) {
+    public static int countRowsFromFile(Account account, String file) {
         int counter = 0;
         BufferedReader bufferedReader;
         ArrayList<String> contacts;
@@ -243,14 +250,14 @@ public class Phonebook {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
         return counter;
     }
 
-    public static void searchRecordByName() {
+    public static void searchRecordByName(Account account) {
         String searchFirstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
-        String fileName = "phonebook.txt";
+        String fileName = account.getName() + "_phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         boolean found = false;
         Scanner scanner;
@@ -311,13 +318,13 @@ public class Phonebook {
                 printContactsWithoutNulls(contacts);
             }
         } catch (FileNotFoundException e) {
-            Logger.printErrorMessage("File was not found! \n");
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
     }
 
-    public static void searchRecordByPhoneNumber() {
+    public static void searchRecordByPhoneNumber(Account account) {
         String searchPhoneNumber = ValidationUtil.validateStringFromUserInput("Phone Number", PERSONAL_PHONE_NUMBER_PATTERN);
-        String fileName = "phonebook.txt";
+        String fileName = account.getName() + "_phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         boolean found = false;
         Scanner scanner;
@@ -378,23 +385,30 @@ public class Phonebook {
                 printContactsWithoutNulls(contacts);
             }
         } catch (FileNotFoundException e) {
-            Logger.printErrorMessage("File was not found! \n");
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
     }
 
-    public static void editRecord() {
+    public static void editRecord(Account account) {
 
         String firstName;
         String lastName;
 
-        String fileName = "phonebook.txt";
+        String fileName = account.getName() + "_phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
-        int rowsFromFile = countRowsFromFile(pathFileName);
+
+        File f = new File(pathFileName);
+        if(!f.exists()) {
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
+            return;
+        }
+
+        int rowsFromFile = countRowsFromFile(account, pathFileName);
         int row;
         String record;
         boolean found = false;
 
-        printAllContactsFromFile();
+        printAllContactsFromFile(account);
 
         Logger.printInfoMessage("Please select which row you want to edit or press 0 to return to the Main Menu: ");
         while (!scanner.hasNext(CHOOSE_RECORD_ROW_NUMBER)) {
@@ -420,17 +434,17 @@ public class Phonebook {
                         lastName = extractPropertyValueFromFile(line, "lastName");
 
                         Logger.printInfoMessage("You are now editing contact: " + firstName + " " + lastName + "\n");
-                        ProgramManagementUtil.openEditMenu(row);
+                        ProgramManagementUtil.openEditMenu(account, row);
                         found = true;
                     }
                 }
             } catch (IOException e) {
-                Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
+                Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
             }
         }
     }
 
-    static void modifyContactInFile(String filePath, String oldString, String newString) {
+    static void modifyContactInFile(Account account, String filePath, String oldString, String newString) {
         Path path = Paths.get(filePath);
         Charset charset = StandardCharsets.UTF_8;
         String content;
@@ -440,7 +454,7 @@ public class Phonebook {
             content = content.replace(oldString, newString);
             Files.write(path, content.getBytes(charset));
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
     }
 
@@ -458,7 +472,7 @@ public class Phonebook {
         return value;
     }
 
-    public static void editPropertyInContact(int choice, int row) {
+    public static void editPropertyInContact(Account account, int choice, int row) {
         String firstName;
         String lastName;
 
@@ -481,7 +495,7 @@ public class Phonebook {
         Contact oldContact;
         Contact newContact;
 
-        String fileName = "phonebook.txt";
+        String fileName = account.getName() + "_phonebook.txt";
         String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
         String record;
         String oldString;
@@ -539,13 +553,13 @@ public class Phonebook {
                     newContact = new Contact(ValidationUtil.capitalize(firstName), ValidationUtil.capitalize(lastName), personalPhoneNumber, workPhoneNumber, newAddress, newBirthday);
                     newString = record + " " + newContact.toString();
 
-                    modifyContactInFile(pathFileName, oldString, newString);
+                    modifyContactInFile(account, pathFileName, oldString, newString);
                     Logger.printSuccessMessage("Changes are successfully applied!");
                     found = true;
                 }
             }
         } catch (IOException e) {
-            Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
     }
 }
