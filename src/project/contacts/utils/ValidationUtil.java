@@ -48,9 +48,9 @@ public class ValidationUtil {
     }
 
     public static String validateStringFromUserInput(String str, String pattern) {
-        System.out.println("Enter valid " + str + ":");
+        Logger.printInfoMessage("Enter valid " + str + ":");
         while (!scanner.hasNext(pattern)) {
-            System.out.println("You have entered an invalid " + str + "! Please try again: ");
+            Logger.printInfoMessage("You have entered an invalid " + str + "! Please try again: ");
             scanner.nextLine();
         }
         return scanner.nextLine().trim();
