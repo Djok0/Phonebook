@@ -396,7 +396,7 @@ public class Phonebook {
         printAllContactsFromFile();
 
         Logger.printInfoMessage("Please select which row you want to edit or press 0 to return to the Main Menu: ");
-        while (!scanner.hasNext("[0-9]{1,6}")) {
+        while (!scanner.hasNext("[0]|[1-9]{1}(\\d{1,5})*")) {
             Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
             scanner.nextLine();
         }
