@@ -8,6 +8,27 @@ public class Demo {
     }
 }
 
+//Feedback v2:
+// Main menu:
+// - console could be cleared every time
+// - there could be a message which invited you to enter your choice - DONE
+// Add record:
+// - When entering choice or data it goes on the next row - use print instead of println - DONE
+// - PHONE_NUMBER_PATTERN should allow +359 as well
+// - no validation of y/N answer
+// Edit record:
+// - doesn`t wait after the wrong number message so i can`t read it
+// - enter row: java.land.NumberFormatException: For input string: "44444444444444444"
+// - work number should be 02460556 - and this is real number but is not accepted
+// - You have entered an invalid birthday! Please try again: which is wrong? how to know it?
+// - The edit is not recorded when I go back to the main menu.
+// New account:
+// - why I see the records which are part of another user phonebook?
+// Delete contact:
+// - Add this option
+// Don`t see inheritance, abstraction and polymorphism
+
+
 // To Do list: After the first consultation with Radi and Kalata
 // 1. personal number = mandatory field - DONE
 // 2. no nulls to show to the end user - DONE

@@ -3,6 +3,7 @@ package project.contacts.utils;
 import project.contacts.account.Account;
 import project.contacts.contact.Phonebook;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -19,6 +20,7 @@ public class ProgramManagementUtil {
         do {
             try {
                 ProgramManagementUtil.printMainMenu(account);
+                Logger.printInfoMessage("Please enter your choice or exit exit with 0: ");
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
                 scanner.next();
@@ -50,8 +52,8 @@ public class ProgramManagementUtil {
                     AccountManagementUtil.logOut();
                     break;
                 case 0:
-                    Logger.printInfoMessage("See you soon!");
-                    Logger.printInfoMessage("Phonebook application by Radi and Georgi");
+                    Logger.printInfoMessage("See you soon! \n");
+                    Logger.printInfoMessage("Phonebook application by Radi and Georgi \n");
                     Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
                     System.exit(0);
                     break;
@@ -105,8 +107,8 @@ public class ProgramManagementUtil {
                     return;
 //                    ProgramManagementUtil.startProgram();
                 case 0:
-                    Logger.printInfoMessage("See you soon!");
-                    Logger.printInfoMessage("Phonebook application by Radi and Georgi");
+                    Logger.printInfoMessage("See you soon! \n");
+                    Logger.printInfoMessage("Phonebook application by Radi and Georgi \n");
                     Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
                     System.exit(0);
                     break;

@@ -23,7 +23,7 @@ public class AccountManagementUtil {
     public static final int MAX_RETRY_ATTEMPTS = 5;
     public static Scanner scanner = new Scanner(System.in);
 
-    public static void logIn() {
+    public static void logIn()  {
         int attempts = MAX_RETRY_ATTEMPTS;
         String name;
         String password;
@@ -179,9 +179,9 @@ public class AccountManagementUtil {
         while (attempts != 0) {
             System.out.println("Enter your old password: ");
             oldPassword = scanner.nextLine();
-            Logger.printInfoMessage("Enter your new password");
+            Logger.printInfoMessage("Enter your new password: ");
             newPassword = scanner.nextLine();
-            Logger.printInfoMessage("Repeat your new password");
+            Logger.printInfoMessage("Repeat your new password: ");
             repeatNewPassword = scanner.nextLine();
 
             path = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS;

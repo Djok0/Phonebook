@@ -1,5 +1,6 @@
 package project.contacts.utils;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -84,4 +85,13 @@ public class ValidationUtil {
         if(str == null) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+
+//    public static void clearScreen() {
+//        try{
+//            new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
+//        } catch (Exception e){
+//            System.out.println(e);
+//        }
+//    }
+
 }
