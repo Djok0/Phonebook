@@ -27,7 +27,7 @@ public class Phonebook {
     public static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
     public static final String PATH_TO_THE_FILE_WITH_ALL_CONTACTS = "src/resources/project/contacts/contact";
     public static final String CHOOSE_RECORD_ROW_NUMBER = "[0-9]{1,6}";
-    private static final Scanner scanner = new Scanner(System.in);
+//    private static final Scanner scanner = new Scanner(System.in);
 
     public static void addContact(Account account) {
 
@@ -53,21 +53,21 @@ public class Phonebook {
         String personalPhoneNumber = ValidationUtil.validateStringFromUserInput("Personal Phone Number", PERSONAL_PHONE_NUMBER_PATTERN);
 
         Logger.printInfoMessage("Do you want to enter Contact's Work Phone Number? [Y/N]: ");
-        workPhoneNumberChoice = scanner.nextLine().toUpperCase();
-        if (workPhoneNumberChoice.equals("Y")) {
+        workPhoneNumberChoice = ValidationUtil.validateYesNoFromUserInput().toUpperCase();
+        if (workPhoneNumberChoice.equals("Y") || workPhoneNumberChoice.equals("YES")) {
             workPhoneNumber = ValidationUtil.validateStringFromUserInput("Work Phone Number", WORK_PHONE_NUMBER_PATTERN);
         }
         Logger.printInfoMessage("Do you want to enter Contact's Address? [Y/N]: ");
-        addressChoice = scanner.nextLine().toUpperCase();
-        if (addressChoice.equals("Y")) {
+        addressChoice = ValidationUtil.validateYesNoFromUserInput().toUpperCase();
+        if (addressChoice.equals("Y") || addressChoice.equals("YES")) {
             country = ValidationUtil.validateStringFromUserInput("Country", COUNTRY_NAME_PATTERN);
             city = ValidationUtil.validateStringFromUserInput("City", CITY_NAME_PATTERN);
             streetName = ValidationUtil.validateStringFromUserInput("Street Name", STREET_NAME_PATTERN);
             streetNumber = ValidationUtil.validateStringFromUserInput("Street Number", STREET_NUMBER_PATTERN);
         }
         Logger.printInfoMessage("Do you want to enter Contact's Birthday? [Y/N]: ");
-        birthdayChoice = scanner.nextLine().toUpperCase();
-        if (birthdayChoice.equals("Y")) {
+        birthdayChoice = ValidationUtil.validateYesNoFromUserInput().toUpperCase();
+        if (birthdayChoice.equals("Y") || birthdayChoice.equals("YES")) {
             birthday = Birthday.createBirthday();
         }
 
@@ -390,7 +390,7 @@ public class Phonebook {
     }
 
     public static void editRecord(Account account) {
-
+        Scanner scanner = new Scanner(System.in);
         String firstName;
         String lastName;
 
@@ -430,7 +430,7 @@ public class Phonebook {
 
         record = row + ".";
         try {
-            Scanner scanner = new Scanner(new File(pathFileName));
+            scanner = new Scanner(new File(pathFileName));
             while (!found && scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if (line.contains(record)) {

@@ -1,4 +1,5 @@
 package project.contacts.utils;
+
 import project.contacts.account.Account;
 
 import java.io.BufferedReader;
@@ -20,9 +21,9 @@ public class AccountManagementUtil {
     }
 
     public static final int MAX_RETRY_ATTEMPTS = 5;
-    public static Scanner scanner = new Scanner(System.in);
 
-    public static void logIn()  {
+    public static void logIn() {
+        Scanner scanner = new Scanner(System.in);
         int attempts = MAX_RETRY_ATTEMPTS;
         String name;
         String password;
@@ -108,6 +109,7 @@ public class AccountManagementUtil {
     }
 
     public static void createAccount() {
+        Scanner scanner = new Scanner(System.in);
         int attempts = MAX_RETRY_ATTEMPTS;
         String name;
         String password;
@@ -167,6 +169,7 @@ public class AccountManagementUtil {
     }
 
     public static void changePassword(Account account) {
+        Scanner scanner = new Scanner(System.in);
         int attempts = MAX_RETRY_ATTEMPTS;
         String oldPassword;
         String encodedOldPassword;

@@ -1,16 +1,14 @@
 package project.contacts.utils;
 
-import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ValidationUtil {
 
-    private static final Scanner scanner = new Scanner(System.in);
     private static final int maxYear = 4000;
-
-    public static final String PASSWORD_VALIDATION = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}$";
+    private static final String PASSWORD_VALIDATION = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}$";
     private static final String USERNAME_VALIDATION = "^[a-zA-Z0-9]{3,20}$";
+    private static final String YES_NO_CHOICE_PATTERN = "(YES|YEs|YeS|Yes|yES|yEs|yeS|yes|Y|y|NO|No|nO|no|N|n)";
 
     public static boolean isLeapYear(int year) {
         return (((year % 4 == 0) && !(year % 100 == 0)) || (year % 400 == 0));
@@ -48,12 +46,22 @@ public class ValidationUtil {
     }
 
     public static String validateStringFromUserInput(String str, String pattern) {
+        Scanner scanner = new Scanner(System.in);
         Logger.printInfoMessage("Enter valid " + str + ": ");
         while (!scanner.hasNext(pattern)) {
             Logger.printErrorMessage("You have entered an invalid " + str + "! Please try again: ");
             scanner.nextLine();
         }
         return scanner.nextLine().trim();
+    }
+
+    public static String validateYesNoFromUserInput() {
+        Scanner scanner = new Scanner(System.in);
+        while (!scanner.hasNext(YES_NO_CHOICE_PATTERN)) {
+            Logger.printErrorMessage("You have entered an invalid option. Please choose from the options: [Y/N]: ");
+            scanner.nextLine();
+        }
+        return scanner.nextLine();
     }
 
     public static boolean validatePassword(String password) {
@@ -80,9 +88,8 @@ public class ValidationUtil {
         }
     }
 
-    public static String capitalize(String str)
-    {
-        if(str == null) return str;
+    public static String capitalize(String str) {
+        if (str == null) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
