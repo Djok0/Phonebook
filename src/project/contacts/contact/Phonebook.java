@@ -98,6 +98,7 @@ public class Phonebook {
                     bufferedWriter.write(contact.toString());
                     bufferedWriter.newLine();
                     bufferedWriter.close();
+                    fileWriter.close();
                 } catch (IOException e) {
                     Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
                 }
@@ -160,8 +161,10 @@ public class Phonebook {
                 contact = new Contact(firstName, lastName, personalPhoneNumber, workPhoneNumber, address, birthday);
                 contacts.add(contact);
             }
+            br.close();
             sortContactsInFile(account, contacts);
             printContactsWithoutNulls(contacts);
+
         } catch (IOException e) {
             Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
@@ -191,8 +194,10 @@ public class Phonebook {
                         bufferedWriter.write(contact.toString());
                         bufferedWriter.newLine();
                         bufferedWriter.close();
+                        fileWriter.close();
                         row++;
                     }
+                    fileWriter.close();
                 } catch (IOException e) {
                     Logger.printErrorMessage("Error reading from / writing to file has occurred \n");
                 }
@@ -310,6 +315,7 @@ public class Phonebook {
                     }
                 }
             }
+            scanner.close();
             if (!found) {
                 Logger.printErrorMessage("There is no record with name " + searchFirstName + " in the phonebook! \n");
             } else {
@@ -377,6 +383,7 @@ public class Phonebook {
                     }
                 }
             }
+            scanner.close();
             if (!found) {
                 Logger.printErrorMessage("There is no record with number " + searchPhoneNumber + " in the phonebook! \n");
             } else {
@@ -441,12 +448,123 @@ public class Phonebook {
                     found = true;
                 }
             }
+            scanner.close();
         } catch (IOException e) {
             Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }
     }
 
-    static void modifyContactInFile(Account account, String filePath, String oldString, String newString) {
+    public static void deleteRecord(Account account) {
+        Scanner scanner = new Scanner(System.in);
+        String firstName;
+        String lastName;
+        String deleteContactChoice;
+
+        String fileName = account.getName() + "_phonebook.txt";
+        String pathFileName = PATH_TO_THE_FILE_WITH_ALL_CONTACTS + "/" + fileName;
+
+        File f = new File(pathFileName);
+        if (!f.exists()) {
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
+            return;
+        }
+
+        int rowsFromFile = countRowsFromFile(account, pathFileName);
+        int row = -1;
+        String record;
+        boolean found = false;
+        boolean correctInput = false;
+
+        printAllContactsFromFile(account);
+
+        Logger.printInfoMessage("Please select which row you want to delete or press 0 to return to the Main Menu: ");
+        while (!correctInput) {
+            while (!scanner.hasNext(CHOOSE_RECORD_ROW_NUMBER)) {
+                Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
+                scanner.nextLine();
+            }
+            row = Integer.parseInt(scanner.nextLine().trim());
+            if (row == 0) {
+                return;
+            }
+            if (row <= rowsFromFile) {
+                correctInput = true;
+            } else {
+                Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
+            }
+        }
+
+        record = row + ".";
+        try {
+            scanner = new Scanner(new File(pathFileName));
+            while (!found && scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.contains(record)) {
+                    firstName = extractPropertyValueFromFile(line, "firstName");
+                    lastName = extractPropertyValueFromFile(line, "lastName");
+
+                    Logger.printInfoMessage("Do you really want to delete contact " + firstName + " " + lastName + "? [Y/N]: ");
+                    deleteContactChoice = ValidationUtil.validateYesNoFromUserInput().toUpperCase();
+                    if (deleteContactChoice.equals("Y") || deleteContactChoice.equals("YES")) {
+                        deleteLineFromFile(pathFileName, record);
+                        Logger.printSuccessMessage("You have successfully deleted contact: " + firstName + " " + lastName);
+                    } else {
+                        Logger.printInfoMessage("Contact " + firstName + " " + lastName + " was not deleted! \n");
+                    }
+                    found = true;
+                }
+            }
+            scanner.close();
+        } catch (IOException e) {
+            Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
+        }
+    }
+
+    public static void deleteLineFromFile(String file, String lineToBeDeleted) {
+        try {
+            File inputFile = new File(file);
+            if (!inputFile.isFile()) {
+                System.out.println("File does not exist");
+                return;
+            }
+            //Construct the new file that will later be renamed to the original filename.
+            File tempFile = new File(inputFile.getAbsolutePath() + ".tmp");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+            String line = null;
+
+            // Read from the original file and write to the temp file
+            // unless content matches data to be removed.
+            while ((line = br.readLine()) != null) {
+                if (!line.trim().contains(lineToBeDeleted)) {
+                    pw.println(line);
+                    pw.flush();
+                }
+            }
+            pw.close();
+            br.close();
+
+            // Write to the original file, data from the temp file
+            BufferedReader br1 = new BufferedReader(new FileReader(tempFile));
+            PrintWriter pw1 = new PrintWriter(new FileWriter(file));
+            String line1 = null;
+            while ((line1 = br1.readLine()) != null) {
+                pw1.println(line1);
+            }
+            pw1.close();
+            br1.close();
+
+            // Delete the temp file
+            if (!tempFile.delete()) {
+                Logger.printErrorMessage("Could not delete file! \n");
+                return;
+            }
+        } catch (IOException ex) {
+            Logger.printErrorMessage("Error reading from / writing to file! \n");
+        }
+    }
+
+    public static void modifyContactInFile(Account account, String filePath, String oldString, String newString) {
         Path path = Paths.get(filePath);
         Charset charset = StandardCharsets.UTF_8;
         String content;
@@ -560,6 +678,7 @@ public class Phonebook {
                     found = true;
                 }
             }
+            scanner.close();
         } catch (IOException e) {
             Logger.printErrorMessage("No records found in Phonebook for account " + account.getName() + "\n");
         }

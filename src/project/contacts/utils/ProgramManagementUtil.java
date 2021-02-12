@@ -3,6 +3,7 @@ package project.contacts.utils;
 import project.contacts.account.Account;
 import project.contacts.contact.Phonebook;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -42,12 +43,15 @@ public class ProgramManagementUtil {
                     Phonebook.searchRecordByPhoneNumber(account);
                     break;
                 case 6:
-                    AccountManagementUtil.createAccount();
+                    Phonebook.deleteRecord(account);
                     break;
                 case 7:
-                    AccountManagementUtil.changePassword(account);
+                    AccountManagementUtil.createAccount();
                     break;
                 case 8:
+                    AccountManagementUtil.changePassword(account);
+                    break;
+                case 9:
                     AccountManagementUtil.logOut();
                     break;
                 case 0:
@@ -72,10 +76,11 @@ public class ProgramManagementUtil {
         System.out.println("|  3. View All records                          |");
         System.out.println("|  4. View Specific record (search by name)     |");
         System.out.println("|  5. View Specific record (search by number)   |");
+        System.out.println("|  6. Delete a record                           |");
         System.out.println(" ----------------------------------------------- ");
-        System.out.println("|  6. Create a new account                      |");
-        System.out.println("|  7. Change password                           |");
-        System.out.println("|  8. Log out                                   |");
+        System.out.println("|  7. Create a new account                      |");
+        System.out.println("|  8. Change password                           |");
+        System.out.println("|  9. Log out                                   |");
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  0. Exit                                      |");
         System.out.println(" ----------------------------------------------- ");
