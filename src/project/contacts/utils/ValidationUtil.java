@@ -61,7 +61,7 @@ public class ValidationUtil {
             Logger.printErrorMessage("You have entered an invalid option. Please choose from the options: [Y/N]: ");
             scanner.nextLine();
         }
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public static boolean validatePassword(String password) {

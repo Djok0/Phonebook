@@ -24,11 +24,11 @@ public class Birthday {
         while (!validDate) {
             try {
                 Logger.printInfoMessage("Enter Contact's Day of Birth: ");
-                day = Integer.parseInt(scanner.nextLine());
+                day = Integer.parseInt(scanner.nextLine().trim());
                 Logger.printInfoMessage("Enter Contact's Month of Birth: ");
-                month = Integer.parseInt(scanner.nextLine());
+                month = Integer.parseInt(scanner.nextLine().trim());
                 Logger.printInfoMessage("Enter Contact's Year of Birth: ");
-                year = Integer.parseInt(scanner.nextLine());
+                year = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
                 Logger.printErrorMessage("You have entered an invalid birthday! Please try again: \n");
                 continue;

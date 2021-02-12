@@ -40,9 +40,9 @@ public class AccountManagementUtil {
 
         while (attempts != 0) {
             Logger.printInfoMessage("Enter username: ");
-            name = scanner.nextLine();
+            name = scanner.nextLine().trim();
             Logger.printInfoMessage("Enter password: ");
-            password = scanner.nextLine();
+            password = scanner.nextLine().trim();
 
             fileName = name + "_credentials.txt";
             pathFileName = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS + "/" + fileName;
@@ -124,7 +124,7 @@ public class AccountManagementUtil {
             Logger.printInfoMessage("Enter username: ");
             name = scanner.nextLine().trim();
             Logger.printInfoMessage("Enter password: ");
-            password = scanner.nextLine();
+            password = scanner.nextLine().trim();
 
             path = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS;
             fileName = name + "_credentials.txt";
@@ -184,11 +184,11 @@ public class AccountManagementUtil {
 
         while (attempts != 0) {
             Logger.printInfoMessage("Enter your old password: ");
-            oldPassword = scanner.nextLine();
+            oldPassword = scanner.nextLine().trim();
             Logger.printInfoMessage("Enter your new password: ");
-            newPassword = scanner.nextLine();
+            newPassword = scanner.nextLine().trim();
             Logger.printInfoMessage("Repeat your new password: ");
-            repeatNewPassword = scanner.nextLine();
+            repeatNewPassword = scanner.nextLine().trim();
 
             path = PATH_TO_THE_FILES_WITH_ACCOUNT_CREDENTIALS;
             fileName = account.getName() + "_credentials.txt";

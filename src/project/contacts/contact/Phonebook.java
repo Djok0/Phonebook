@@ -416,7 +416,7 @@ public class Phonebook {
                 Logger.printErrorMessage("You have entered an invalid row. Please try again: ");
                 scanner.nextLine();
             }
-            row = Integer.parseInt(scanner.nextLine());
+            row = Integer.parseInt(scanner.nextLine().trim());
             if (row == 0) {
                 return;
             }
