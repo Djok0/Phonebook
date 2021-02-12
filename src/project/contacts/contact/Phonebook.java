@@ -27,7 +27,6 @@ public class Phonebook {
     public static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
     public static final String PATH_TO_THE_FILE_WITH_ALL_CONTACTS = "src/resources/project/contacts/contact";
     public static final String CHOOSE_RECORD_ROW_NUMBER = "[0-9]{1,6}";
-//    private static final Scanner scanner = new Scanner(System.in);
 
     public static void addContact(Account account) {
 
