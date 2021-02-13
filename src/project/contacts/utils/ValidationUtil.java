@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ValidationUtil {
-
     private static final int maxYear = 4000;
     private static final String PASSWORD_VALIDATION = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}$";
     private static final String USERNAME_VALIDATION = "^[a-zA-Z0-9]{3,20}$";
@@ -92,13 +91,4 @@ public class ValidationUtil {
         if (str == null) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-
-//    public static void clearScreen() {
-//        try{
-//            new ProcessBuilder("cmd","/c","cls").inheritIO().start().waitFor();
-//        } catch (Exception e){
-//            System.out.println(e);
-//        }
-//    }
-
 }

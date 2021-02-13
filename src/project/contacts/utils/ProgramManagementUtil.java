@@ -1,6 +1,7 @@
 package project.contacts.utils;
 
 import project.contacts.account.Account;
+import project.contacts.contact.Contact;
 import project.contacts.contact.Phonebook;
 
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProgramManagementUtil {
-    private static final Scanner scanner = new Scanner(System.in);
     public static final int INVALID_CHOICE = -1;
 
     // Disabling the option to create an object from ProgramManagementUtil
@@ -16,6 +16,8 @@ public class ProgramManagementUtil {
     }
 
     public static void startProgram(Account account) {
+        Phonebook phonebook = new Phonebook(account.getPhonebook().getContacts());
+        Scanner scanner = new Scanner(System.in);
         int choice;
         do {
             try {
@@ -28,22 +30,23 @@ public class ProgramManagementUtil {
             }
             switch (choice) {
                 case 1:
-                    Phonebook.addContact(account);
+                    Contact contact = UserInputUtil.createContactViaUserInput();
+                    phonebook.addContact(contact);
                     break;
                 case 2:
-                    Phonebook.editRecord(account);
+                    phonebook.editContact(account);
                     break;
                 case 3:
-                    Phonebook.printAllContactsFromFile(account);
+                    phonebook.printContacts();
                     break;
                 case 4:
-                    Phonebook.searchRecordByName(account);
+                    phonebook.searchContactByFirstName();
                     break;
                 case 5:
-                    Phonebook.searchRecordByPhoneNumber(account);
+                    phonebook.searchContactByPhoneNumber();
                     break;
                 case 6:
-                    Phonebook.deleteRecord(account);
+                    phonebook.deleteContact();
                     break;
                 case 7:
                     AccountManagementUtil.createAccount();
@@ -52,12 +55,16 @@ public class ProgramManagementUtil {
                     AccountManagementUtil.changePassword(account);
                     break;
                 case 9:
+                    FileManagementUtil.savePhonebookInFile(account);
+                    FileManagementUtil.addAccountToFile(account);
                     AccountManagementUtil.logOut();
                     break;
                 case 0:
                     Logger.printInfoMessage("See you soon! \n");
                     Logger.printInfoMessage("Phonebook application by Radi and Georgi \n");
                     Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
+                    FileManagementUtil.savePhonebookInFile(account);
+                    FileManagementUtil.addAccountToFile(account);
                     System.exit(0);
                     break;
                 default:
@@ -68,6 +75,14 @@ public class ProgramManagementUtil {
     }
 
     public static void printMainMenu() {
+        // To add validateYesFromUserInput procedure
+        // String continue = validateYesFromuserInput();
+        // if (continue.toUpper().equals("YES") || continue.toUpper().equals("Y")) { return; }
+//        try {
+//            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+//        } catch (InterruptedException | IOException e) {
+//            Logger.printErrorMessage("Oops \n");
+//        }
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  Menu:                                        |");
         System.out.println(" ----------------------------------------------- ");
@@ -86,7 +101,8 @@ public class ProgramManagementUtil {
         System.out.println(" ----------------------------------------------- ");
     }
 
-    public static void openEditMenu(Account account, int row) {
+    public static void openEditMenu(Account account, Contact contact) {
+        Scanner scanner = new Scanner(System.in);
         int choice;
         do {
             try {
@@ -104,7 +120,7 @@ public class ProgramManagementUtil {
                 case 4:
                 case 5:
                 case 6:
-                    Phonebook.editPropertyInContact(account, choice, row);
+                    UserInputUtil.editPropertyViaUserInput(contact, choice);
                     break;
                 case 9:
                     return;
@@ -112,6 +128,8 @@ public class ProgramManagementUtil {
                     Logger.printInfoMessage("See you soon! \n");
                     Logger.printInfoMessage("Phonebook application by Radi and Georgi \n");
                     Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
+                    FileManagementUtil.savePhonebookInFile(account);
+                    FileManagementUtil.addAccountToFile(account);
                     System.exit(0);
                     break;
                 default:
