@@ -100,11 +100,7 @@ public class ProgramManagementUtil {
 
     public static void cleanConsole() {
         ProgramManagementUtil.pressEnterKeyToContinue();
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (InterruptedException | IOException e) {
-            Logger.printErrorMessage("Oops \n");
-        }
+        cleanConsoleWithoutMessage();
     }
 
     public static void cleanConsoleWithoutMessage() {

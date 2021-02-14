@@ -9,16 +9,16 @@ import java.util.Scanner;
 public class UserInputUtil {
     private static final String FIRST_NAME_PATTERN = "[a-zA-Z]{1,}";
     private static final String LAST_NAME_PATTERN = "[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*";
-    private static final String PERSONAL_PHONE_NUMBER_PATTERN = "(([+]?359)|0)?[8]{1}[7,8,9]{1}\\d{7}";
+    private static final String PERSONAL_PHONE_NUMBER_PATTERN = "(([+]?359)|0)+[8]{1}[7,8,9]{1}\\d{7}";
     private static final String WORK_PHONE_NUMBER_PATTERN =
-            "((([+]?359)|0)?[8]{1}[7,8,9]{1}\\d{7}|((([+]?(3592))|(02))?[1-9]{1}\\d{6}))";
+            "((([+]?359)|0)+[8]{1}[7,8,9]{1}\\d{7}|((([+]?(3592))|(02))+[1-9]{1}\\d{5,6}))";
     private static final String COUNTRY_NAME_PATTERN =
-            "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*";
+            "[a-zA-Z]{1,}[ ]?[a-zA-Z]*[ ]?[a-zA-Z]*";
     private static final String CITY_NAME_PATTERN =
-            "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*";
+            "[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*";
     private static final String STREET_NAME_PATTERN =
-            "([A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
-    private static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{0,3}[A-Z]{1}";
+            "([a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*[ ]?[A-Z]?[a-zA-Z]*|[1-9]{1}[0-9]{0,4})";
+    private static final String STREET_NUMBER_PATTERN = "[1-9]{1}[0-9]{0,3}|[1-9]{1}[0-9]{1,3}[A-Z]{1}";
 
     private UserInputUtil(){}
 
@@ -88,10 +88,12 @@ public class UserInputUtil {
 
     public static void editPropertyViaUserInput(Contact contact, int choice) {
         if (choice == 1) {
-            contact.setFirstName(ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN));
+            contact.setFirstName(ValidationUtil.capitalize
+                    (ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN)));
         }
         if (choice == 2) {
-            contact.setLastName(ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN));
+            contact.setLastName(ValidationUtil.capitalize
+                    (ValidationUtil.validateStringFromUserInput("Last Name", LAST_NAME_PATTERN)));
         }
         if (choice == 3) {
             contact.setPersonalPhoneNumber(ValidationUtil.validateStringFromUserInput("Personal Phone Number", PERSONAL_PHONE_NUMBER_PATTERN));

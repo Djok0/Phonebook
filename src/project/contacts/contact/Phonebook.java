@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Phonebook {
     private static final String FIRST_NAME_PATTERN = "[a-zA-Z]{1,}";
     private static final String WORK_PHONE_NUMBER_PATTERN =
-            "((([+]?359)|0)?[8]{1}[7,8,9]{1}\\d{7}|((([+]?(3592))|(02))?[1-9]{1}\\d{6}))";
+            "((([+]?359)|0)+[8]{1}[7,8,9]{1}\\d{7}|((([+]?(3592))|(02))+[1-9]{1}\\d{5,6}))";
 
     private List<Contact> contacts;
 
@@ -94,7 +94,8 @@ public class Phonebook {
     }
 
     public void searchContactByFirstName() {
-        String firstName = ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN);
+        String firstName = ValidationUtil.capitalize
+                (ValidationUtil.validateStringFromUserInput("First Name", FIRST_NAME_PATTERN));
         List<Contact> contactsFound = new ArrayList<>();
         boolean found = false;
         for (Contact contact : this.contacts) {
