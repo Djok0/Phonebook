@@ -21,7 +21,7 @@ public class ProgramManagementUtil {
         int choice;
         do {
             try {
-                ProgramManagementUtil.printMainMenu();
+                ProgramManagementUtil.printMainMenu(account);
                 Logger.printInfoMessage("Please enter your choice: ");
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
@@ -60,9 +60,9 @@ public class ProgramManagementUtil {
                     AccountManagementUtil.logOut();
                     break;
                 case 0:
-                    Logger.printInfoMessage("See you soon! \n");
-                    Logger.printInfoMessage("Phonebook application by Radi and Georgi \n");
-                    Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
+                    Logger.printSuccessMessage("See you soon!");
+                    Logger.printSuccessMessage("Phonebook - console application by Radi and Georgi");
+                    Logger.printSuccessMessage("Source Code: github.com/Djok0/Phonebook");
                     FileManagementUtil.savePhonebookInFile(account);
                     FileManagementUtil.addAccountToFile(account);
                     System.exit(0);
@@ -70,19 +70,16 @@ public class ProgramManagementUtil {
                 default:
                     Logger.printErrorMessage("You have entered an invalid option! " +
                             "Please choose from the options listed in the menu \n");
+                    ProgramManagementUtil.cleanConsole();
             }
         } while (choice != 0);
     }
 
-    public static void printMainMenu() {
-        // To add validateYesFromUserInput procedure
-        // String continue = validateYesFromuserInput();
-        // if (continue.toUpper().equals("YES") || continue.toUpper().equals("Y")) { return; }
-//        try {
-//            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-//        } catch (InterruptedException | IOException e) {
-//            Logger.printErrorMessage("Oops \n");
-//        }
+    public static void printMainMenu(Account account) {
+        System.out.println(" ----------------------------------------------- ");
+        System.out.println("|  Phonebook by Radi and Georgi                 |");
+        System.out.println(" ----------------------------------------------- ");
+        System.out.println("   You are logged in as: " + account.getUsername());
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  Menu:                                        |");
         System.out.println(" ----------------------------------------------- ");
@@ -99,6 +96,23 @@ public class ProgramManagementUtil {
         System.out.println(" ----------------------------------------------- ");
         System.out.println("|  0. Exit                                      |");
         System.out.println(" ----------------------------------------------- ");
+    }
+
+    public static void cleanConsole() {
+        ProgramManagementUtil.pressEnterKeyToContinue();
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            Logger.printErrorMessage("Oops \n");
+        }
+    }
+
+    public static void cleanConsoleWithoutMessage() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            Logger.printErrorMessage("Oops \n");
+        }
     }
 
     public static void openEditMenu(Account account, Contact contact) {
@@ -125,9 +139,9 @@ public class ProgramManagementUtil {
                 case 9:
                     return;
                 case 0:
-                    Logger.printInfoMessage("See you soon! \n");
-                    Logger.printInfoMessage("Phonebook application by Radi and Georgi \n");
-                    Logger.printInfoMessage("Source Code: github.com/Djok0/Phonebook");
+                    Logger.printSuccessMessage("See you soon!");
+                    Logger.printSuccessMessage("Phonebook - console application by Radi and Georgi");
+                    Logger.printSuccessMessage("Source Code: github.com/Djok0/Phonebook");
                     FileManagementUtil.savePhonebookInFile(account);
                     FileManagementUtil.addAccountToFile(account);
                     System.exit(0);
@@ -135,6 +149,7 @@ public class ProgramManagementUtil {
                 default:
                     Logger.printErrorMessage("You have entered an invalid option! " +
                             "Please choose from the options listed in the menu \n");
+                    ProgramManagementUtil.cleanConsole();
             }
         } while (choice != 0);
     }
@@ -156,7 +171,14 @@ public class ProgramManagementUtil {
     }
 
     public static void stopTheSystem(String message) {
-        System.err.println(message);
+        Logger.printErrorMessage(message + "\n");
         System.exit(-1);
+    }
+
+    public static void pressEnterKeyToContinue()
+    {
+        Logger.printInfoMessage("Press Enter to continue...");
+        Scanner s = new Scanner(System.in);
+        s.nextLine();
     }
 }

@@ -3,6 +3,7 @@ package project.contacts.utils;
 import project.contacts.contact.Phonebook;
 import project.contacts.account.Account;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class AccountManagementUtil {
@@ -32,7 +33,7 @@ public class AccountManagementUtil {
             if (!accountExists) {
                 attempts--;
                 if (attempts == 0) {
-                    ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
+                    ProgramManagementUtil.stopTheSystem("You ran out of attempts! Closing Phonebook...");
                 }
                 Logger.printErrorMessage("You have entered an invalid username or password! " +
                         "Remaining attempts: " + attempts + "\n");
@@ -46,13 +47,11 @@ public class AccountManagementUtil {
                     account = new Account(username, password, phonebook);
 
                     Logger.printSuccessMessage("You have successfully logged in with user " + account.getUsername());
-                    System.out.println(" ----------------------------------------------- ");
-                    System.out.println("   Welcome, " + account.getUsername());
                     ProgramManagementUtil.startProgram(account);
                 } else {
                     attempts--;
                     if (attempts == 0) {
-                        ProgramManagementUtil.stopTheSystem("You ran out of attempts!");
+                        ProgramManagementUtil.stopTheSystem("You ran out of attempts! Closing Phonebook...");
                     }
                     Logger.printErrorMessage("You have entered an invalid username or password! " +
                             "Remaining attempts: " + attempts + "\n");
@@ -63,6 +62,7 @@ public class AccountManagementUtil {
 
     public static void logOut() {
         Logger.printSuccessMessage("You have successfully logged out!");
+        ProgramManagementUtil.cleanConsole();
         AccountManagementUtil.logIn();
     }
 
@@ -91,6 +91,7 @@ public class AccountManagementUtil {
                     newAccount = new Account(username, password);
                     FileManagementUtil.addAccountToFile(newAccount);
                     Logger.printSuccessMessage("Account " + newAccount.getUsername() + " is added successfully!");
+                    ProgramManagementUtil.cleanConsole();
                     break;
                 }
             }
@@ -133,6 +134,7 @@ public class AccountManagementUtil {
                     } else {
                         account.setPassword(newPassword);
                         Logger.printSuccessMessage("Password is changed successfully!");
+                        ProgramManagementUtil.cleanConsole();
                         break;
                     }
                 }

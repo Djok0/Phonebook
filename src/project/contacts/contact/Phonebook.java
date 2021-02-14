@@ -25,6 +25,7 @@ public class Phonebook {
         contacts.add(contact);
         Logger.printSuccessMessage("Contact " + contact.getFirstName() +
                 " " + contact.getLastName() + " is added successfully!");
+        ProgramManagementUtil.cleanConsole();
     }
 
     public void printContacts() {
@@ -32,6 +33,37 @@ public class Phonebook {
     }
 
     private void printContacts(List<Contact> contacts) {
+        sortContacts();
+        if (contacts.isEmpty()) {
+            Logger.printErrorMessage("No records found! \n");
+        } else {
+            System.out.println("___________________________________________________" +
+                    "______________________________________________________________" +
+                    "______________________________________________________________");
+            for (Contact c : contacts) {
+                System.out.println(1 + contacts.indexOf(c) + "." +
+                        " Name: " + c.getFirstName() + " " + c.getLastName() +
+                        "; Personal Phone: " + c.getPersonalPhoneNumber() +
+                        "; Work Phone: " + ((!c.getWorkPhoneNumber().equals("null"))
+                        ? c.getWorkPhoneNumber() : "No Data") +
+                        "; Address: " + ((!c.getAddress().getCountry().equals("null"))
+                        ? c.getAddress().getStreetNumber() + " " +
+                        c.getAddress().getStreetName() + " Street, " +
+                        c.getAddress().getCity() + ", " +
+                        c.getAddress().getCountry() : "No Data") +
+                        "; Birthday: " + ((c.getBirthday().getDayOfBirth() != 0)
+                        ? c.getBirthday().getDayOfBirth() + "." +
+                        c.getBirthday().getMonthOfBirth() + "." +
+                        c.getBirthday().getYearOfBirth() : "No Data"));
+                System.out.println("___________________________________________________" +
+                        "______________________________________________________________" +
+                        "______________________________________________________________");
+            }
+        }
+        ProgramManagementUtil.cleanConsole();
+    }
+
+    public void printContactsWithoutCleaningConsole(List<Contact> contacts) {
         sortContacts();
         if (contacts.isEmpty()) {
             Logger.printErrorMessage("No records found! \n");
@@ -73,6 +105,7 @@ public class Phonebook {
         }
         if (!found) {
             Logger.printErrorMessage("There is no record with name " + firstName + " in the phonebook! \n");
+            ProgramManagementUtil.cleanConsole();
         } else {
             Logger.printSuccessMessage("Contact/s with First Name " + firstName + " exists. Here are the details:");
             printContacts(contactsFound);
@@ -95,6 +128,7 @@ public class Phonebook {
         if (!found) {
             Logger.printErrorMessage("There is no record with number " +
                     searchPhoneNumber + " in the phonebook! \n");
+            ProgramManagementUtil.cleanConsole();
         } else {
             Logger.printSuccessMessage("Contact/s with phone number " +
                     searchPhoneNumber + " exists. Here are the details:");
@@ -103,7 +137,13 @@ public class Phonebook {
     }
 
     public void editContact(Account account) {
-        printContacts(contacts);
+
+        if (contacts.isEmpty()) {
+            Logger.printErrorMessage("No records found! \n");
+            ProgramManagementUtil.cleanConsole();
+            return;
+        }
+        printContactsWithoutCleaningConsole(contacts);
 
         Logger.printInfoMessage("Please select which row you want to edit or press 0 to return to the Main Menu: ");
         boolean correctInput = false;
@@ -130,10 +170,17 @@ public class Phonebook {
                 contact.getFirstName() + " " + contact.getLastName() + "\n");
         ProgramManagementUtil.openEditMenu(account, contact);
         Logger.printSuccessMessage("Changes are successfully applied!");
+        ProgramManagementUtil.cleanConsole();
     }
 
     public void deleteContact() {
-        printContacts(contacts);
+
+        if (contacts.isEmpty()) {
+            Logger.printErrorMessage("No records found! \n");
+            ProgramManagementUtil.cleanConsole();
+            return;
+        }
+        printContactsWithoutCleaningConsole(contacts);
 
         Logger.printInfoMessage("Please select which row you want to delete or press 0 to return to the Main Menu: ");
         boolean correctInput = false;
@@ -164,9 +211,11 @@ public class Phonebook {
             contacts.remove(contact);
             Logger.printSuccessMessage("You have successfully deleted contact: "
                     + contact.getFirstName() + " " + contact.getLastName());
+            ProgramManagementUtil.cleanConsole();
         } else {
             Logger.printInfoMessage("Contact " + contact.getFirstName() +
                     " " + contact.getLastName() + " was NOT deleted! \n");
+            ProgramManagementUtil.cleanConsole();
         }
     }
 
