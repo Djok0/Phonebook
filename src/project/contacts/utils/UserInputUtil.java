@@ -11,7 +11,7 @@ public class UserInputUtil {
     private static final String LAST_NAME_PATTERN = "[a-zA-Z]{1,}-?[A-Z]?[a-zA-Z]*";
     private static final String PERSONAL_PHONE_NUMBER_PATTERN = "(([+]?359)|0)?[8]{1}[7,8,9]{1}\\d{7}";
     private static final String WORK_PHONE_NUMBER_PATTERN =
-            "(0|(([+]?359))?[8]{1}[7,8,9]{1}\\d{7}|((([+]?(3592))|(02))?[1-9]{1}\\d{6}))";
+            "((([+]?359)|0)?[8]{1}[7,8,9]{1}\\d{7}|((([+]?(3592))|(02))?[1-9]{1}\\d{6}))";
     private static final String COUNTRY_NAME_PATTERN =
             "[A-Z]{1}[a-zA-Z]{1,}[ ]?[A-Z]?[a-zA-Z]*";
     private static final String CITY_NAME_PATTERN =
